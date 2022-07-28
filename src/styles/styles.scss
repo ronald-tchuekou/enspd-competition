@@ -1,11 +1,23 @@
+/*!
+ * Copyright (c) 28/07/2022 00:57
+ * @author Ronald Tchuekou
+ * @email ronaldtchuekou@gmail.com
+ */
+
 /* You can add global styles to this file, and also import other style files */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 .side-menu {
   transition: 300ms;
@@ -24,4 +36,17 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .side-menu-item.active {
   transition: 300ms;
   @apply bg-blue-500/20 text-blue-500 hover:bg-blue-600/20 hover:text-blue-600
+}
+
+.app-button {
+  transition: 300ms;
+  @apply bg-blue-500 hover:bg-blue-700 shadow-lg shadow-blue-500/20 px-5 py-2 text-white text-base rounded-lg
+}
+
+app-text-input {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  @apply w-full block border-none
 }

@@ -1,11 +1,18 @@
-import {HttpClientModule} from "@angular/common/http";
+/*
+ * Copyright (c) 28/07/2022 07:52
+ * @author Ronald Tchuekou
+ * @email ronaldtchuekou@gmail.com
+ */
+
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CookieService } from 'ngx-cookie-service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {ScreensModule} from "./screens/screens.module";
+import { ScreensModule } from './screens/screens.module';
 
 @NgModule({
   declarations: [
@@ -16,9 +23,12 @@ import {ScreensModule} from "./screens/screens.module";
     AppRoutingModule,
     BrowserAnimationsModule,
     ScreensModule,
-    HttpClientModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    CookieService
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

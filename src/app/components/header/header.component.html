@@ -1,1 +1,25 @@
-<p>header works!</p>
+<!--
+  ~ Copyright (c) 28/07/2022 09:13
+  ~ @author Ronald Tchuekou
+  ~ @email ronaldtchuekou@gmail.com
+  -->
+
+<div class='flex flex-row justify-between items-center px-5 py-2'>
+  <div class='flex-none w-10'>
+    <img alt='ENSPD logo' class='w-full' src='assets/logos/enspd-logo.png'>
+  </div>
+  <div [mat-menu-trigger-for]='menu' class='flex flex-row items-center cursor-pointer'>
+    <div class='flex-none w-11 h-11 rounded-full border border-blue-500 shadow-lg overflow-hidden'>
+      <img alt='User profile' class='w-full h-full' src='assets/profiles/default-profile.png'>
+    </div>
+    <div class='px-3'>
+      <div class='text-base text-gray-700 font-medium'>Njomo guy</div>
+      <div class='text-xs text-gray-500 font-normal'>Gestionnaire de compte</div>
+    </div>
+  </div>
+  <mat-menu #menu='matMenu'>
+    <button (click)='disconnect()' mat-menu-item>
+      Déconnexion
+    </button>
+  </mat-menu>
+</div>

@@ -1,1 +1,35 @@
-<p>sign-in works!</p>
+<!--
+  ~ Copyright (c) 28/07/2022 00:53
+  ~ @author Ronald Tchuekou
+  ~ @email ronaldtchuekou@gmail.com
+  -->
+
+<div class='bg-gray-100 h-full w-full flex justify-center items-center'>
+  <div class='bg-white shadow-lg rounded-xl w-[450px] py-10 px-7 flex flex-col space-y-5 justify-center items-center'>
+    <div class='w-16 h-16 flex-none'>
+      <img alt='ENSPD logo' class='w-full h-full' src='assets/logos/enspd-logo.png'>
+    </div>
+    <app-text-input
+      [(value)]='email'
+      icon='person'
+      placeholder='Adresse e-mail'
+      type='text'></app-text-input>
+    <app-text-input
+      [(value)]='password'
+      [secure]='true'
+      icon='lock'
+      placeholder='Mot de passe'
+      type='password'></app-text-input>
+    <button
+      (click)='submit()'
+      class='app-button'
+      matRipple
+      matRippleColor='rgba(255, 255, 255, 0.15)'>
+      Connexion
+    </button>
+    <p class='text-base text-gray-500'>
+      Si vous ne vous rappelez plus de votre mot de passe,
+      <span class='text-red-400 underline cursor-pointer'>cliquez-ici</span>
+    </p>
+  </div>
+</div>
