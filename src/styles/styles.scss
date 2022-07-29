@@ -50,3 +50,67 @@ app-text-input {
   padding-right: 0 !important;
   @apply w-full block border-none
 }
+
+.spinner {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid rgba(59, 130, 246, 0.47);
+  border-top-color: rgb(59 130 246);
+  animation: spinner 0.8s linear infinite;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+app-home-bilan {
+  @apply block flex-none
+}
+
+app-home-accounts-list {
+  @apply h-full flex-col hidden lg:flex
+}
+
+app-home-last-candidats-list {
+  @apply block h-full flex flex-col
+}
+
+.title {
+  @apply text-lg font-medium text-gray-800 pb-1 px-2
+}
+
+.sub-title {
+  @apply text-base text-gray-800 pb-1 px-2
+}
+
+.container {
+  @apply bg-white rounded-xl shadow-lg p-3
+}
+
+.button {
+  @apply text-xs flex-none flex flex-row items-center px-2 py-0 rounded bg-blue-600 text-white m-2
+}
+
+.button.warning {
+  @apply bg-amber-500
+}
+
+.button.green {
+  @apply bg-amber-500
+}
+
+.button.red {
+  @apply bg-red-500
+}
+
+app-list-candidats-content {
+  @apply flex flex-col h-full w-full
+}
+
+.hidden-nav-tab .mat-tab-header {
+  @apply hidden;
+}

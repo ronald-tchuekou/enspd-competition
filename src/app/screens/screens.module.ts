@@ -7,7 +7,6 @@
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 import { ComponentsModule } from '../components/components.module';
 import { MaterialModule } from '../material/material.module';
 import { CandidatsListComponent } from './dashboard/candidats-list/candidats-list.component';
@@ -39,7 +38,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
     SettingsComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers: [CookieService]
+  providers: []
 })
 export class ScreensModule {
 }

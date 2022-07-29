@@ -1,0 +1,52 @@
+<!--
+  ~ Copyright (c) 29/07/2022 02:13
+  ~ @author Ronald Tchuekou
+  ~ @email ronaldtchuekou@gmail.com
+  -->
+
+<div class='flex justify-center items-center flex-col relative w-full h-full'>
+  <svg
+    class='w-full h-full'
+    fill='none'
+    viewBox='0 0 100 100'>
+    <circle
+      cx='50%'
+      cy='50%'
+      r='45%'
+      style='
+        transition: 300ms;
+        stroke: {{colors.c1}};
+        stroke-width: 10;
+        stroke-dasharray: 285;
+        stroke-linecap: round;
+        stroke-dashoffset: 0
+      '
+    ></circle>
+    <circle
+      cx='50%'
+      cy='50%'
+      r='45%'
+      style='
+        transition: 300ms;
+        stroke: {{colors.c2}};
+        stroke-width: 10;
+        stroke-dasharray: 285;
+        stroke-linecap: round;
+        stroke-dashoffset: {{dashoffset}}
+      '
+    ></circle>
+    <text
+      style='
+        transition: 300ms;
+        stroke: {{colors.text}};
+        fill: {{colors.text}};
+        text-align: center;
+        font-size: 24px;
+        letter-spacing: 2px;
+      '
+      x='22'
+      y='60'
+    >{{value}}%
+    </text>
+  </svg>
+</div>

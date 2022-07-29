@@ -7,7 +7,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
-import { CookiesService } from '../../services/cookies.service';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 @Component({
   selector: 'app-header',
@@ -16,7 +16,7 @@ import { CookiesService } from '../../services/cookies.service';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private cookie: CookiesService, private router: Router) {
+  constructor(private cookie: LocalStorageService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit {
     const response = confirm('Voulez-vous vraiment vous déconnecter ?');
     if (response) {
       this.cookie.removeValue(environment.user_profile_key);
-      setTimeout(() => this.router.navigate(['sign-in']), 2000);
+      setTimeout(() => this.router.navigate(['sign-in']), 1000);
     }
     return false;
   }

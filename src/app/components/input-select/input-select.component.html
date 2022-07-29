@@ -1,0 +1,21 @@
+<!--
+  ~ Copyright (c) 28/07/2022 22:09
+  ~ @author Ronald Tchuekou
+  ~ @email ronaldtchuekou@gmail.com
+  -->
+
+<label class='block text-xs text-gray-600 w-full'>
+  <span *ngIf='label' class='block pb-1'>{{label}}</span>
+  <select
+    (ngModelChange)='valueChange.emit($event)'
+    [ngModel]='value'
+    class='border rounded w-full bg-transparent text-xs text-black py-1 px-2 focus:outline-none focus:ring-transparent'
+  >
+    <option value=''>...</option>
+    <option
+      *ngFor='let item of content'
+      [value]='item.value'>
+      {{item.label}}
+    </option>
+  </select>
+</label>

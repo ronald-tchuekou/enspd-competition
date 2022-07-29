@@ -1,3 +1,48 @@
-<div class="h-[1000px] w-72 bg-orange-500 rounded-lg shadow-lg shadow-orange-500/30 p-10 text-white">
-  <p>candidats-list works!</p>
+<!--
+  ~ Copyright (c) 29/07/2022 04:18
+  ~ @author Ronald Tchuekou
+  ~ @email ronaldtchuekou@gmail.com
+  -->
+
+<div class='flex flex-col w-full h-full'>
+  <div class='flex-none flex flex-row justify-between items-center'>
+    <div class='title flex-none'>Candidats de la dernière liste chargée</div>
+    <div class='flex flex-row'>
+      <button
+        class='button'
+        matRipple
+        matRippleColor='rgba(255, 255, 255, 0.15)'>
+        Ajouter un nouveau candidat
+      </button>
+      <button
+        class='button red'
+        matRipple
+        matRippleColor='rgba(255, 255, 255, 0.15)'>
+        Importer
+        <mat-icon>arrow_drop_down</mat-icon>
+      </button>
+      <button
+        class='button warning'
+        matRipple
+        matRippleColor='rgba(255, 255, 255, 0.15)'>
+        Exporter
+        <mat-icon>arrow_drop_down</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class='container h-full flex flex-row' style='padding: 0; height: calc(100vh - 140px)'>
+    <div class='w-full h-full border-r'>
+      <app-list-candidats-content></app-list-candidats-content>
+    </div>
+    <div class='flex-none h-full max-w-[600px] md:min-w-[500px]'>
+      <mat-tab-group class='hidden-nav-tab'>
+        <mat-tab label='Details'>
+          <app-candidate-details></app-candidate-details>
+        </mat-tab>
+        <mat-tab label='Form editor'>
+          <app-candidate-form></app-candidate-form>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
 </div>

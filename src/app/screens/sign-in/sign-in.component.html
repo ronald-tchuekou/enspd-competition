@@ -13,15 +13,17 @@
       [(value)]='email'
       icon='person'
       placeholder='Adresse e-mail'
-      type='text'></app-text-input>
+      type='email'></app-text-input>
     <app-text-input
       [(value)]='password'
       [secure]='true'
       icon='lock'
       placeholder='Mot de passe'
       type='password'></app-text-input>
+    <app-loader-content *ngIf='loading' [size]='34'></app-loader-content>
     <button
       (click)='submit()'
+      *ngIf='!loading'
       class='app-button'
       matRipple
       matRippleColor='rgba(255, 255, 255, 0.15)'>

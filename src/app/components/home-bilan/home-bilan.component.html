@@ -1,0 +1,43 @@
+<!--
+  ~ Copyright (c) 28/07/2022 18:08
+  ~ @author Ronald Tchuekou
+  ~ @email ronaldtchuekou@gmail.com
+  -->
+
+<div class='title'>Bilan de tous les candidats</div>
+<div class='container'>
+  <div class='grid grid-cols-3 gap-3 w-full'>
+    <app-input-select [content]='content' label='Régions'></app-input-select>
+    <app-input-select [content]='content' label='Filières'></app-input-select>
+    <app-input-select [content]='content' label='Options'></app-input-select>
+  </div>
+  <div class='text-xs text-gray-500 py-2'>
+    Nombre total de candidat resultant du filtre : <span class='text-pink-500'>228</span>
+  </div>
+  <div class='grid grid-cols-3 gap-5 w-full'>
+    <div class='flex flex-col justify-center items-center space-y-2'>
+      <div class='w-28 h-28'>
+        <app-circular-progress [value]='59'></app-circular-progress>
+      </div>
+      <div class='text-xs text-center' style='color: #2F80ED'>
+        138 candidats
+      </div>
+    </div>
+    <div class='flex flex-col justify-center items-center space-y-2'>
+      <div class='w-28 h-28'>
+        <app-circular-progress [value]='38' color='#9B51E0'></app-circular-progress>
+      </div>
+      <div class='text-xs text-center' style='color: #9B51E0'>
+        52 candidats de sex féminin
+      </div>
+    </div>
+    <div class='flex flex-col justify-center items-center space-y-2'>
+      <div class='w-28 h-28'>
+        <app-circular-progress [value]='62' color='#27AE60'></app-circular-progress>
+      </div>
+      <div class='text-xs text-center' style='color: #27AE60'>
+        86 candidats de sex masculin
+      </div>
+    </div>
+  </div>
+</div>
