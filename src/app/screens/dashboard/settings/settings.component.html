@@ -1,3 +1,10 @@
-<div class="h-[1000px] w-72 bg-purple-500 rounded-lg shadow-lg shadow-purple-500/30 p-10 text-white">
-  <p>settings works!</p>
+<!--
+  ~ Copyright (c) 30/07/2022 09:48
+  ~ @author Ronald Tchuekou
+  ~ @email ronaldtchuekou@gmail.com
+  -->
+
+<div class='flex items-stretch gap-5 w-full h-full overflow-y-auto'>
+  <app-user-profile [currentUser]='currentUser'></app-user-profile>
+  <app-change-password [user]='currentUser'></app-change-password>
 </div>

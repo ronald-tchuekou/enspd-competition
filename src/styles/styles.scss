@@ -43,7 +43,7 @@ body {
   @apply bg-blue-500 hover:bg-blue-700 shadow-lg shadow-blue-500/20 px-5 py-2 text-white text-base rounded-lg
 }
 
-app-text-input {
+app-text-input, app-simple-input {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
   padding-left: 0 !important;
@@ -68,7 +68,7 @@ app-text-input {
 }
 
 app-home-bilan {
-  @apply block flex-none
+  @apply block flex-none w-full
 }
 
 app-home-accounts-list {
@@ -100,17 +100,33 @@ app-home-last-candidats-list {
 }
 
 .button.green {
-  @apply bg-amber-500
+  @apply bg-teal-500
 }
 
 .button.red {
   @apply bg-red-500
 }
 
+app-candidate-details {
+  @apply h-full flex flex-col
+}
+
+app-candidate-form {
+  @apply h-full flex flex-col
+}
+
 app-list-candidats-content {
   @apply flex flex-col h-full w-full
 }
 
+app-user-profile, app-change-password {
+  @apply flex flex-col w-full max-w-[450px]
+}
+
 .hidden-nav-tab .mat-tab-header {
   @apply hidden;
+}
+
+app-loader-content, app-empty-state {
+  @apply h-full w-full flex justify-center items-center
 }

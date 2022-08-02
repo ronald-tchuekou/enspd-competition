@@ -1,1 +1,108 @@
-<p>candidate-form works!</p>
+<!--
+  ~ Copyright (c) 30/07/2022 06:42
+  ~ @author Ronald Tchuekou
+  ~ @email ronaldtchuekou@gmail.com
+  -->
+
+<div class='border-b h-[4.15rem] flex flex-row items-end p-1 flex-none'>
+  <button
+    (click)='onBackClick.emit()'
+    class='text-gray-500'
+    mat-icon-button>
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <div class='sub-title'>{{title}}</div>
+</div>
+<div class='h-full overflow-y-auto p-5'>
+  <div class='w-full grid grid-cols-1 lg:grid-cols-2 gap-4'>
+    <app-simple-input
+      [(value)]='lastname'
+      label='Nom'
+      type='text'
+    ></app-simple-input>
+    <app-simple-input
+      [(value)]='firstname'
+      label='Prénom'
+      type='text'
+    ></app-simple-input>
+    <app-simple-input
+      [(value)]='birthday'
+      label='Date de naissance'
+      type='date'
+    ></app-simple-input>
+    <app-simple-input
+      [(value)]='birthday_place'
+      label='Lieu de naissance'
+      type='text'
+    ></app-simple-input>
+    <app-simple-select
+      [(value)]='sex'
+      [content]='sex_content'
+      label='Sex'
+    ></app-simple-select>
+    <app-simple-input
+      [(value)]='nationality'
+      label='Nationalité'
+      type='text'
+    ></app-simple-input>
+    <app-simple-input
+      [(value)]='phone'
+      label='Téléphone'
+      type='tel'
+    ></app-simple-input>
+    <app-simple-input
+      [(value)]='email'
+      label='Adresse e-mail'
+      type='email'
+    ></app-simple-input>
+    <app-simple-select
+      [(value)]='filiere'
+      [content]='options'
+      label='Filière'
+    ></app-simple-select>
+    <app-simple-select
+      [(value)]='option'
+      [content]='filieres'
+      label='Option choisi'
+    ></app-simple-select>
+    <app-simple-input
+      [(value)]='father_name'
+      label='Nom du père'
+      type='text'
+    ></app-simple-input>
+    <app-simple-input
+      [(value)]='father_prof'
+      label='Profession du père'
+      type='text'
+    ></app-simple-input>
+    <app-simple-input
+      [(value)]='mother_name'
+      label='Nom de la mère'
+      type='text'
+    ></app-simple-input>
+    <app-simple-input
+      [(value)]='mother_prof'
+      label='Profession de la mère'
+      type='text'
+    ></app-simple-input>
+    <app-simple-input
+      [(value)]='tuteur_name'
+      label='Numéro du tuteur'
+      type='tel'
+    ></app-simple-input>
+    <app-simple-input
+      [(value)]='region'
+      label="Région d'origine"
+      type='text'
+    ></app-simple-input>
+  </div>
+  <div class='h-6'></div>
+  <div class='w-full flex justify-center items-center p-3'>
+    <button
+      class='app-button'
+      matRipple
+      matRippleColor='rgba(255, 255, 255, 0.15)'>
+      Enregistrer
+    </button>
+  </div>
+</div>

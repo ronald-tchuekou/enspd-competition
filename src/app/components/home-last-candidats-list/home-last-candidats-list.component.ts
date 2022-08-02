@@ -12,8 +12,6 @@ import { Component, OnInit } from '@angular/core';
   styles: []
 })
 export class HomeLastCandidatsListComponent implements OnInit {
-  content: any = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-
   constructor() {
   }
 

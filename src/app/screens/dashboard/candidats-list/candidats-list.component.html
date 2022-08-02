@@ -4,18 +4,21 @@
   ~ @email ronaldtchuekou@gmail.com
   -->
 
-<div class='flex flex-col w-full h-full'>
+<div class='flex flex-col w-full h-full relative'>
+  <input #csv_file_input (change)='onCSVInputChange($event)' class='absolute invisible' type='file'>
   <div class='flex-none flex flex-row justify-between items-center'>
     <div class='title flex-none'>Candidats de la dernière liste chargée</div>
     <div class='flex flex-row'>
       <button
+        (click)='tab_index = 1; currentCandidate = null'
         class='button'
         matRipple
         matRippleColor='rgba(255, 255, 255, 0.15)'>
         Ajouter un nouveau candidat
       </button>
       <button
-        class='button red'
+        (click)='choseCSVFile()'
+        class='button green'
         matRipple
         matRippleColor='rgba(255, 255, 255, 0.15)'>
         Importer
@@ -32,17 +35,29 @@
   </div>
   <div class='container h-full flex flex-row' style='padding: 0; height: calc(100vh - 140px)'>
     <div class='w-full h-full border-r'>
-      <app-list-candidats-content></app-list-candidats-content>
+      <app-list-candidats-content
+        #listCandidatsContentComponent
+        [(currentCandidate)]='currentCandidate'
+      ></app-list-candidats-content>
     </div>
-    <div class='flex-none h-full max-w-[600px] md:min-w-[500px]'>
-      <mat-tab-group class='hidden-nav-tab'>
+    <div class='flex-none h-full max-w-[500px] md:min-w-[500px]'>
+      <mat-tab-group [selectedIndex]='tab_index' class='hidden-nav-tab h-full'>
         <mat-tab label='Details'>
-          <app-candidate-details></app-candidate-details>
+          <app-candidate-details
+            (onDeleteClick)='deleteCurrent()'
+            (onEditClick)='tab_index = 1'
+            [currentCandidate]='currentCandidate'
+          ></app-candidate-details>
         </mat-tab>
         <mat-tab label='Form editor'>
-          <app-candidate-form></app-candidate-form>
+          <app-candidate-form
+            (onBackClick)='tab_index = 0'
+            [currentCandidate]='currentCandidate'
+          ></app-candidate-form>
         </mat-tab>
       </mat-tab-group>
     </div>
   </div>
 </div>
+
+<app-loader-context [loading]='file_loading'></app-loader-context>

@@ -25,6 +25,12 @@ import { ListCandidatsComponent } from './list-candidats/list-candidats.componen
 import { ListCandidatsContentComponent } from './list-candidats-content/list-candidats-content.component';
 import { CandidateDetailsComponent } from './candidate-details/candidate-details.component';
 import { CandidateFormComponent } from './candidate-form/candidate-form.component';
+import { LabelValueComponent } from './label-value/label-value.component';
+import { SimpleInputComponent } from './simple-input/simple-input.component';
+import { SimpleSelectComponent } from './simple-select/simple-select.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
+import { EmptyStateComponent } from './empty-state/empty-state.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +48,13 @@ import { CandidateFormComponent } from './candidate-form/candidate-form.componen
     ListCandidatsComponent,
     ListCandidatsContentComponent,
     CandidateDetailsComponent,
-    CandidateFormComponent
+    CandidateFormComponent,
+    LabelValueComponent,
+    SimpleInputComponent,
+    SimpleSelectComponent,
+    UserProfileComponent,
+    ChangePasswordComponent,
+    EmptyStateComponent
   ],
   imports: [
     CommonModule,
@@ -66,7 +78,13 @@ import { CandidateFormComponent } from './candidate-form/candidate-form.componen
     ListCandidatsComponent,
     ListCandidatsContentComponent,
     CandidateDetailsComponent,
-    CandidateFormComponent
+    CandidateFormComponent,
+    LabelValueComponent,
+    SimpleInputComponent,
+    SimpleSelectComponent,
+    UserProfileComponent,
+    ChangePasswordComponent,
+    EmptyStateComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: []

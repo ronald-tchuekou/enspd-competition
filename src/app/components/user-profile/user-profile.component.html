@@ -1,0 +1,30 @@
+<!--
+  ~ Copyright (c) 30/07/2022 10:31
+  ~ @author Ronald Tchuekou
+  ~ @email ronaldtchuekou@gmail.com
+  -->
+
+<div class='title'>Profil</div>
+<div class='container'>
+  <div class='flex flex-row items-center space-x-4'>
+    <div class='flex-none w-24 h-24 shadow-lg rounded-full overflow-hidden'>
+      <img alt='User profile' class='h-full w-full' src='assets/profiles/default-profile.png'>
+    </div>
+    <div class='space-y-2'>
+      <div class='text-black text-lg font-medium'>
+        {{currentUser.name}} {{currentUser.surname}}
+      </div>
+      <div class='text-black text-sm text-gray-400'>
+        Né(e) le {{getBirthday(currentUser.birthday)}} à {{currentUser.birthday_place}}
+      </div>
+    </div>
+  </div>
+  <div class='grid grid-cols-1 lg:grid-cols-2 gap-3 my-5'>
+    <ng-container *ngFor='let item of keys'>
+      <app-label-value
+        [label]='labels[item]'
+        [value]='currentUser[item]'
+      ></app-label-value>
+    </ng-container>
+  </div>
+</div>

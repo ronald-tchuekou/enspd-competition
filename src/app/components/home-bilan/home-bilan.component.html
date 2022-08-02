@@ -5,39 +5,60 @@
   -->
 
 <div class='title'>Bilan de tous les candidats</div>
-<div class='container'>
+<div class='container relative'>
   <div class='grid grid-cols-3 gap-3 w-full'>
-    <app-input-select [content]='content' label='Régions'></app-input-select>
-    <app-input-select [content]='content' label='Filières'></app-input-select>
-    <app-input-select [content]='content' label='Options'></app-input-select>
+    <app-input-select
+      (valueChange)='regionChange($event)'
+      [content]='regions'
+      [value]='region'
+      label='Régions'></app-input-select>
+    <app-input-select
+      (valueChange)='filiereChange($event)'
+      [content]='filieres'
+      [value]='filiere'
+      label='Filières'></app-input-select>
+    <app-input-select
+      (valueChange)='optionChange($event)'
+      [(value)]='option'
+      [content]='options'
+      label='Options'></app-input-select>
   </div>
   <div class='text-xs text-gray-500 py-2'>
-    Nombre total de candidat resultant du filtre : <span class='text-pink-500'>228</span>
+    Nombre total de candidat enregistré : <span class='text-pink-500'>{{candidates.length}}</span>
   </div>
   <div class='grid grid-cols-3 gap-5 w-full'>
     <div class='flex flex-col justify-center items-center space-y-2'>
       <div class='w-28 h-28'>
-        <app-circular-progress [value]='59'></app-circular-progress>
+        <app-circular-progress
+          [value]='constantService.getPercentage(candidates.length, search.length)'
+        ></app-circular-progress>
       </div>
       <div class='text-xs text-center' style='color: #2F80ED'>
-        138 candidats
+        {{search.length}} candidats
       </div>
     </div>
     <div class='flex flex-col justify-center items-center space-y-2'>
       <div class='w-28 h-28'>
-        <app-circular-progress [value]='38' color='#9B51E0'></app-circular-progress>
+        <app-circular-progress
+          [value]='constantService.getPercentage(search.length, candidates_f.length)'
+          color='#9B51E0'></app-circular-progress>
       </div>
       <div class='text-xs text-center' style='color: #9B51E0'>
-        52 candidats de sex féminin
+        {{candidates_f.length}} candidats de sex féminin
       </div>
     </div>
     <div class='flex flex-col justify-center items-center space-y-2'>
       <div class='w-28 h-28'>
-        <app-circular-progress [value]='62' color='#27AE60'></app-circular-progress>
+        <app-circular-progress
+          [value]='constantService.getPercentage(search.length, candidates_m.length)'
+          color='#27AE60'></app-circular-progress>
       </div>
       <div class='text-xs text-center' style='color: #27AE60'>
-        86 candidats de sex masculin
+        {{candidates_m.length}} candidats de sex masculin
       </div>
     </div>
+  </div>
+  <div *ngIf='loading' class='absolute top-0 right-0 p-2'>
+    <div class='spinner' style='height: 20px; width: 20px'></div>
   </div>
 </div>

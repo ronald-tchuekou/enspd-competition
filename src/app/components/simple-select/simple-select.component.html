@@ -1,0 +1,16 @@
+<!--
+  ~ Copyright (c) 30/07/2022 08:35
+  ~ @author Ronald Tchuekou
+  ~ @email ronaldtchuekou@gmail.com
+  -->
+
+<label class='block text-sm text-gray-600 w-full'>
+  <span class='block pb-1 text-gray-400'>{{label}}</span>
+  <select
+    (ngModelChange)='valueChange.emit($event)'
+    [ngModel]='value'
+    class='rounded w-full border-none focus:outline-none focus:ring-transparent text-sm text-black py-[0.4rem] px-3 bg-gray-100'
+  >
+    <option *ngFor='let item of content' [value]='item.value'>{{item.label}}</option>
+  </select>
+</label>

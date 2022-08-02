@@ -6,7 +6,7 @@
 
 <label class='block text-base text-gray-600 w-full'>
   <span *ngIf='label' class='block pb-1'>{{label}}</span>
-  <span class='flex flex-row bg-gray-200 rounded-lg items-center p-1'>
+  <span class='flex flex-row bg-gray-200 rounded-lg items-center p-1 {{icon ? "" : "pl-3"}}'>
     <span
       *ngIf='icon'
       [class.text-blue-500]='focus'
