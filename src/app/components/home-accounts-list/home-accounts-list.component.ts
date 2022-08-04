@@ -5,7 +5,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { AccountsService } from '../../services/accounts.service';
+import { Account, AccountsService } from '../../services/accounts.service';
 
 @Component({
   selector: 'app-home-accounts-list',
@@ -13,7 +13,7 @@ import { AccountsService } from '../../services/accounts.service';
   styles: []
 })
 export class HomeAccountsListComponent implements OnInit {
-  accounts: any[] = [];
+  accounts: Account[] = [];
   loading: boolean = false;
 
   constructor(private accountService: AccountsService) {
@@ -22,7 +22,7 @@ export class HomeAccountsListComponent implements OnInit {
   ngOnInit(): void {
     this.loading = true;
     setTimeout(() => this.accountService.getAccounts().subscribe({
-      next: (data: any) => {
+      next: (data: Account[]) => {
         this.loading = false;
         this.accounts = data;
       },

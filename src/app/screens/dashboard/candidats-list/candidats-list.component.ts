@@ -68,9 +68,24 @@ export class CandidatsListComponent implements OnInit {
       content.push(content_item);
     }
     const pages = this.utils.createSegments(content.map((item: any) => ({
-      ...item,
+      nom: item.nom,
+      prenom: item.prenom,
       date_nais: item?.date_nais?.split('/').reverse().join('-'),
-      cni_date: item?.cni_date?.split('/').reverse().join('-')
+      lieu_nais: item.lieu_nais,
+      region_origine: item?.centre_origin,
+      depart_origine: item?.dpt_origine,
+      statut_mat: item.statut_mat,
+      sexe: item.sexe,
+      nationalite: item.nationalite,
+      nom_pere: item.nom_pere,
+      prof_pere: item.prof_pere,
+      nom_mere: item.nom_mere,
+      prof_mere: item.prof_mere,
+      cursus: 'Ingénieur',
+      niveau: item?.niveau || 1,
+      filiere_choisie: item?.filiere || -1,
+      option_choisie: -1,
+      diplome_entree: item.diplome_requis_par_option_id
     })), 100);
 
     this.candidateService.deleteAll().subscribe({

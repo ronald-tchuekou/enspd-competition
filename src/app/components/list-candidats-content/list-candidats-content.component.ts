@@ -7,7 +7,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as moment from 'moment';
-import { CandidatesService } from '../../services/candidates.service';
+import { Candidate, CandidatesService } from '../../services/candidates.service';
 import { ConstantsService } from '../../services/constants.service';
 import { Filiere, FilieresService } from '../../services/filieres.service';
 import { Option, OptionsService } from '../../services/options.service';
@@ -18,18 +18,18 @@ import { Option, OptionsService } from '../../services/options.service';
   styles: []
 })
 export class ListCandidatsContentComponent implements OnInit {
-  @Input() currentCandidate: any = null;
+  @Input() currentCandidate: Candidate | null = null;
   @Output() currentCandidateChange = new EventEmitter();
   loading: boolean = false;
-  content: any[] = [];
+  content: Candidate[] = [];
   filieres: any[] = [];
   options: any[] = [];
   currentPage: number = 0;
-  pages: any[][] = [];
+  pages: Candidate[][] = [];
   limit: number = 50;
   candidate_name: string = '';
-  filiere: string = '';
-  option: string = '';
+  filiere: number = -1;
+  option: number = -1;
 
   constructor(
     private candidateService: CandidatesService,
@@ -91,53 +91,53 @@ export class ListCandidatsContentComponent implements OnInit {
 
   setContent(content: any[]) {
     this.content = content;
-    this.option = '';
-    this.filiere = '';
+    this.option = -1;
+    this.filiere = -1;
     this.candidate_name = '';
     this.getPages(this.content);
   }
 
   filterContent() {
     const name = this.candidate_name.trim().toLowerCase();
-    if (this.option === '' && name === '' && this.filiere === '') {
+    if (this.option === -1 && name === '' && this.filiere === -1) {
       this.getPages(this.content);
       return;
     }
-    if (this.option !== '' && name === '' && this.filiere === '') {
-      this.getPages(this.content.filter(item => item.opt_comp === this.option));
+    if (this.option !== -1 && name === '' && this.filiere === -1) {
+      this.getPages(this.content.filter(item => item.option_choisie === this.option));
       return;
     }
-    if (this.option === '' && name !== '' && this.filiere === '') {
+    if (this.option === -1 && name !== '' && this.filiere === -1) {
       this.getPages(this.content.filter(item => {
         return item.nom?.toLowerCase()
           .includes(name) || item.prenom?.toLowerCase().includes(name);
       }));
       return;
     }
-    if (this.option === '' && name === '' && this.filiere !== '') {
-      this.getPages(this.content.filter(item => item.filiere === this.filiere));
+    if (this.option === -1 && name === '' && this.filiere !== -1) {
+      this.getPages(this.content.filter(item => item.filiere_choisie === this.filiere));
       return;
     }
-    if (this.option !== '' && name !== '' && this.filiere === '') {
-      this.getPages(this.content.filter(item => item.opt_comp === this.option &&
+    if (this.option !== -1 && name !== '' && this.filiere === -1) {
+      this.getPages(this.content.filter(item => item.option_choisie === this.option &&
         (item.nom?.toLowerCase().includes(name) ||
           item.prenom?.toLowerCase().includes(name))));
       return;
     }
-    if (this.option === '' && name !== '' && this.filiere !== '') {
+    if (this.option === -1 && name !== '' && this.filiere !== -1) {
       this.getPages(this.content.filter(item => (item.nom?.toLowerCase().includes(name) ||
-        item.prenom?.toLowerCase().includes(name)) && item.filiere === this.filiere));
+        item.prenom?.toLowerCase().includes(name)) && item.filiere_choisie === this.filiere));
       return;
     }
-    if (this.option !== '' && name === '' && this.filiere !== '') {
-      this.getPages(this.content.filter(item => item.opt_comp === this.option &&
-        item.filiere === this.filiere));
+    if (this.option !== -1 && name === '' && this.filiere !== -1) {
+      this.getPages(this.content.filter(item => item.option_choisie === this.option &&
+        item.filiere_choisie === this.filiere));
       return;
     }
-    if (this.option !== '' && name !== '' && this.filiere !== '') {
-      this.getPages(this.content.filter(item => item.opt_comp === this.option &&
+    if (this.option !== -1 && name !== '' && this.filiere !== -1) {
+      this.getPages(this.content.filter(item => item.option_choisie === this.option &&
         (item.nom?.toLowerCase().includes(name) || item.prenom?.toLowerCase().includes(name)) &&
-        item.filiere === this.filiere));
+        item.filiere_choisie === this.filiere));
       return;
     }
   }
@@ -162,5 +162,13 @@ export class ListCandidatsContentComponent implements OnInit {
         }
       });
     }
+  }
+
+  getOption(query: number) {
+    return this.options.find(item => item.value === query)?.libelle || '';
+  }
+
+  getFiliere(query: number) {
+    return this.filieres.find(item => item.value === query)?.libelle || '';
   }
 }
