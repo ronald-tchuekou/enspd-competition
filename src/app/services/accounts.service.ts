@@ -7,6 +7,24 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
+import { Sexe } from './candidates.service';
+
+export interface Account {
+  id: number,
+  name: string,
+  surname: string,
+  nationality: string,
+  birthday: Date,
+  birthday_place: string,
+  sex: Sexe,
+  email: string,
+  phone: string,
+  password: string,
+  created_token: string,
+  token?: string,
+  createdAt?: Date,
+  updatedAt?: Date
+}
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +37,7 @@ export class AccountsService {
   }
 
   login(email: string, password: string) {
-    return this.http.post(this.server + '/login', {
+    return this.http.post<Account>(this.server + '/login', {
       email,
       password
     }, {
@@ -30,7 +48,7 @@ export class AccountsService {
   }
 
   getAccounts() {
-    return this.http.get(this.server + '/users', {
+    return this.http.get<Account[]>(this.server + '/users', {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -45,7 +63,7 @@ export class AccountsService {
       else
         query += '&' + item + '=' + find[item];
     });
-    return this.http.get(this.server + 'users-by' + '?' + query, {
+    return this.http.get<Account[]>(this.server + 'users-by' + '?' + query, {
       headers: {
         'Content-Type': 'application/json'
       }

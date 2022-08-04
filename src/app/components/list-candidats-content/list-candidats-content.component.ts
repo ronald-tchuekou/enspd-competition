@@ -6,10 +6,11 @@
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import * as moment from 'moment';
 import { CandidatesService } from '../../services/candidates.service';
 import { ConstantsService } from '../../services/constants.service';
-import { FilieresService } from '../../services/filieres.service';
-import { OptionsService } from '../../services/options.service';
+import { Filiere, FilieresService } from '../../services/filieres.service';
+import { Option, OptionsService } from '../../services/options.service';
 
 @Component({
   selector: 'app-list-candidats-content',
@@ -47,11 +48,19 @@ export class ListCandidatsContentComponent implements OnInit {
     this.loading = true;
     this.candidateService.getCandidates().subscribe({
       next: (data: any) => {
-        this.loading = false;
-        this.filiereService.getFilieres().subscribe((data: any) => this.filieres = data);
-        this.optionsService.getOptions().subscribe((data: any) => this.options = data);
-        this.content = data;
+        this.filiereService.getFilieres().subscribe((data: Filiere[]) => {
+          this.filieres = data.map(item => ({ label: item.libelle, value: item.id }));
+        });
+        this.optionsService.getOptions().subscribe((data: Option[]) => {
+          this.options = data.map(item => ({ label: item.libelle, value: item.id }));
+        });
+        this.content = data.map((item: any) => ({
+          ...item,
+          date_nais: moment(item.date_nais).format('YYYY-MM-DD'),
+          cni_date: moment(item.cni_date).format('YYYY-MM-DD')
+        }));
         this.getPages(this.content);
+        this.loading = false;
       },
       error: (error: any) => {
         this.loading = false;
@@ -99,8 +108,10 @@ export class ListCandidatsContentComponent implements OnInit {
       return;
     }
     if (this.option === '' && name !== '' && this.filiere === '') {
-      this.getPages(this.content.filter(item => item.nom.toLowerCase()
-        .includes(name) || item.prenom.toLowerCase().includes(name)));
+      this.getPages(this.content.filter(item => {
+        return item.nom?.toLowerCase()
+          .includes(name) || item.prenom?.toLowerCase().includes(name);
+      }));
       return;
     }
     if (this.option === '' && name === '' && this.filiere !== '') {
@@ -109,13 +120,13 @@ export class ListCandidatsContentComponent implements OnInit {
     }
     if (this.option !== '' && name !== '' && this.filiere === '') {
       this.getPages(this.content.filter(item => item.opt_comp === this.option &&
-        (item.lastname.toLowerCase().includes(name) ||
-          item.firstname.toLowerCase().includes(name))));
+        (item.nom?.toLowerCase().includes(name) ||
+          item.prenom?.toLowerCase().includes(name))));
       return;
     }
     if (this.option === '' && name !== '' && this.filiere !== '') {
-      this.getPages(this.content.filter(item => (item.lastname.toLowerCase().includes(name) ||
-        item.firstname.toLowerCase().includes(name)) && item.filiere === this.filiere));
+      this.getPages(this.content.filter(item => (item.nom?.toLowerCase().includes(name) ||
+        item.prenom?.toLowerCase().includes(name)) && item.filiere === this.filiere));
       return;
     }
     if (this.option !== '' && name === '' && this.filiere !== '') {
@@ -125,7 +136,7 @@ export class ListCandidatsContentComponent implements OnInit {
     }
     if (this.option !== '' && name !== '' && this.filiere !== '') {
       this.getPages(this.content.filter(item => item.opt_comp === this.option &&
-        (item.lastname.toLowerCase().includes(name) || item.firstname.toLowerCase().includes(name)) &&
+        (item.nom?.toLowerCase().includes(name) || item.prenom?.toLowerCase().includes(name)) &&
         item.filiere === this.filiere));
       return;
     }

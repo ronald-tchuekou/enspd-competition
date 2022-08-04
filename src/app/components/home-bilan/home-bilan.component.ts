@@ -5,11 +5,11 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { CandidatesService } from '../../services/candidates.service';
+import { Candidate, CandidatesService, Sexe } from '../../services/candidates.service';
 import { ConstantsService } from '../../services/constants.service';
-import { FilieresService } from '../../services/filieres.service';
-import { OptionsService } from '../../services/options.service';
-import { RegionsService } from '../../services/regions.service';
+import { Filiere, FilieresService } from '../../services/filieres.service';
+import { Option, OptionsService } from '../../services/options.service';
+import { Region, RegionsService } from '../../services/regions.service';
 
 @Component({
   selector: 'app-home-bilan',
@@ -17,16 +17,16 @@ import { RegionsService } from '../../services/regions.service';
   styles: []
 })
 export class HomeBilanComponent implements OnInit {
-  candidates: any[] = [];
-  search: any[] = [];
-  candidates_f: any[] = [];
-  candidates_m: any[] = [];
+  candidates: Candidate[] = [];
+  search: Candidate[] = [];
+  candidates_f: Candidate[] = [];
+  candidates_m: Candidate[] = [];
   filieres: any[] = [];
   regions: any[] = [];
   options: any[] = [];
-  filiere: string = '';
-  region: string = '';
-  option: string = '';
+  filiere: number = -1;
+  region: number = -1;
+  option: number = -1;
   loading: boolean = false;
 
   constructor(
@@ -41,11 +41,17 @@ export class HomeBilanComponent implements OnInit {
   ngOnInit(): void {
     this.loading = true;
     setTimeout(() => this.candidateService.getCandidates().subscribe({
-      next: (data: any) => {
+      next: (data: Candidate[]) => {
         this.loading = false;
-        this.filiereService.getFilieres().subscribe((data: any) => this.filieres = data);
-        this.optionsService.getOptions().subscribe((data: any) => this.options = data);
-        this.regionsService.getRegions().subscribe((data: any) => this.regions = data);
+        this.filiereService.getFilieres().subscribe((data: Filiere[]) => {
+          this.filieres = data.map(item => ({ label: item.libelle, value: item.id }));
+        });
+        this.optionsService.getOptions().subscribe((data: Option[]) => {
+          this.options = data.map(item => ({ label: item.libelle, value: item.id }));
+        });
+        this.regionsService.getRegions().subscribe((data: Region[]) => {
+          this.regions = data.map(item => ({ label: item.libelle, value: item.id }));
+        });
         this.candidates = data;
         this.search = this.candidates;
         this.getSex();
@@ -58,73 +64,69 @@ export class HomeBilanComponent implements OnInit {
   }
 
   regionChange(value: string) {
-    this.region = value;
+    this.region = parseInt(value);
     this.filter();
   }
 
   filiereChange(value: string) {
-    this.filiere = value;
+    this.filiere = parseInt(value);
     this.filter();
   }
 
   optionChange(value: string) {
-    this.option = value;
+    this.option = parseInt(value);
     this.filter();
   }
 
   filter() {
-    if (this.option === '' && this.region === '' && this.filiere === '') {
+    if (this.option === -1 && this.region === -1 && this.filiere === -1) {
       this.search = this.candidates;
       this.getSex();
       return;
     }
-    if (this.option !== '' && this.region === '' && this.filiere === '') {
-      this.search = this.candidates.filter(item => item.option === this.option);
+    if (this.option !== -1 && this.region === -1 && this.filiere === -1) {
+      this.search = this.candidates.filter(item => item.option_choisie === this.option);
       this.getSex();
       return;
     }
-    if (this.option === '' && this.region !== '' && this.filiere === '') {
-      this.search = this.candidates.filter(item => item.region === this.region);
+    if (this.option === -1 && this.region !== -1 && this.filiere === -1) {
+      this.search = this.candidates.filter(item => item.region_origine === this.region);
       this.getSex();
       return;
     }
-    if (this.option === '' && this.region === '' && this.filiere !== '') {
-      this.search = this.candidates.filter(item => item.filiere === this.filiere);
+    if (this.option === -1 && this.region === -1 && this.filiere !== -1) {
+      this.search = this.candidates.filter(item => item.filiere_choisie === this.filiere);
       this.getSex();
       return;
     }
-    if (this.option !== '' && this.region !== '' && this.filiere === '') {
-      this.search = this.candidates.filter(item => item.option === this.option &&
-        item.region === this.region);
+    if (this.option !== -1 && this.region !== -1 && this.filiere === -1) {
+      this.search = this.candidates.filter(item => item.option_choisie === this.option &&
+        item.region_origine === this.region);
       this.getSex();
       return;
     }
-    if (this.option === '' && this.region !== '' && this.filiere !== '') {
-      this.search = this.candidates.filter(item => item.region === this.region &&
-        item.filiere === this.filiere);
+    if (this.option === -1 && this.region !== -1 && this.filiere !== -1) {
+      this.search = this.candidates.filter(item => item.region_origine === this.region &&
+        item.filiere_choisie === this.filiere);
       this.getSex();
       return;
     }
-    if (this.option !== '' && this.region === '' && this.filiere !== '') {
-      this.search = this.candidates.filter(item => item.option === this.option &&
-        item.filiere === this.filiere);
+    if (this.option !== -1 && this.region === -1 && this.filiere !== -1) {
+      this.search = this.candidates.filter(item => item.option_choisie === this.option &&
+        item.filiere_choisie === this.filiere);
       this.getSex();
       return;
     }
-    if (this.option !== '' && this.region !== '' && this.filiere !== '') {
-      this.search = this.candidates.filter(item => item.option === this.option &&
-        item.region === this.region && item.filiere === this.filiere);
+    if (this.option !== -1 && this.region !== -1 && this.filiere !== -1) {
+      this.search = this.candidates.filter(item => item.option_choisie === this.option &&
+        item.region_origine === this.region && item.filiere_choisie === this.filiere);
       this.getSex();
       return;
     }
   }
 
   getSex() {
-    this.candidates_m = this.search.filter(
-      item => item.sexe === 'M' || item.sexe.toLowerCase() === 'masculin'
-    );
-    this.candidates_f = this.search.filter(
-      item => item.sexe === 'F' || item.sexe.toLowerCase() === 'feminin'
-    );
+    this.candidates_m = this.search.filter(item => item.sexe === Sexe.M);
+    this.candidates_f = this.search.filter(item => item.sexe === Sexe.F);
   }
 }

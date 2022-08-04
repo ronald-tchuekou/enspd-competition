@@ -20,7 +20,6 @@ export class ConstantsService {
     while (stack < table.length) {
       result.push(table.slice(stack, stack + limit));
       stack += limit;
-      console.log('limit : ', limit, ' stack : ', stack);
     }
     const sub = table.slice(stack);
     if (sub.length !== 0) result.push(sub);
@@ -29,7 +28,7 @@ export class ConstantsService {
 
   getPercentage(total: number, count: number) {
     if (total === 0 || count === 0)
-      return 0
-    return Math.floor((count * 100) / total)
+      return 0;
+    return Math.floor((count * 100) / total);
   }
 }

@@ -8,6 +8,35 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 
+export enum Cursus {SI = 'Science Ingénieur', IN = 'Ingénieur'}
+
+export enum Sexe {M = 'Masculin', F = 'Feminin'}
+
+export interface Candidate {
+  id: number,
+  nom: string,
+  prenom: string,
+  date_nais: Date,
+  lieu_nais: string,
+  region_origine: number,
+  depart_origine: number,
+  statut_mat: string,
+  sexe: Sexe,
+  nationalite: string,
+  nom_pere: string,
+  prof_pere: string,
+  nom_mere: string,
+  prof_mere: string,
+  cursus: Cursus,
+  niveau: number,
+  filiere_choisie: number,
+  option_choisie: number,
+  diplome_entree: number,
+  admis: boolean,
+  createdAt?: Date,
+  updatedAt?: Date
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,11 +44,13 @@ export class CandidatesService {
 
   server: string = environment.server_path + '/candidate';
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient
+  ) {
   }
 
   getCandidates() {
-    return this.http.get(this.server, {
+    return this.http.get<Candidate[]>(this.server, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -34,7 +65,7 @@ export class CandidatesService {
       else
         query += '&' + item + '=' + find[item];
     });
-    return this.http.get(this.server + '/by?' + query, {
+    return this.http.get<Candidate[]>(this.server + '/by?' + query, {
       headers: {
         'Content-Type': 'application/json'
       }

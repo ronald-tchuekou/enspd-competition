@@ -13,13 +13,25 @@
       [(value)]='email'
       icon='person'
       placeholder='Adresse e-mail'
-      type='email'></app-text-input>
+      type='email'>
+      <svg fill='none' height='22' viewBox='0 0 20 20' width='22' xmlns='http://www.w3.org/2000/svg'>
+        <path
+          d='M3.75 17.5C3.75 17.5 2.5 17.5 2.5 16.25C2.5 15 3.75 11.25 10 11.25C16.25 11.25 17.5 15 17.5 16.25C17.5 17.5 16.25 17.5 16.25 17.5H3.75ZM10 10C10.9946 10 11.9484 9.60491 12.6517 8.90165C13.3549 8.19839 13.75 7.24456 13.75 6.25C13.75 5.25544 13.3549 4.30161 12.6517 3.59835C11.9484 2.89509 10.9946 2.5 10 2.5C9.00544 2.5 8.05161 2.89509 7.34835 3.59835C6.64509 4.30161 6.25 5.25544 6.25 6.25C6.25 7.24456 6.64509 8.19839 7.34835 8.90165C8.05161 9.60491 9.00544 10 10 10Z'
+          fill='#808080' />
+      </svg>
+    </app-text-input>
     <app-text-input
       [(value)]='password'
       [secure]='true'
       icon='lock'
       placeholder='Mot de passe'
-      type='password'></app-text-input>
+      type='password'>
+      <svg fill='none' height='22' viewBox='0 0 20 20' width='22' xmlns='http://www.w3.org/2000/svg'>
+        <path
+          d='M16.6666 10.0001C16.6666 9.08091 15.9191 8.33341 15 8.33341H14.1666V5.83341C14.1666 3.53591 12.2975 1.66675 9.99998 1.66675C7.70248 1.66675 5.83331 3.53591 5.83331 5.83341V8.33341H4.99998C4.08081 8.33341 3.33331 9.08091 3.33331 10.0001V16.6667C3.33331 17.5859 4.08081 18.3334 4.99998 18.3334H15C15.9191 18.3334 16.6666 17.5859 16.6666 16.6667V10.0001ZM7.49998 5.83341C7.49998 4.45508 8.62165 3.33341 9.99998 3.33341C11.3783 3.33341 12.5 4.45508 12.5 5.83341V8.33341H7.49998V5.83341Z'
+          fill='#808080' />
+      </svg>
+    </app-text-input>
     <app-loader-content *ngIf='loading' [size]='34'></app-loader-content>
     <button
       (click)='submit()'
@@ -31,7 +43,7 @@
     </button>
     <p class='text-base text-gray-500'>
       Si vous ne vous rappelez plus de votre mot de passe,
-      <span class='text-red-400 underline cursor-pointer'>cliquez-ici</span>
+      <span (click)='resetPassword()' class='text-red-400 underline cursor-pointer'>cliquez-ici</span>
     </p>
   </div>
 </div>

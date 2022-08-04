@@ -112,7 +112,7 @@ app-candidate-details {
 }
 
 app-candidate-form {
-  @apply h-full flex flex-col
+  @apply h-full flex flex-col relative
 }
 
 app-list-candidats-content {

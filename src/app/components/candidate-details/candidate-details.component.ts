@@ -7,6 +7,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import * as moment from 'moment';
 import 'moment/locale/fr';
+import { Cursus, Sexe } from '../../services/candidates.service';
 
 moment.locale('fr');
 
@@ -20,20 +21,24 @@ export class CandidateDetailsComponent implements OnInit, OnChanges {
   @Output() onEditClick = new EventEmitter();
   @Output() onDeleteClick = new EventEmitter();
   labels: any = {
-    sexe: 'Sex :',
-    nationalite: 'Nationalité :',
-    telephone: 'Téléphone :',
-    email: 'Adresse e-mail :',
-    filiere: 'Filière :',
-    opt_comp: 'Option choisi :',
-    nom_pere: 'Nom du père :',
-    prof_pere: 'Profession du père :',
-    nom_mere: 'Nom de la mère :',
-    prof_mere: 'Profession de la mère :',
-    tel_tut: 'Numéro du tuteur :',
-    centre_origine: 'Centre d\'origine :',
-    statut_mat: 'Statut matrimonial :',
-    langue: 'Langue :'
+    nom: 'Nom',
+    prenom: 'Prénom',
+    date_nais: 'Date de naissance',
+    lieu_nais: 'Lieu de naissance',
+    region_origine: 'Région d\'origine',
+    depart_origine: 'Département d\'origine',
+    statut_mat: 'Statut matrimonial',
+    sexe: 'Sexe',
+    nationalite: 'Nationalité',
+    nom_pere: 'Nom du père',
+    prof_pere: 'Profession du père',
+    nom_mere: 'Nom de la mère',
+    prof_mere: 'Profession de la mère',
+    cursus: 'Cursus',
+    niveau: 'Niveau',
+    filiere_choisie: 'Filière choisie',
+    option_choisie: 'Option choisie',
+    diplome_entree: 'Diplôme d\'entrée'
   };
   keys: string[] = Object.keys(this.labels);
 

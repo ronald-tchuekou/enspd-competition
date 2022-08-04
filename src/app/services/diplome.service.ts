@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 30/07/2022 17:13
+ * Copyright (c) 30/07/2022 17:11
  * @author Ronald Tchuekou
  * @email ronaldtchuekou@gmail.com
  */
@@ -9,8 +9,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
-export interface Region {
+export interface Diplome {
   id: number,
+  code: string,
   libelle: string,
   createdAt?: Date,
   updatedAt?: Date
@@ -19,22 +20,22 @@ export interface Region {
 @Injectable({
   providedIn: 'root'
 })
-export class RegionsService {
+export class DiplomesService {
 
-  server: string = environment.server_path + '/region';
+  server: string = environment.server_path + '/diplome';
 
   constructor(private http: HttpClient) {
   }
 
-  getRegions(): Observable<Region[]> {
-    return this.http.get<Region[]>(this.server, {
+  getDiplomes(): Observable<Diplome[]> {
+    return this.http.get<Diplome[]>(this.server, {
       headers: {
         'Content-Type': 'application/json'
       }
     });
   }
 
-  getRegionsBy(find: any): Observable<Region[]> {
+  getDiplomesBy(find: any): Observable<Diplome[]> {
     let query = '';
     Object.keys(find).forEach((item, index) => {
       if (index === 0)
@@ -42,14 +43,14 @@ export class RegionsService {
       else
         query += '&' + item + '=' + find[item];
     });
-    return this.http.get<Region[]>(this.server + '/by?' + query, {
+    return this.http.get<Diplome[]>(this.server + '/by?' + query, {
       headers: {
         'Content-Type': 'application/json'
       }
     });
   }
 
-  addRegion(data: any) {
+  addDiplome(data: any) {
     return this.http.post(this.server, data, {
       headers: {
         'Content-Type': 'application/json'
@@ -57,7 +58,7 @@ export class RegionsService {
     });
   }
 
-  deleteRegion(id: string) {
+  deleteDiplome(id: string) {
     return this.http.delete(this.server + '/' + id, {
       headers: {
         'Content-Type': 'application/json'
@@ -73,7 +74,7 @@ export class RegionsService {
     });
   }
 
-  updateRegion(data: any, id: string) {
+  updateDiplome(data: any, id: string) {
     return this.http.put(this.server + '/' + id, data, {
       headers: {
         'Content-Type': 'application/json'

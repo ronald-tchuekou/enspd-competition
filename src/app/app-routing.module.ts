@@ -11,6 +11,8 @@ import { CandidatsListComponent } from './screens/dashboard/candidats-list/candi
 import { DashboardComponent } from './screens/dashboard/dashboard.component';
 import { HomeComponent } from './screens/dashboard/home/home.component';
 import { SettingsComponent } from './screens/dashboard/settings/settings.component';
+import { PassForgetComponent } from './screens/pass-forget/pass-forget.component';
+import { ResetPassComponent } from './screens/reset-pass/reset-pass.component';
 import { SignInComponent } from './screens/sign-in/sign-in.component';
 
 const routes: Routes = [
@@ -27,7 +29,9 @@ const routes: Routes = [
       { path: 'settings', component: SettingsComponent }
     ]
   },
-  { path: 'sign-in', component: SignInComponent }
+  { path: 'sign-in', component: SignInComponent },
+  { path: 'pass-forget', component: PassForgetComponent },
+  { path: 'reset-pass', component: ResetPassComponent }
 ];
 
 @NgModule({

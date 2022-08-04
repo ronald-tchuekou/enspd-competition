@@ -4,44 +4,82 @@
  * @email ronaldtchuekou@gmail.com
  */
 
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
+
+export interface Option {
+  id: number,
+  code: string,
+  libelle: string,
+  createdAt?: Date,
+  updatedAt?: Date
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class OptionsService {
 
-  constructor() {
+  server: string = environment.server_path + '/option';
+
+  constructor(private http: HttpClient) {
   }
 
+  getOptions(): Observable<Option[]> {
+    return this.http.get<Option[]>(this.server, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+  }
 
-  getOptions() {
-    const candidates = [];
-    for (let i = 1; i < 21; i++) {
-      candidates.push({
-        id: 'id' + i,
-        label: 'Option ' + i,
-        value: 'option' + i
-      });
-    }
-    return of(candidates);
+  getOptionsBy(find: any): Observable<Option[]> {
+    let query = '';
+    Object.keys(find).forEach((item, index) => {
+      if (index === 0)
+        query += item + '=' + find[item];
+      else
+        query += '&' + item + '=' + find[item];
+    });
+    return this.http.get<Option[]>(this.server + '/by?' + query, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   }
 
   addOption(data: any) {
-    return of({
-      id: 'id',
-      label: 'Option',
-      value: 'option'
+    return this.http.post(this.server, data, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
     });
   }
 
   deleteOption(id: string) {
-    return of({ id });
+    return this.http.delete(this.server + '/' + id, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+  }
+
+  deleteAll() {
+    return this.http.delete(this.server, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   }
 
   updateOption(data: any, id: string) {
-    return of({ data });
+    return this.http.put(this.server + '/' + id, data, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   }
 
 }
