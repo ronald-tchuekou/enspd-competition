@@ -5,7 +5,12 @@
   -->
 
 <div class='flex flex-col w-full h-full relative'>
-  <input #csv_file_input (change)='onCSVInputChange($event)' class='absolute invisible' type='file'>
+  <input
+    #csv_file_input
+    (change)='onCSVInputChange($event)'
+    accept='application/csvm+json'
+    class='absolute invisible'
+    type='file'>
   <div class='flex-none flex flex-row justify-between items-center'>
     <div class='title flex-none'>Candidats de la dernière liste chargée</div>
     <div class='flex flex-row'>
@@ -29,6 +34,7 @@
         </svg>
       </button>
       <button
+        [matMenuTriggerFor]='menu'
         class='button warning'
         matRipple
         matRippleColor='rgba(255, 255, 255, 0.15)'>
@@ -48,6 +54,16 @@
       </button>
     </div>
   </div>
+  <mat-menu #menu='matMenu'>
+    <button (click)='pdfExport()' mat-menu-item>
+      <mat-icon>picture_as_pdf</mat-icon>
+      Exporter en pdf
+    </button>
+    <button (click)='wordExport()' mat-menu-item>
+      <mat-icon>description</mat-icon>
+      Exporter en word
+    </button>
+  </mat-menu>
   <div class='container h-full flex flex-row' style='padding: 0; height: calc(100vh - 140px)'>
     <div class='w-full h-full border-r'>
       <app-list-candidats-content

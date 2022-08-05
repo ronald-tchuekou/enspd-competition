@@ -72,6 +72,7 @@
 <div class='flex-none border-t flex flex-row justify-between items-center'>
   <div class='flex flex-row space-x-2'>
     <button
+      [matMenuTriggerFor]='menu'
       class='button warning'
       matRipple
       matRippleColor='rgba(255, 255, 255, 0.15)'>
@@ -89,6 +90,16 @@
         </defs>
       </svg>
     </button>
+    <mat-menu #menu='matMenu'>
+      <button (click)='pdfExport()' mat-menu-item>
+        <mat-icon>picture_as_pdf</mat-icon>
+        Exporter en pdf
+      </button>
+      <button (click)='wordExport()' mat-menu-item>
+        <mat-icon>description</mat-icon>
+        Exporter en word
+      </button>
+    </mat-menu>
     <button
       (click)='deleteAll()'
       class='button red py-2'

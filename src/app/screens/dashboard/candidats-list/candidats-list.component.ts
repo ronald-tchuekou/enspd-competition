@@ -134,4 +134,12 @@ export class CandidatsListComponent implements OnInit {
       }
     });
   }
+
+  pdfExport() {
+    // TODO
+  }
+
+  wordExport() {
+    // TODO
+  }
 }

@@ -171,4 +171,12 @@ export class ListCandidatsContentComponent implements OnInit {
   getFiliere(query: number) {
     return this.filieres.find(item => item.value === query)?.label || '';
   }
+
+  pdfExport() {
+    // TODO
+  }
+
+  wordExport() {
+    // TODO
+  }
 }
