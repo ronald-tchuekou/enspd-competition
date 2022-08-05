@@ -31,6 +31,23 @@ import { SimpleSelectComponent } from './simple-select/simple-select.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { EmptyStateComponent } from './empty-state/empty-state.component';
+import { AccountListComponent } from './home-accounts-list/account-list/account-list.component';
+import { AccountFormComponent } from './home-accounts-list/account-form/account-form.component';
+import { RegionsManagerComponent } from './regions-manager/regions-manager.component';
+import { RegionListComponent } from './regions-manager/region-list/region-list.component';
+import { RegionFormComponent } from './regions-manager/region-form/region-form.component';
+import { OptionsManagerComponent } from './options-manager/options-manager.component';
+import { OptionListComponent } from './options-manager/option-list/option-list.component';
+import { OptionFormComponent } from './options-manager/option-form/option-form.component';
+import { FilieresManagerComponent } from './filieres-manager/filieres-manager.component';
+import { FiliereListComponent } from './filieres-manager/filiere-list/filiere-list.component';
+import { FiliereFormComponent } from './filieres-manager/filiere-form/filiere-form.component';
+import { DiplomesManagerComponent } from './diplomes-manager/diplomes-manager.component';
+import { DiplomeListComponent } from './diplomes-manager/diplome-list/diplome-list.component';
+import { DiplomeFormComponent } from './diplomes-manager/diplome-form/diplome-form.component';
+import { DepartementsManagerComponent } from './departements-manager/departements-manager.component';
+import { DepartementListComponent } from './departements-manager/departement-list/departement-list.component';
+import { DepartementFormComponent } from './departements-manager/departement-form/departement-form.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +71,24 @@ import { EmptyStateComponent } from './empty-state/empty-state.component';
     SimpleSelectComponent,
     UserProfileComponent,
     ChangePasswordComponent,
-    EmptyStateComponent
+    EmptyStateComponent,
+    AccountListComponent,
+    AccountFormComponent,
+    RegionsManagerComponent,
+    RegionListComponent,
+    RegionFormComponent,
+    OptionsManagerComponent,
+    OptionListComponent,
+    OptionFormComponent,
+    FilieresManagerComponent,
+    FiliereListComponent,
+    FiliereFormComponent,
+    DiplomesManagerComponent,
+    DiplomeListComponent,
+    DiplomeFormComponent,
+    DepartementsManagerComponent,
+    DepartementListComponent,
+    DepartementFormComponent
   ],
   imports: [
     CommonModule,
@@ -84,7 +118,24 @@ import { EmptyStateComponent } from './empty-state/empty-state.component';
     SimpleSelectComponent,
     UserProfileComponent,
     ChangePasswordComponent,
-    EmptyStateComponent
+    EmptyStateComponent,
+    AccountListComponent,
+    AccountFormComponent,
+    RegionsManagerComponent,
+    RegionListComponent,
+    RegionFormComponent,
+    OptionsManagerComponent,
+    OptionListComponent,
+    OptionFormComponent,
+    FilieresManagerComponent,
+    FiliereListComponent,
+    FiliereFormComponent,
+    DiplomesManagerComponent,
+    DiplomeListComponent,
+    DiplomeFormComponent,
+    DepartementsManagerComponent,
+    DepartementListComponent,
+    DepartementFormComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: []

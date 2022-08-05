@@ -1,0 +1,38 @@
+<!--
+  ~ Copyright (c) 05/08/2022 06:10
+  ~ @author Ronald Tchuekou
+  ~ @email ronaldtchuekou@gmail.com
+  -->
+
+<div class='flex-none flex flex-row items-center justify-between px-1 py-1'>
+  <div class='title'>Liste de tous les filières ajoutées</div>
+  <div class='flex-none'>
+    <button
+      (click)='newFiliere = {}; form.initForm()'
+      class='bg-blue-500 shadow-lg shadow-blue-500/30 text-white h-7 w-7 rounded-full flex justify-center items-center'
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</div>
+<div class='container h-full overflow-y-auto' style='padding: 0'>
+  <mat-tab-group
+    [selectedIndex]='currentFiliere || newFiliere ? 1 : 0'
+    class='hidden-nav-tab h-full w-full'>
+    <mat-tab class='h-full'>
+      <app-filiere-list
+        #filieretList
+        (filiereSelected)='currentFiliere = $event'
+        class='block h-full w-full'>
+      </app-filiere-list>
+    </mat-tab>
+    <mat-tab class='h-full'>
+      <app-filiere-form
+        #form
+        (onBackClick)='currentFiliere = null; newFiliere = null'
+        (onComplete)='currentFiliere = null; newFiliere = null; filieretList.getFilieres()'
+        [currentFiliere]='currentFiliere'
+        class='flex flex-col relative h-full w-full'></app-filiere-form>
+    </mat-tab>
+  </mat-tab-group>
+</div>

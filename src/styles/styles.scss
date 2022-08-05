@@ -119,8 +119,14 @@ app-list-candidats-content {
   @apply flex flex-col h-full w-full
 }
 
-app-user-profile, app-change-password {
-  @apply flex flex-col w-full max-w-[450px]
+app-user-profile,
+app-change-password,
+app-diplomes-manager,
+app-filieres-manager,
+app-options-manager,
+app-departements-manager,
+app-regions-manager {
+  @apply flex flex-col w-full max-w-[450px] min-h-[350px] max-h-[400px]
 }
 
 .hidden-nav-tab .mat-tab-header {

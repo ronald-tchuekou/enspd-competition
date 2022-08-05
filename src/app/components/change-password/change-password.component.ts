@@ -6,7 +6,7 @@
 
 import { Component, Input, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AccountsService } from '../../services/accounts.service';
+import { Account, AccountsService } from '../../services/accounts.service';
 
 @Component({
   selector: 'app-change-password',
@@ -14,7 +14,7 @@ import { AccountsService } from '../../services/accounts.service';
   styles: []
 })
 export class ChangePasswordComponent implements OnInit {
-  @Input() user: any = {};
+  @Input() user: Account | any = {};
   old_password: string = '';
   new_password: string = '';
   pass_confirm: string = '';

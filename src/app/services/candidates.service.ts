@@ -96,7 +96,7 @@ export class CandidatesService {
     });
   }
 
-  updateCandidate(data: any, id: string) {
+  updateCandidate(data: any, id: number | undefined) {
     return this.http.put(this.server + '/' + id, data, {
       headers: {
         'Content-Type': 'application/json'

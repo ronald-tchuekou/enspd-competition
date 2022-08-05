@@ -4,7 +4,12 @@
   ~ @email ronaldtchuekou@gmail.com
   -->
 
-<div class='flex items-stretch gap-5 w-full h-full overflow-y-auto'>
+<div class='flex flex-col md:flex-row md:flex-wrap flex-shrink gap-5 w-full h-full overflow-y-auto'>
   <app-user-profile [currentUser]='currentUser'></app-user-profile>
   <app-change-password [user]='currentUser'></app-change-password>
+  <app-departements-manager></app-departements-manager>
+  <app-regions-manager></app-regions-manager>
+  <app-options-manager></app-options-manager>
+  <app-filieres-manager></app-filieres-manager>
+  <app-diplomes-manager></app-diplomes-manager>
 </div>

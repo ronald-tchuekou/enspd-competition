@@ -57,7 +57,7 @@ export class RegionsService {
     });
   }
 
-  deleteRegion(id: string) {
+  deleteRegion(id: number) {
     return this.http.delete(this.server + '/' + id, {
       headers: {
         'Content-Type': 'application/json'
@@ -73,7 +73,7 @@ export class RegionsService {
     });
   }
 
-  updateRegion(data: any, id: string) {
+  updateRegion(data: any, id: number | undefined) {
     return this.http.put(this.server + '/' + id, data, {
       headers: {
         'Content-Type': 'application/json'

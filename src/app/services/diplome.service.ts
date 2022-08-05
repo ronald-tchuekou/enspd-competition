@@ -58,7 +58,7 @@ export class DiplomesService {
     });
   }
 
-  deleteDiplome(id: string) {
+  deleteDiplome(id: number) {
     return this.http.delete(this.server + '/' + id, {
       headers: {
         'Content-Type': 'application/json'
@@ -74,7 +74,7 @@ export class DiplomesService {
     });
   }
 
-  updateDiplome(data: any, id: string) {
+  updateDiplome(data: any, id: number | undefined) {
     return this.http.put(this.server + '/' + id, data, {
       headers: {
         'Content-Type': 'application/json'

@@ -58,7 +58,7 @@ export class OptionsService {
     });
   }
 
-  deleteOption(id: string) {
+  deleteOption(id: number) {
     return this.http.delete(this.server + '/' + id, {
       headers: {
         'Content-Type': 'application/json'
@@ -74,7 +74,7 @@ export class OptionsService {
     });
   }
 
-  updateOption(data: any, id: string) {
+  updateOption(data: any, id: number | undefined) {
     return this.http.put(this.server + '/' + id, data, {
       headers: {
         'Content-Type': 'application/json'

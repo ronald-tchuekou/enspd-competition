@@ -1,0 +1,38 @@
+<!--
+  ~ Copyright (c) 05/08/2022 06:55
+  ~ @author Ronald Tchuekou
+  ~ @email ronaldtchuekou@gmail.com
+  -->
+
+<div class='flex-none flex flex-row items-center justify-between px-1 py-1'>
+  <div class='title'>Liste de tous les départements ajoutés</div>
+  <div class='flex-none'>
+    <button
+      (click)='newDepartement = {}; form.initForm()'
+      class='bg-blue-500 shadow-lg shadow-blue-500/30 text-white h-7 w-7 rounded-full flex justify-center items-center'
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</div>
+<div class='container h-full overflow-y-auto' style='padding: 0'>
+  <mat-tab-group
+    [selectedIndex]='currentDepartement || newDepartement ? 1 : 0'
+    class='hidden-nav-tab h-full w-full'>
+    <mat-tab class='h-full'>
+      <app-departement-list
+        #departementtList
+        (departementSelected)='currentDepartement = $event'
+        class='block h-full w-full'>
+      </app-departement-list>
+    </mat-tab>
+    <mat-tab class='h-full'>
+      <app-departement-form
+        #form
+        (onBackClick)='currentDepartement = null; newDepartement = null'
+        (onComplete)='currentDepartement = null; newDepartement = null; departementtList.getDepartements()'
+        [currentDepartement]='currentDepartement'
+        class='flex flex-col relative h-full w-full'></app-departement-form>
+    </mat-tab>
+  </mat-tab-group>
+</div>

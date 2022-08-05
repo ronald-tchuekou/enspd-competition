@@ -5,8 +5,9 @@
  */
 
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Candidate, CandidatesService, Cursus, Sexe } from '../../services/candidates.service';
-import { ConstantsService } from '../../services/constants.service';
+import { DepartementsService } from '../../services/departements.service';
 import { Diplome, DiplomesService } from '../../services/diplome.service';
 import { Filiere, FilieresService } from '../../services/filieres.service';
 import { Option, OptionsService } from '../../services/options.service';
@@ -25,29 +26,32 @@ export class CandidateFormComponent implements OnInit, OnChanges {
   prenom: string = '';
   date_nais: string = '';
   lieu_nais: string = '';
-  region_origine: number = -1;
-  depart_origine: number = -1;
+  region_origine: string = '';
+  depart_origine: string = '';
   statut_mat: string = '';
-  sexe: Sexe = Sexe.M;
+  sexe: string = '';
   nationalite: string = '';
   nom_pere: string = '';
   prof_pere: string = '';
   nom_mere: string = '';
   prof_mere: string = '';
-  cursus: Cursus = Cursus.IN;
-  niveau: number = 1;
-  filiere_choisie: number = -1;
-  option_choisie: number = -1;
-  diplome_entree: number = -1;
+  cursus: string = '';
+  niveau: string = '';
+  filiere_choisie: string = '';
+  option_choisie: string = '';
+  diplome_entree: string = '';
   sex_content: any[] = [
+    { label: '...', value: '' },
     { label: 'Masculin', value: Sexe.M },
     { label: 'Féminin', value: Sexe.F }
   ];
   status_matrimoniales: any[] = [
+    { label: '...', value: '' },
     { label: 'Marié', value: 'Marié' },
     { label: 'Célibataire', value: 'Célibataire' }
   ];
   all_cursus: any[] = [
+    { label: '...', value: '' },
     { label: Cursus.IN, value: Cursus.IN },
     { label: Cursus.SI, value: Cursus.SI }
   ];
@@ -63,8 +67,9 @@ export class CandidateFormComponent implements OnInit, OnChanges {
     private filiereService: FilieresService,
     private optionsService: OptionsService,
     private regionsService: RegionsService,
+    private departementsService: DepartementsService,
     private diplomesService: DiplomesService,
-    public constantService: ConstantsService
+    private sbr: MatSnackBar
   ) {
   }
 
@@ -74,16 +79,24 @@ export class CandidateFormComponent implements OnInit, OnChanges {
       'Ajout d\'un nouveau candidat dans la liste';
     this.initData(this.currentCandidate);
     this.filiereService.getFilieres().subscribe((data: Filiere[]) => {
-      this.filieres = data.map(item => ({ label: item.libelle, value: item.id }));
+      this.filieres = [{ label: '...', value: '' },
+        ...data.map(item => ({ label: item.libelle, value: item.id }))];
     });
     this.optionsService.getOptions().subscribe((data: Option[]) => {
-      this.options = data.map(item => ({ label: item.libelle, value: item.id }));
+      this.options = [{ label: '...', value: '' },
+        ...data.map(item => ({ label: item.libelle, value: item.id }))];
     });
     this.regionsService.getRegions().subscribe((data: Region[]) => {
-      this.regions = data.map(item => ({ label: item.libelle, value: item.id }));
+      this.regions = [{ label: '...', value: '' },
+        ...data.map(item => ({ label: item.libelle, value: item.id }))];
+    });
+    this.departementsService.getDepartements().subscribe((data: Region[]) => {
+      this.departments = [{ label: '...', value: '' },
+        ...data.map(item => ({ label: item.libelle, value: item.id }))];
     });
     this.diplomesService.getDiplomes().subscribe((data: Diplome[]) => {
-      this.diplomes = data.map(item => ({ label: item.libelle, value: item.id }));
+      this.diplomes = [{ label: '...', value: '' },
+        ...data.map(item => ({ label: item.libelle, value: item.id }))];
     });
   }
 
@@ -117,6 +130,72 @@ export class CandidateFormComponent implements OnInit, OnChanges {
     this.filiere_choisie = current?.filiere_choisie;
     this.option_choisie = current?.option_choisie;
     this.diplome_entree = current?.diplome_entree;
+  }
+
+  validate() {
+    return this.nom.trim() !== '' &&
+      this.prenom.trim() !== '' &&
+      this.date_nais !== '' &&
+      this.lieu_nais.trim() !== '' &&
+      this.region_origine !== '' &&
+      this.depart_origine !== '' &&
+      this.statut_mat !== '' &&
+      this.sexe !== '' &&
+      this.nationalite.trim() !== '' &&
+      this.nom_pere.trim() !== '' &&
+      this.prof_pere.trim() !== '' &&
+      this.nom_mere.trim() !== '' &&
+      this.prof_mere.trim() !== '' &&
+      this.cursus !== '' &&
+      this.niveau !== '' &&
+      this.filiere_choisie !== '' &&
+      this.option_choisie !== '';
+  }
+
+  submit() {
+    if (!this.validate()) {
+      this.sbr.open('Veuillez renseigner tous les champs du formulaire.',
+        undefined, { duration: 3000 });
+      return;
+    }
+    const data = {
+      nom: this.nom.trim(),
+      prenom: this.prenom.trim(),
+      date_nais: this.date_nais,
+      lieu_nais: this.lieu_nais.trim(),
+      region_origine: this.region_origine,
+      depart_origine: this.depart_origine,
+      statut_mat: this.statut_mat,
+      sexe: this.sexe,
+      nationalite: this.nationalite.trim(),
+      nom_pere: this.nom_pere.trim(),
+      prof_pere: this.prof_pere.trim(),
+      nom_mere: this.nom_mere.trim(),
+      prof_mere: this.prof_mere.trim(),
+      cursus: this.cursus,
+      niveau: this.niveau,
+      filiere_choisie: this.filiere_choisie,
+      option_choisie: this.option_choisie,
+      diplome_entree: this.diplome_entree
+    };
+    this.loading = true;
+    this.candidateService.updateCandidate(data, this.currentCandidate?.id)
+      .subscribe({
+        next: value => {
+          console.log(value);
+          this.loading = false;
+          this.sbr.open('Les information du candidat on été modifié',
+            undefined, { duration: 3000 });
+        },
+        error: err => {
+          console.log(err);
+          this.loading = false;
+          if (err.error)
+            this.sbr.open(err.error.message, undefined, { duration: 3000 });
+          else
+            this.sbr.open('Une erreur est survenue', undefined, { duration: 3000 });
+        }
+      });
   }
 
 }

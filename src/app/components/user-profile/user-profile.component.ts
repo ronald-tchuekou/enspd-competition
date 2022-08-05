@@ -7,6 +7,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import 'moment/locale/fr';
+import { Account } from '../../services/accounts.service';
 
 moment.locale('fr');
 
@@ -16,9 +17,9 @@ moment.locale('fr');
   styles: []
 })
 export class UserProfileComponent implements OnInit {
-  @Input() currentUser: any = {};
+  @Input() currentUser: Account | any = {};
   labels: any = {
-    sex: 'Sex :',
+    sex: 'Sexe :',
     nationality: 'Nationalité :',
     phone: 'Téléphone :',
     email: 'Adresse e-mail :'

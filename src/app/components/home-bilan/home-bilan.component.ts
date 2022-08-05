@@ -40,7 +40,7 @@ export class HomeBilanComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
-    setTimeout(() => this.candidateService.getCandidates().subscribe({
+    this.candidateService.getCandidates().subscribe({
       next: (data: Candidate[]) => {
         this.loading = false;
         this.filiereService.getFilieres().subscribe((data: Filiere[]) => {
@@ -60,7 +60,7 @@ export class HomeBilanComponent implements OnInit {
         this.loading = false;
         console.log('Error when get candidates list : ', error);
       }
-    }), 5000);
+    });
   }
 
   regionChange(value: string) {

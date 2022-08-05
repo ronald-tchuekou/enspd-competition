@@ -165,10 +165,10 @@ export class ListCandidatsContentComponent implements OnInit {
   }
 
   getOption(query: number) {
-    return this.options.find(item => item.value === query)?.libelle || '';
+    return this.options.find(item => item.value === query)?.label || '';
   }
 
   getFiliere(query: number) {
-    return this.filieres.find(item => item.value === query)?.libelle || '';
+    return this.filieres.find(item => item.value === query)?.label || '';
   }
 }

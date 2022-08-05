@@ -4,24 +4,34 @@
   ~ @email ronaldtchuekou@gmail.com
   -->
 
-<div class='title flex-none'>Liste de tous les comptes ajoutés</div>
+<div class='flex-none flex flex-row items-center justify-between px-1 py-1'>
+  <div class='title'>Liste de tous les comptes ajoutés</div>
+  <div class='flex-none'>
+    <button
+      (click)='newAccount = {}'
+      class='bg-blue-500 shadow-lg shadow-blue-500/30 text-white h-7 w-7 rounded-full flex justify-center items-center'
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</div>
 <div class='container h-full overflow-y-auto' style='padding: 0'>
-  <table *ngIf='!loading && accounts.length > 0' class='table w-full text-xs text-gray-500'>
-    <thead class='bg-gray-200 text-gray-600'>
-    <td class='p-2'>Nom complet</td>
-    <td class='p-2'>Téléphone</td>
-    <td class='p-2'>Email</td>
-    </thead>
-    <tbody>
-    <tr *ngFor='let item of accounts' class='border-b'>
-      <td class='p-2'>{{item.name}} {{item.surname}}</td>
-      <td class='p-2'>{{item.phone}}</td>
-      <td class='p-2'>{{item.email}}</td>
-    </tr>
-    </tbody>
-  </table>
-  <app-loader-content *ngIf='loading'></app-loader-content>
-  <app-empty-state
-    *ngIf='!loading && accounts.length === 0'
-    text='Aucun compte admin enregistré !'></app-empty-state>
+  <mat-tab-group
+    [selectedIndex]='currentAccount || newAccount ? 1 : 0'
+    class='hidden-nav-tab h-full w-full'>
+    <mat-tab class='h-full'>
+      <app-account-list
+        #accountList
+        (accountSelected)='currentAccount = $event'
+        class='block h-full w-full'>
+      </app-account-list>
+    </mat-tab>
+    <mat-tab class='h-full'>
+      <app-account-form
+        (onBackClick)='currentAccount = null; newAccount = null'
+        (onComplete)='currentAccount = null; newAccount = null; accountList.getAccounts()'
+        [currentAccount]='currentAccount'
+        class='flex flex-col relative h-full w-full'></app-account-form>
+    </mat-tab>
+  </mat-tab-group>
 </div>

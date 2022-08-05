@@ -21,7 +21,7 @@
         </svg>
       </span>
     </button>
-    <button
+    <!--<button
       (click)='onDeleteClick.emit()'
       class='text-gray-500'
       mat-icon-button>
@@ -33,14 +33,14 @@
             fill='#828282' />
         </svg>
       </span>
-    </button>
+    </button>-->
   </div>
 </div>
 <!-- Content -->
 <div class='h-full overflow-y-auto'>
   <!-- When current candidate is null -->
   <div
-    *ngIf='!currentCandidate'
+    *ngIf='!candidate'
     class='h-full w-full flex flex-col justify-center items-center p-5'>
     <svg class='w-48' fill='none' viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'>
       <path
@@ -213,7 +213,7 @@
     </p>
   </div>
   <!-- When current candidate isn't null -->
-  <div *ngIf='currentCandidate' class='p-5'>
+  <div *ngIf='candidate' class='p-5'>
     <div class='flex flex-row space-x-4'>
       <div class='flex-none w-24 h-24 shadow-lg rounded-full overflow-hidden'>
         <img alt='User profile' class='h-full w-full' src='assets/profiles/default-profile.png'>
@@ -221,19 +221,19 @@
       <div class='space-y-2'>
         <div>
           <div class='text-black text-lg font-medium'>
-            {{currentCandidate.nom}} {{currentCandidate.prenom}}
+            {{candidate.nom}} {{candidate.prenom}}
           </div>
           <div class='text-black text-sm text-gray-400'>
-            Né(e) le {{getBirthday(currentCandidate.date_nais)}} à {{currentCandidate.lieu_nais}}
+            Né(e) le {{getBirthday(candidate.date_nais)}} à {{candidate.lieu_nais}}
           </div>
         </div>
         <button
           class='rounded-full px-4 py-1 text-white text-sm shadow-lg {{
-          currentCandidate.pass ? "bg-teal-500 shadow-teal-500/20" : " bg-red-500 shadow-red-400/20 "
+          candidate.admis ? "bg-teal-500 shadow-teal-500/20" : " bg-red-500 shadow-red-400/20 "
           }}'
           matRipple
           matRippleColor='rgba(255, 255, 255, 0.15)'>
-          {{currentCandidate.pass ? 'Admis' : 'Non admis'}}
+          {{candidate.admis ? 'Admis' : 'Non admis'}}
         </button>
       </div>
     </div>
@@ -241,7 +241,7 @@
       <ng-container *ngFor='let item of keys'>
         <app-label-value
           [label]='labels[item]'
-          [value]='currentCandidate[item]'
+          [value]='candidate[item]'
         ></app-label-value>
       </ng-container>
     </div>

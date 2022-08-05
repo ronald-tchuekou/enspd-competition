@@ -6,6 +6,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../../environments/environment';
+import { Account } from '../../../services/accounts.service';
 import { LocalStorageService } from '../../../services/local-storage.service';
 
 @Component({
@@ -14,7 +15,7 @@ import { LocalStorageService } from '../../../services/local-storage.service';
   styles: []
 })
 export class SettingsComponent implements OnInit {
-  currentUser: any = {};
+  currentUser: Account | any = {};
 
   constructor(private local: LocalStorageService) {
   }

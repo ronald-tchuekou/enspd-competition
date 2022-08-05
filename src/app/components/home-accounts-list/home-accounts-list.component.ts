@@ -5,7 +5,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { Account, AccountsService } from '../../services/accounts.service';
+import { Account } from '../../services/accounts.service';
 
 @Component({
   selector: 'app-home-accounts-list',
@@ -13,24 +13,13 @@ import { Account, AccountsService } from '../../services/accounts.service';
   styles: []
 })
 export class HomeAccountsListComponent implements OnInit {
-  accounts: Account[] = [];
-  loading: boolean = false;
+  currentAccount: Account | null = null;
+  newAccount: any = null;
 
-  constructor(private accountService: AccountsService) {
+  constructor() {
   }
 
   ngOnInit(): void {
-    this.loading = true;
-    setTimeout(() => this.accountService.getAccounts().subscribe({
-      next: (data: Account[]) => {
-        this.loading = false;
-        this.accounts = data;
-      },
-      error: (error: any) => {
-        this.loading = false;
-        console.log('Error when get candidates list : ', error);
-      }
-    }), 5000);
   }
 
 }

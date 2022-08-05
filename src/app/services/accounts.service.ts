@@ -78,7 +78,7 @@ export class AccountsService {
     });
   }
 
-  deleteAccount(id: string) {
+  deleteAccount(id: number) {
     return this.http.delete(this.server + '/delete/' + id, {
       headers: {
         'Content-Type': 'application/json'
@@ -86,8 +86,8 @@ export class AccountsService {
     });
   }
 
-  updateAccount(data: any, id: string) {
-    return this.http.put(this.server + '/update' + id, data, {
+  updateAccount(data: any, id: number | undefined) {
+    return this.http.put(this.server + '/update/' + id, data, {
       headers: {
         'Content-Type': 'application/json'
       }

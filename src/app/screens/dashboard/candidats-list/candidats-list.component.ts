@@ -9,7 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   ListCandidatsContentComponent
 } from '../../../components/list-candidats-content/list-candidats-content.component';
-import { CandidatesService } from '../../../services/candidates.service';
+import { Candidate, CandidatesService } from '../../../services/candidates.service';
 import { ConstantsService } from '../../../services/constants.service';
 
 @Component({
@@ -19,7 +19,7 @@ import { ConstantsService } from '../../../services/constants.service';
 })
 export class CandidatsListComponent implements OnInit {
   tab_index: number = 0;
-  currentCandidate: any;
+  currentCandidate: Candidate | any;
   @ViewChild('csv_file_input') csv_file_input: any;
   @ViewChild('listCandidatsContentComponent') listCandidate: ListCandidatsContentComponent | undefined;
   file_loading: boolean = false;

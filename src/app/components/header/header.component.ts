@@ -7,6 +7,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { Account } from '../../services/accounts.service';
 import { LocalStorageService } from '../../services/local-storage.service';
 
 @Component({
@@ -16,7 +17,10 @@ import { LocalStorageService } from '../../services/local-storage.service';
 })
 export class HeaderComponent implements OnInit {
 
+  user: Account;
+
   constructor(private cookie: LocalStorageService, private router: Router) {
+    this.user = cookie.getValue(environment.user_profile_key);
   }
 
   ngOnInit(): void {
