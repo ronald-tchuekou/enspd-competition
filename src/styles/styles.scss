@@ -43,6 +43,10 @@ body {
   @apply bg-blue-500 hover:bg-blue-700 shadow-lg shadow-blue-500/20 px-5 py-2 text-white text-base rounded-lg
 }
 
+.app-button:disabled {
+  @apply bg-gray-200 hover:bg-gray-200
+}
+
 app-text-input, app-simple-input {
   padding-top: 0 !important;
   padding-bottom: 0 !important;

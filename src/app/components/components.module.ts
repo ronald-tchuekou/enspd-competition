@@ -48,6 +48,8 @@ import { DiplomeFormComponent } from './diplomes-manager/diplome-form/diplome-fo
 import { DepartementsManagerComponent } from './departements-manager/departements-manager.component';
 import { DepartementListComponent } from './departements-manager/departement-list/departement-list.component';
 import { DepartementFormComponent } from './departements-manager/departement-form/departement-form.component';
+import { ExportLevelCursusComponent } from './modals/export-level-cursus/export-level-cursus.component';
+import { ExportContentComponent } from './modals/export-content/export-content.component';
 
 @NgModule({
   declarations: [
@@ -88,7 +90,9 @@ import { DepartementFormComponent } from './departements-manager/departement-for
     DiplomeFormComponent,
     DepartementsManagerComponent,
     DepartementListComponent,
-    DepartementFormComponent
+    DepartementFormComponent,
+    ExportLevelCursusComponent,
+    ExportContentComponent
   ],
   imports: [
     CommonModule,
@@ -135,7 +139,9 @@ import { DepartementFormComponent } from './departements-manager/departement-for
     DiplomeFormComponent,
     DepartementsManagerComponent,
     DepartementListComponent,
-    DepartementFormComponent
+    DepartementFormComponent,
+    ExportLevelCursusComponent,
+    ExportContentComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: []

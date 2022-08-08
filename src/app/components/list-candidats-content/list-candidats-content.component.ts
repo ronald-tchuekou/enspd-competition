@@ -5,6 +5,7 @@
  */
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as moment from 'moment';
 import 'moment/locale/fr';
@@ -12,6 +13,8 @@ import { Candidate, CandidatesService } from '../../services/candidates.service'
 import { ConstantsService } from '../../services/constants.service';
 import { Filiere, FilieresService } from '../../services/filieres.service';
 import { Option, OptionsService } from '../../services/options.service';
+import { ExportContentComponent } from '../modals/export-content/export-content.component';
+import { ExportLevelCursusComponent } from '../modals/export-level-cursus/export-level-cursus.component';
 
 moment.locale('fr');
 
@@ -39,7 +42,8 @@ export class ListCandidatsContentComponent implements OnInit {
     private constantService: ConstantsService,
     private filiereService: FilieresService,
     private optionsService: OptionsService,
-    private sbr: MatSnackBar
+    private sbr: MatSnackBar,
+    private dialog: MatDialog
   ) {
   }
 
@@ -202,28 +206,40 @@ export class ListCandidatsContentComponent implements OnInit {
   }
 
   pdfExport() {
-    if (this.content.length > 0) {
-      const data: any[] = [];
-      this.content
-        .filter(item => item.admis)
-        .forEach((item, index) => {
-          if (item.nom)
-            data.push({
-              id: `${index + 1}`,
-              nom: item.nom || '',
-              prenom: item.prenom || '',
-              date_nais: moment(item.date_nais).format('DD MMM YYYY').toUpperCase(),
-              lieu_nais: item.lieu_nais || '',
-              sexe: item.sexe || '',
-              cursus: item.cursus
-            });
-          else console.log(item);
-        });
-      console.log(data);
-      this.constantService.savePDF(data, 'candidates_list.pdf');
-    } else
+    if (this.content.length === 0) {
       this.sbr.open('La liste de candidats est vide.', undefined,
         { duration: 3000 });
+      return;
+    }
+    this.dialog.open(ExportLevelCursusComponent, {
+      disableClose: true
+    }).afterClosed().subscribe(value => {
+      if (value) {
+        const data: any[] = [];
+        this.content.filter(item => item.admis).forEach(
+          (item, index) => {
+            if (item.nom)
+              data.push({
+                id: `${index + 1}`,
+                nom: item.nom || '',
+                prenom: item.prenom || '',
+                date_nais: moment(item.date_nais).format('DD MMM YYYY').toUpperCase(),
+                lieu_nais: item.lieu_nais || '',
+                sexe: item.sexe || '',
+                cursus: item.cursus
+              });
+            else console.log(item);
+          }
+        );
+        this.dialog.open(ExportContentComponent, {
+          disableClose: true,
+          data: {
+            ...value,
+            candidates: data
+          }
+        });
+      }
+    });
   }
 
   excelExport() {

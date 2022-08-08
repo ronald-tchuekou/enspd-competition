@@ -1,0 +1,39 @@
+<!--
+  ~ Copyright (c) 08/08/2022 08:31
+  ~ @author Ronald Tchuekou
+  ~ @email ronaldtchuekou@gmail.com
+  -->
+
+<div class='relative'>
+  <h1 class='mb-4'>Exportation (Niveau et Cursus)</h1>
+  <div class='w-72 space-y-4'>
+    <app-simple-select
+      [(value)]='level'
+      [content]='levels'
+      class='w-full block'
+      label='Niveau'
+    ></app-simple-select>
+    <app-simple-select
+      [(value)]='cursus'
+      [content]='cursus_list'
+      class='w-full block'
+      label='Cursus'
+    ></app-simple-select>
+    <div></div>
+    <button
+      [disabled]='level === "" || cursus === ""'
+      [mat-dialog-close]='{level, cursus}'
+      class='app-button w-full'
+      matRipple
+      matRippleColor='rgba(255, 255, 255, 0.15)'>
+      Valider
+    </button>
+  </div>
+  <div class='absolute -top-3 -right-3'>
+    <button
+      [mat-dialog-close]='null'
+      class='hover:bg-gray-100' mat-icon-button>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>
