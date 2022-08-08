@@ -22,6 +22,8 @@
     "@angular/router": "^14.1.0",
     "@tailwindcss/forms": "^0.5.2",
     "autoprefixer": "^10.4.7",
+    "jspdf": "^2.5.1",
+    "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "ngx-cookie-service": "^14.0.1",
     "postcss": "^8.4.14",

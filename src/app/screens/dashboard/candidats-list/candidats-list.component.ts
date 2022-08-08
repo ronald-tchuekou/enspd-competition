@@ -11,6 +11,11 @@ import {
 } from '../../../components/list-candidats-content/list-candidats-content.component';
 import { Candidate, CandidatesService } from '../../../services/candidates.service';
 import { ConstantsService } from '../../../services/constants.service';
+import { DepartementsService } from '../../../services/departements.service';
+import { Diplome, DiplomesService } from '../../../services/diplome.service';
+import { Filiere, FilieresService } from '../../../services/filieres.service';
+import { Option, OptionsService } from '../../../services/options.service';
+import { Region, RegionsService } from '../../../services/regions.service';
 
 @Component({
   selector: 'app-candidats-list',
@@ -23,15 +28,28 @@ export class CandidatsListComponent implements OnInit {
   @ViewChild('csv_file_input') csv_file_input: any;
   @ViewChild('listCandidatsContentComponent') listCandidate: ListCandidatsContentComponent | undefined;
   file_loading: boolean = false;
+  filieres: any[] = [];
+  options: any[] = [];
+  departments: any[] = [];
+  regions: any[] = [];
+  diplomes: any[] = [];
+  loading: boolean = false;
 
   constructor(
     private candidateService: CandidatesService,
     private sbr: MatSnackBar,
-    private utils: ConstantsService
+    private utils: ConstantsService,
+    private filiereService: FilieresService,
+    private optionsService: OptionsService,
+    private regionsService: RegionsService,
+    private departementsService: DepartementsService,
+    private diplomesService: DiplomesService
   ) {
   }
 
   ngOnInit(): void {
+    this.loading = true;
+    this.getContent();
   }
 
   deleteCurrent() {
@@ -135,11 +153,31 @@ export class CandidatsListComponent implements OnInit {
     });
   }
 
-  pdfExport() {
-    // TODO
-  }
-
-  wordExport() {
-    // TODO
+  getContent() {
+    this.filiereService.getFilieres().subscribe((data: Filiere[]) => {
+      this.filieres = [{ label: '...', value: '' },
+        ...data.map(item => ({ label: item.libelle, value: item.id }))];
+      // Loading options
+      this.optionsService.getOptions().subscribe((data: Option[]) => {
+        this.options = [{ label: '...', value: '' },
+          ...data.map(item => ({ label: item.libelle, value: item.id }))];
+        // Loading regions
+        this.regionsService.getRegions().subscribe((data: Region[]) => {
+          this.regions = [{ label: '...', value: '' },
+            ...data.map(item => ({ label: item.libelle, value: item.id }))];
+          // Loading departments
+          this.departementsService.getDepartements().subscribe((data: Region[]) => {
+            this.departments = [{ label: '...', value: '' },
+              ...data.map(item => ({ label: item.libelle, value: item.id }))];
+            // Loading diplomas
+            this.diplomesService.getDiplomes().subscribe((data: Diplome[]) => {
+              this.loading = false;
+              this.diplomes = [{ label: '...', value: '' },
+                ...data.map(item => ({ label: item.libelle, value: item.id }))];
+            });
+          });
+        });
+      });
+    });
   }
 }

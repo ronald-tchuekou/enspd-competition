@@ -7,10 +7,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as moment from 'moment';
+import 'moment/locale/fr';
 import { Candidate, CandidatesService } from '../../services/candidates.service';
 import { ConstantsService } from '../../services/constants.service';
 import { Filiere, FilieresService } from '../../services/filieres.service';
 import { Option, OptionsService } from '../../services/options.service';
+
+moment.locale('fr');
 
 @Component({
   selector: 'app-list-candidats-content',
@@ -172,11 +175,58 @@ export class ListCandidatsContentComponent implements OnInit {
     return this.filieres.find(item => item.value === query)?.label || '';
   }
 
-  pdfExport() {
-    // TODO
+  toggleAdmis(candidate: Candidate, index: number, page: number) {
+    this.candidateService.updateCandidate({
+      admis: !candidate.admis
+    }, candidate.id).subscribe({
+      next: value => {
+        console.log(value);
+        const p = this.limit * (page - 1) + index;
+        const c = { ...candidate, admis: !candidate.admis };
+        this.content = [
+          ...this.content.slice(0, p),
+          c,
+          ...this.content.slice(p + 1)
+        ];
+        this.pages = this.constantService.createSegments(this.content, this.limit);
+        if (this.currentCandidate) this.currentCandidateChange.emit(c);
+      },
+      error: err => {
+        console.log(err);
+        if (err.error)
+          this.sbr.open(err.error.message, undefined, { duration: 3000 });
+        else
+          this.sbr.open('Une erreur est survenu.', undefined, { duration: 3000 });
+      }
+    });
   }
 
-  wordExport() {
+  pdfExport() {
+    if (this.content.length > 0) {
+      const data: any[] = [];
+      this.content
+        .filter(item => item.admis)
+        .forEach((item, index) => {
+          if (item.nom)
+            data.push({
+              id: `${index + 1}`,
+              nom: item.nom || '',
+              prenom: item.prenom || '',
+              date_nais: moment(item.date_nais).format('DD MMM YYYY').toUpperCase(),
+              lieu_nais: item.lieu_nais || '',
+              sexe: item.sexe || '',
+              cursus: item.cursus
+            });
+          else console.log(item);
+        });
+      console.log(data);
+      this.constantService.savePDF(data, 'candidates_list.pdf');
+    } else
+      this.sbr.open('La liste de candidats est vide.', undefined,
+        { duration: 3000 });
+  }
+
+  excelExport() {
     // TODO
   }
 }

@@ -8,7 +8,7 @@
   <input
     #csv_file_input
     (change)='onCSVInputChange($event)'
-    accept='application/csvm+json'
+    accept='application/json'
     class='absolute invisible'
     type='file'>
   <div class='flex-none flex flex-row justify-between items-center'>
@@ -55,13 +55,13 @@
     </div>
   </div>
   <mat-menu #menu='matMenu'>
-    <button (click)='pdfExport()' mat-menu-item>
+    <button (click)='listCandidatsContentComponent.pdfExport()' mat-menu-item>
       <mat-icon>picture_as_pdf</mat-icon>
       Exporter en pdf
     </button>
-    <button (click)='wordExport()' mat-menu-item>
+    <button (click)='listCandidatsContentComponent.excelExport()' mat-menu-item>
       <mat-icon>description</mat-icon>
-      Exporter en word
+      Exporter en excel
     </button>
   </mat-menu>
   <div class='container h-full flex flex-row' style='padding: 0; height: calc(100vh - 140px)'>
@@ -72,18 +72,31 @@
       ></app-list-candidats-content>
     </div>
     <div class='flex-none h-full max-w-[500px] md:min-w-[500px]'>
-      <mat-tab-group [selectedIndex]='tab_index' class='hidden-nav-tab h-full'>
+      <mat-tab-group
+        *ngIf='!loading'
+        [selectedIndex]='tab_index'
+        class='hidden-nav-tab h-full'>
         <mat-tab label='Details'>
           <app-candidate-details
             (onDeleteClick)='deleteCurrent()'
             (onEditClick)='tab_index = 1'
             [currentCandidate]='currentCandidate'
+            [departments]='this.departments'
+            [diplomes]='diplomes'
+            [filieres]='this.filieres'
+            [options]='this.options'
+            [regions]='this.regions'
           ></app-candidate-details>
         </mat-tab>
         <mat-tab label='Form editor'>
           <app-candidate-form
             (onBackClick)='tab_index = 0'
             [currentCandidate]='currentCandidate'
+            [departments]='this.departments'
+            [diplomes]='diplomes'
+            [filieres]='this.filieres'
+            [options]='this.options'
+            [regions]='this.regions'
           ></app-candidate-form>
         </mat-tab>
       </mat-tab-group>

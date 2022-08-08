@@ -8,10 +8,10 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Candidate, CandidatesService, Cursus, Sexe } from '../../services/candidates.service';
 import { DepartementsService } from '../../services/departements.service';
-import { Diplome, DiplomesService } from '../../services/diplome.service';
-import { Filiere, FilieresService } from '../../services/filieres.service';
-import { Option, OptionsService } from '../../services/options.service';
-import { Region, RegionsService } from '../../services/regions.service';
+import { DiplomesService } from '../../services/diplome.service';
+import { FilieresService } from '../../services/filieres.service';
+import { OptionsService } from '../../services/options.service';
+import { RegionsService } from '../../services/regions.service';
 
 @Component({
   selector: 'app-candidate-form',
@@ -55,12 +55,12 @@ export class CandidateFormComponent implements OnInit, OnChanges {
     { label: Cursus.IN, value: Cursus.IN },
     { label: Cursus.SI, value: Cursus.SI }
   ];
-  filieres: any[] = [];
-  options: any[] = [];
-  departments: any[] = [];
   loading: boolean = false;
-  regions: any = [];
-  diplomes: any[] = [];
+  @Input() filieres: any[] = [];
+  @Input() options: any[] = [];
+  @Input() departments: any[] = [];
+  @Input() regions: any[] = [];
+  @Input() diplomes: any[] = [];
 
   constructor(
     private candidateService: CandidatesService,
@@ -78,26 +78,6 @@ export class CandidateFormComponent implements OnInit, OnChanges {
       'Modification des informations du candidat' :
       'Ajout d\'un nouveau candidat dans la liste';
     this.initData(this.currentCandidate);
-    this.filiereService.getFilieres().subscribe((data: Filiere[]) => {
-      this.filieres = [{ label: '...', value: '' },
-        ...data.map(item => ({ label: item.libelle, value: item.id }))];
-    });
-    this.optionsService.getOptions().subscribe((data: Option[]) => {
-      this.options = [{ label: '...', value: '' },
-        ...data.map(item => ({ label: item.libelle, value: item.id }))];
-    });
-    this.regionsService.getRegions().subscribe((data: Region[]) => {
-      this.regions = [{ label: '...', value: '' },
-        ...data.map(item => ({ label: item.libelle, value: item.id }))];
-    });
-    this.departementsService.getDepartements().subscribe((data: Region[]) => {
-      this.departments = [{ label: '...', value: '' },
-        ...data.map(item => ({ label: item.libelle, value: item.id }))];
-    });
-    this.diplomesService.getDiplomes().subscribe((data: Diplome[]) => {
-      this.diplomes = [{ label: '...', value: '' },
-        ...data.map(item => ({ label: item.libelle, value: item.id }))];
-    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {

@@ -4,6 +4,7 @@
   ~ @email ronaldtchuekou@gmail.com
   -->
 
+<!-- filter -->
 <div class='flex-none flex flex-row items-end border-b'>
   <div class='grid grid-cols-3 gap-3 w-full pt-3 px-3 pb-2'>
     <label class='block text-xs text-gray-600 w-full'>
@@ -40,6 +41,7 @@
     </span>
   </button>
 </div>
+<!-- List of candidates -->
 <div class='h-full overflow-y-auto'>
   <table *ngIf='!loading && content.length > 0' class='table w-full text-xs text-gray-500'>
     <thead class='bg-gray-200 text-gray-600'>
@@ -49,7 +51,7 @@
     <td class='w-5'></td>
     </thead>
     <tbody>
-    <ng-container *ngFor='let item of pages[currentPage - 1]'>
+    <ng-container *ngFor='let item of pages[currentPage - 1]; let i = index'>
       <tr
         (click)='currentCandidateChange.emit(item)'
         [class.bg-orange-100]='currentCandidate && currentCandidate.id === item.id'
@@ -58,7 +60,11 @@
         <td class='p-2'>{{getOption(item.option_choisie)}}</td>
         <td class='p-2'>{{getFiliere(item.filiere_choisie)}}</td>
         <td class='py-2 px-4'>
-          <input [checked]='item.admis' class='rounded' type='checkbox'>
+          <input
+            (click)='toggleAdmis(item, i, currentPage)'
+            [checked]='item.admis'
+            class='rounded'
+            type='checkbox'>
         </td>
       </tr>
     </ng-container>
@@ -69,6 +75,7 @@
     text='Pas de liste candidats chargée'></app-empty-state>
   <app-loader-content *ngIf='loading'></app-loader-content>
 </div>
+<!-- Footer -->
 <div class='flex-none border-t flex flex-row justify-between items-center'>
   <div class='flex flex-row space-x-2'>
     <button
@@ -95,9 +102,9 @@
         <mat-icon>picture_as_pdf</mat-icon>
         Exporter en pdf
       </button>
-      <button (click)='wordExport()' mat-menu-item>
+      <button (click)='excelExport()' mat-menu-item>
         <mat-icon>description</mat-icon>
-        Exporter en word
+        Exporter en excel
       </button>
     </mat-menu>
     <button
@@ -108,6 +115,7 @@
       Supprimer
     </button>
   </div>
+  <!-- Pagination -->
   <div class='flex flex-row items-center space-x-3'>
     <div class='text-gray-400 text-sm'>page {{currentPage}} / {{pages.length}}</div>
     <select
