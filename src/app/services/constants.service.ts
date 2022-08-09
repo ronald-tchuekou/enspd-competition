@@ -79,7 +79,15 @@ export class ConstantsService {
         padding: 3
       };
 
-      doc.table(12, 20, data, headers, config);
+      data.forEach(item => {
+        doc.setFontSize(13);
+        doc.text(
+          `Cursus : ${item.cursus}      Filière : ${item.filiere}      Niveau : ${item.level}`,
+          12, 20);
+        doc.table(12, 40, item.list, headers, config);
+        doc.addPage('A4', 'p');
+      });
+
       doc.save(fileName);
     } catch (e: any) {
       console.log(e.message, e);

@@ -50,6 +50,7 @@ import { DepartementListComponent } from './departements-manager/departement-lis
 import { DepartementFormComponent } from './departements-manager/departement-form/departement-form.component';
 import { ExportLevelCursusComponent } from './modals/export-level-cursus/export-level-cursus.component';
 import { ExportContentComponent } from './modals/export-content/export-content.component';
+import { TableDisplayComponent } from './table-display/table-display.component';
 
 @NgModule({
   declarations: [
@@ -92,7 +93,8 @@ import { ExportContentComponent } from './modals/export-content/export-content.c
     DepartementListComponent,
     DepartementFormComponent,
     ExportLevelCursusComponent,
-    ExportContentComponent
+    ExportContentComponent,
+    TableDisplayComponent
   ],
   imports: [
     CommonModule,
@@ -141,7 +143,8 @@ import { ExportContentComponent } from './modals/export-content/export-content.c
     DepartementListComponent,
     DepartementFormComponent,
     ExportLevelCursusComponent,
-    ExportContentComponent
+    ExportContentComponent,
+    TableDisplayComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: []

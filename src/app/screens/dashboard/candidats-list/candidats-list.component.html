@@ -16,54 +16,20 @@
     <div class='flex flex-row'>
       <button
         (click)='choseCSVFile()'
-        class='button green'
+        class='button green py-2'
         matRipple
         matRippleColor='rgba(255, 255, 255, 0.15)'>
-        <span class='flex pr-2 py-1'>Importer</span>
-        <svg fill='none' height='7' viewBox='0 0 8 5' width='10' xmlns='http://www.w3.org/2000/svg'>
-          <g clip-path='url(#clip0_44_548)'>
-            <path
-              d='M3.88891 5C3.74709 4.99929 3.6072 4.96701 3.47939 4.90551C3.35159 4.84401 3.23908 4.75483 3.15003 4.64444L0.811136 1.81111C0.674466 1.64054 0.588462 1.435 0.562923 1.21793C0.537385 1.00085 0.57334 0.780968 0.666692 0.583333C0.742402 0.41157 0.865954 0.26523 1.02259 0.16179C1.17923 0.058351 1.36233 0.00218503 1.55003 0H6.2278C6.4155 0.00218503 6.5986 0.058351 6.75524 0.16179C6.91187 0.26523 7.03543 0.41157 7.11114 0.583333C7.20449 0.780968 7.24044 1.00085 7.21491 1.21793C7.18937 1.435 7.10336 1.64054 6.96669 1.81111L4.6278 4.64444C4.53875 4.75483 4.42624 4.84401 4.29844 4.90551C4.17063 4.96701 4.03074 4.99929 3.88891 5Z'
-              fill='#F2F2F2' />
-          </g>
-          <defs>
-            <clipPath id='clip0_44_548'>
-              <rect fill='white' height='5' width='7.77778' />
-            </clipPath>
-          </defs>
-        </svg>
+        <span class='block px-2 py-1'>Importer</span>
       </button>
       <button
-        [matMenuTriggerFor]='menu'
-        class='button warning'
+        (click)='listCandidatsContentComponent.export()'
+        class='button warning py-2'
         matRipple
         matRippleColor='rgba(255, 255, 255, 0.15)'>
-        <span class='flex pr-2 py-1'>Exporter</span>
-        <svg fill='none' height='7' viewBox='0 0 8 5' width='10' xmlns='http://www.w3.org/2000/svg'>
-          <g clip-path='url(#clip0_44_548)'>
-            <path
-              d='M3.88891 5C3.74709 4.99929 3.6072 4.96701 3.47939 4.90551C3.35159 4.84401 3.23908 4.75483 3.15003 4.64444L0.811136 1.81111C0.674466 1.64054 0.588462 1.435 0.562923 1.21793C0.537385 1.00085 0.57334 0.780968 0.666692 0.583333C0.742402 0.41157 0.865954 0.26523 1.02259 0.16179C1.17923 0.058351 1.36233 0.00218503 1.55003 0H6.2278C6.4155 0.00218503 6.5986 0.058351 6.75524 0.16179C6.91187 0.26523 7.03543 0.41157 7.11114 0.583333C7.20449 0.780968 7.24044 1.00085 7.21491 1.21793C7.18937 1.435 7.10336 1.64054 6.96669 1.81111L4.6278 4.64444C4.53875 4.75483 4.42624 4.84401 4.29844 4.90551C4.17063 4.96701 4.03074 4.99929 3.88891 5Z'
-              fill='#F2F2F2' />
-          </g>
-          <defs>
-            <clipPath id='clip0_44_548'>
-              <rect fill='white' height='5' width='7.77778' />
-            </clipPath>
-          </defs>
-        </svg>
+        <span class='block px-2 py-1'>Exporter</span>
       </button>
     </div>
   </div>
-  <mat-menu #menu='matMenu'>
-    <button (click)='listCandidatsContentComponent.pdfExport()' mat-menu-item>
-      <mat-icon>picture_as_pdf</mat-icon>
-      Exporter en pdf
-    </button>
-    <button (click)='listCandidatsContentComponent.excelExport()' mat-menu-item>
-      <mat-icon>description</mat-icon>
-      Exporter en excel
-    </button>
-  </mat-menu>
   <div class='container h-full flex flex-row' style='padding: 0; height: calc(100vh - 140px)'>
     <div class='w-full h-full border-r'>
       <app-list-candidats-content

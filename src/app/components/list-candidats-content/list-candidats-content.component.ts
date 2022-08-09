@@ -7,6 +7,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import * as _ from 'lodash';
 import * as moment from 'moment';
 import 'moment/locale/fr';
 import { Candidate, CandidatesService } from '../../services/candidates.service';
@@ -61,7 +62,7 @@ export class ListCandidatsContentComponent implements OnInit {
         this.optionsService.getOptions().subscribe((data: Option[]) => {
           this.options = data.map(item => ({ label: item.libelle, value: item.id }));
         });
-        this.content = data.map((item: any) => ({
+        this.content = _.sortBy(data, ['nom', 'prenom']).map((item: any) => ({
           ...item,
           date_nais: moment(item.date_nais).format('YYYY-MM-DD'),
           cni_date: moment(item.cni_date).format('YYYY-MM-DD')
@@ -205,7 +206,7 @@ export class ListCandidatsContentComponent implements OnInit {
     });
   }
 
-  pdfExport() {
+  export() {
     if (this.content.length === 0) {
       this.sbr.open('La liste de candidats est vide.', undefined,
         { duration: 3000 });
@@ -220,13 +221,8 @@ export class ListCandidatsContentComponent implements OnInit {
           (item, index) => {
             if (item.nom)
               data.push({
-                id: `${index + 1}`,
-                nom: item.nom || '',
-                prenom: item.prenom || '',
-                date_nais: moment(item.date_nais).format('DD MMM YYYY').toUpperCase(),
-                lieu_nais: item.lieu_nais || '',
-                sexe: item.sexe || '',
-                cursus: item.cursus
+                ...item,
+                id: `${index + 1}`
               });
             else console.log(item);
           }
@@ -235,14 +231,15 @@ export class ListCandidatsContentComponent implements OnInit {
           disableClose: true,
           data: {
             ...value,
-            candidates: data
+            candidates: data,
+            options: this.options,
+            filieres: this.filieres
           }
+        }).afterClosed().subscribe(value => {
+          if (value)
+            this.export();
         });
       }
     });
-  }
-
-  excelExport() {
-    // TODO
   }
 }

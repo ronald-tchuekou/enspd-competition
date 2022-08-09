@@ -61,6 +61,11 @@ export class CandidateFormComponent implements OnInit, OnChanges {
   @Input() departments: any[] = [];
   @Input() regions: any[] = [];
   @Input() diplomes: any[] = [];
+  niveaux: any[] = [
+    { label: '...', value: '' },
+    { label: 'Niveau 1', value: 1 },
+    { label: 'Niveau 3', value: 3 }
+  ];
 
   constructor(
     private candidateService: CandidatesService,

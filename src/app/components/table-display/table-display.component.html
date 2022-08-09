@@ -1,0 +1,31 @@
+<!--
+  ~ Copyright (c) 09/08/2022 03:36
+  ~ @author Ronald Tchuekou
+  ~ @email ronaldtchuekou@gmail.com
+  -->
+
+<div class='w-full'>
+  <table *ngIf='candidates.length > 0' class='table w-full text-xs text-gray-500'>
+    <thead class='bg-gray-200 text-gray-600'>
+    <td class='p-2'>Nom complet</td>
+    <td class='p-2'>Date de naissance</td>
+    <td class='p-2'>Lieu</td>
+    <td class='p-2'>Option</td>
+    <td class='p-2'>Filière</td>
+    </thead>
+    <tbody>
+    <ng-container *ngFor='let item of candidates; let i = index'>
+      <tr class='border-b px-2'>
+        <td class='p-2'>{{item.nom}} {{item.prenom}}</td>
+        <td class='p-2'>{{formatDate(item.date_nais)}}</td>
+        <td class='p-2'>{{item.lieu_nais}}</td>
+        <td class='p-2'>{{getOption(item.option_choisie)}}</td>
+        <td class='p-2'>{{getFiliere(item.filiere_choisie)}}</td>
+      </tr>
+    </ng-container>
+    </tbody>
+  </table>
+  <app-empty-state
+    *ngIf='candidates.length === 0'
+    text='Pas de liste candidats chargée'></app-empty-state>
+</div>

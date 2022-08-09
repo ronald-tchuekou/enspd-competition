@@ -140,3 +140,7 @@ app-regions-manager {
 app-loader-content, app-empty-state {
   @apply h-full w-full flex justify-center items-center
 }
+
+.table {
+  @apply border
+}

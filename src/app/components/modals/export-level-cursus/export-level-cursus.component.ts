@@ -18,7 +18,7 @@ export class ExportLevelCursusComponent implements OnInit {
   levels: any[] = [
     { label: '...', value: '' },
     { label: 'Niveau 1', value: 1 },
-    { label: 'Niveau 2', value: 2 }
+    { label: 'Niveau 3', value: 3 }
   ];
   cursus_list: any[] = [
     { label: '...', value: '' },
