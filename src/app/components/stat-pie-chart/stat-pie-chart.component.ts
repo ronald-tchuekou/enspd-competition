@@ -40,7 +40,7 @@ export class StatPieChartComponent {
     labels: ['Nord', 'Sud', 'Est', 'Ouest', 'Centre', 'Littoral', 'Nord-Ouest',
       'Sud-Ouest', 'Adamaoua', 'Extrême-Nord'],
     datasets: [{
-      data: [300, 500, 100, 200]
+      data: [300, 500, 100, 200, 300, 500, 100, 200, 300, 500]
     }]
   };
   public pieChartType: 'pie' = 'pie';
