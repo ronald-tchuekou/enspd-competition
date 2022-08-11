@@ -14,7 +14,7 @@
       label='Cursus'></app-input-select>
     <app-input-select
       (valueChange)='filiereChange($event)'
-      [content]='filieres'
+      [content]='filterFilieres(cursus)'
       [value]='filiere'
       label='Filières'></app-input-select>
   </div>

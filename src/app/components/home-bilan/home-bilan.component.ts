@@ -5,11 +5,8 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { Candidate, CandidatesService, Sexe } from '../../services/candidates.service';
-import { ConstantsService } from '../../services/constants.service';
+import { Candidate, CandidatesService, Cursus, Sexe } from '../../services/candidates.service';
 import { Filiere, FilieresService } from '../../services/filieres.service';
-import { Option, OptionsService } from '../../services/options.service';
-import { Region, RegionsService } from '../../services/regions.service';
 
 @Component({
   selector: 'app-home-bilan',
@@ -23,18 +20,17 @@ export class HomeBilanComponent implements OnInit {
   candidates_m: Candidate[] = [];
   filieres: any[] = [];
   regions: any[] = [];
-  cursus_list: any[] = [];
-  filiere: number = -1;
-  region: number = -1;
-  cursus: number = -1;
+  cursus_list: any[] = [
+    { label: Cursus.SI, value: Cursus.SI },
+    { label: Cursus.IN, value: Cursus.IN }
+  ];
+  filiere: string = '';
+  cursus: string = '';
   loading: boolean = false;
 
   constructor(
     private candidateService: CandidatesService,
-    private filiereService: FilieresService,
-    private optionsService: OptionsService,
-    private regionsService: RegionsService,
-    public constantService: ConstantsService
+    private filiereService: FilieresService
   ) {
   }
 
@@ -44,13 +40,7 @@ export class HomeBilanComponent implements OnInit {
       next: (data: Candidate[]) => {
         this.loading = false;
         this.filiereService.getFilieres().subscribe((data: Filiere[]) => {
-          this.filieres = data.map(item => ({ label: item.libelle, value: item.id }));
-        });
-        this.optionsService.getOptions().subscribe((data: Option[]) => {
-          this.cursus_list = data.map(item => ({ label: item.libelle, value: item.id }));
-        });
-        this.regionsService.getRegions().subscribe((data: Region[]) => {
-          this.regions = data.map(item => ({ label: item.libelle, value: item.id }));
+          this.filieres = data.map(item => ({ ...item, label: item.libelle, value: item.id }));
         });
         this.candidates = data;
         this.search = this.candidates;
@@ -63,63 +53,36 @@ export class HomeBilanComponent implements OnInit {
     });
   }
 
-  regionChange(value: string) {
-    this.region = parseInt(value);
-    this.filter();
-  }
-
   filiereChange(value: string) {
-    this.filiere = parseInt(value);
+    this.filiere = value;
     this.filter();
   }
 
   optionChange(value: string) {
-    this.cursus = parseInt(value);
+    this.cursus = value;
     this.filter();
   }
 
   filter() {
-    if (this.cursus === -1 && this.region === -1 && this.filiere === -1) {
+    if (this.cursus === '' && this.filiere === '') {
       this.search = this.candidates;
       this.getSex();
       return;
     }
-    if (this.cursus !== -1 && this.region === -1 && this.filiere === -1) {
-      this.search = this.candidates.filter(item => item.option_choisie === this.cursus);
+    if (this.cursus !== '' && this.filiere === '') {
+      this.search = this.candidates.filter(item => item.cursus === this.cursus);
       this.getSex();
       return;
     }
-    if (this.cursus === -1 && this.region !== -1 && this.filiere === -1) {
-      this.search = this.candidates.filter(item => item.region_origine === this.region);
+    if (this.cursus === '' && this.filiere !== '') {
+      this.search = this.candidates.filter(item =>
+        item.filiere_choisie === parseInt(this.filiere));
       this.getSex();
       return;
     }
-    if (this.cursus === -1 && this.region === -1 && this.filiere !== -1) {
-      this.search = this.candidates.filter(item => item.filiere_choisie === this.filiere);
-      this.getSex();
-      return;
-    }
-    if (this.cursus !== -1 && this.region !== -1 && this.filiere === -1) {
-      this.search = this.candidates.filter(item => item.option_choisie === this.cursus &&
-        item.region_origine === this.region);
-      this.getSex();
-      return;
-    }
-    if (this.cursus === -1 && this.region !== -1 && this.filiere !== -1) {
-      this.search = this.candidates.filter(item => item.region_origine === this.region &&
-        item.filiere_choisie === this.filiere);
-      this.getSex();
-      return;
-    }
-    if (this.cursus !== -1 && this.region === -1 && this.filiere !== -1) {
-      this.search = this.candidates.filter(item => item.option_choisie === this.cursus &&
-        item.filiere_choisie === this.filiere);
-      this.getSex();
-      return;
-    }
-    if (this.cursus !== -1 && this.region !== -1 && this.filiere !== -1) {
-      this.search = this.candidates.filter(item => item.option_choisie === this.cursus &&
-        item.region_origine === this.region && item.filiere_choisie === this.filiere);
+    if (this.cursus !== '' && this.filiere !== '') {
+      this.search = this.candidates.filter(item => item.cursus === this.cursus &&
+        item.filiere_choisie === parseInt(this.filiere));
       this.getSex();
       return;
     }
@@ -129,4 +92,9 @@ export class HomeBilanComponent implements OnInit {
     this.candidates_m = this.search.filter(item => item.sexe === Sexe.M);
     this.candidates_f = this.search.filter(item => item.sexe === Sexe.F);
   }
+
+  filterFilieres(query: string) {
+    return this.filieres.filter(item => item.cursus === query);
+  }
+
 }
