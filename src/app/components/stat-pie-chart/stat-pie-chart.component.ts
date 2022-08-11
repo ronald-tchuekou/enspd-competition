@@ -37,7 +37,8 @@ export class StatPieChartComponent {
     }
   };
   public pieChartData: ChartData<'pie', number[], string | string[]> = {
-    labels: ['Nrod', 'Sud', 'Est', 'Ouest'],
+    labels: ['Nord', 'Sud', 'Est', 'Ouest', 'Centre', 'Littoral', 'Nord-Ouest',
+      'Sud-Ouest', 'Adamaoua', 'Extrême-Nord'],
     datasets: [{
       data: [300, 500, 100, 200]
     }]
