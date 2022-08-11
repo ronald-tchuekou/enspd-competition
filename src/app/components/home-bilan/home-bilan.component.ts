@@ -23,10 +23,10 @@ export class HomeBilanComponent implements OnInit {
   candidates_m: Candidate[] = [];
   filieres: any[] = [];
   regions: any[] = [];
-  options: any[] = [];
+  cursus_list: any[] = [];
   filiere: number = -1;
   region: number = -1;
-  option: number = -1;
+  cursus: number = -1;
   loading: boolean = false;
 
   constructor(
@@ -47,7 +47,7 @@ export class HomeBilanComponent implements OnInit {
           this.filieres = data.map(item => ({ label: item.libelle, value: item.id }));
         });
         this.optionsService.getOptions().subscribe((data: Option[]) => {
-          this.options = data.map(item => ({ label: item.libelle, value: item.id }));
+          this.cursus_list = data.map(item => ({ label: item.libelle, value: item.id }));
         });
         this.regionsService.getRegions().subscribe((data: Region[]) => {
           this.regions = data.map(item => ({ label: item.libelle, value: item.id }));
@@ -74,51 +74,51 @@ export class HomeBilanComponent implements OnInit {
   }
 
   optionChange(value: string) {
-    this.option = parseInt(value);
+    this.cursus = parseInt(value);
     this.filter();
   }
 
   filter() {
-    if (this.option === -1 && this.region === -1 && this.filiere === -1) {
+    if (this.cursus === -1 && this.region === -1 && this.filiere === -1) {
       this.search = this.candidates;
       this.getSex();
       return;
     }
-    if (this.option !== -1 && this.region === -1 && this.filiere === -1) {
-      this.search = this.candidates.filter(item => item.option_choisie === this.option);
+    if (this.cursus !== -1 && this.region === -1 && this.filiere === -1) {
+      this.search = this.candidates.filter(item => item.option_choisie === this.cursus);
       this.getSex();
       return;
     }
-    if (this.option === -1 && this.region !== -1 && this.filiere === -1) {
+    if (this.cursus === -1 && this.region !== -1 && this.filiere === -1) {
       this.search = this.candidates.filter(item => item.region_origine === this.region);
       this.getSex();
       return;
     }
-    if (this.option === -1 && this.region === -1 && this.filiere !== -1) {
+    if (this.cursus === -1 && this.region === -1 && this.filiere !== -1) {
       this.search = this.candidates.filter(item => item.filiere_choisie === this.filiere);
       this.getSex();
       return;
     }
-    if (this.option !== -1 && this.region !== -1 && this.filiere === -1) {
-      this.search = this.candidates.filter(item => item.option_choisie === this.option &&
+    if (this.cursus !== -1 && this.region !== -1 && this.filiere === -1) {
+      this.search = this.candidates.filter(item => item.option_choisie === this.cursus &&
         item.region_origine === this.region);
       this.getSex();
       return;
     }
-    if (this.option === -1 && this.region !== -1 && this.filiere !== -1) {
+    if (this.cursus === -1 && this.region !== -1 && this.filiere !== -1) {
       this.search = this.candidates.filter(item => item.region_origine === this.region &&
         item.filiere_choisie === this.filiere);
       this.getSex();
       return;
     }
-    if (this.option !== -1 && this.region === -1 && this.filiere !== -1) {
-      this.search = this.candidates.filter(item => item.option_choisie === this.option &&
+    if (this.cursus !== -1 && this.region === -1 && this.filiere !== -1) {
+      this.search = this.candidates.filter(item => item.option_choisie === this.cursus &&
         item.filiere_choisie === this.filiere);
       this.getSex();
       return;
     }
-    if (this.option !== -1 && this.region !== -1 && this.filiere !== -1) {
-      this.search = this.candidates.filter(item => item.option_choisie === this.option &&
+    if (this.cursus !== -1 && this.region !== -1 && this.filiere !== -1) {
+      this.search = this.candidates.filter(item => item.option_choisie === this.cursus &&
         item.region_origine === this.region && item.filiere_choisie === this.filiere);
       this.getSex();
       return;
