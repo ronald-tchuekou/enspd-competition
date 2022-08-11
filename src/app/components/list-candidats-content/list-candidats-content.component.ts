@@ -10,10 +10,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import 'moment/locale/fr';
-import { Candidate, CandidatesService } from '../../services/candidates.service';
+import { Candidate, CandidatesService, Cursus } from '../../services/candidates.service';
 import { ConstantsService } from '../../services/constants.service';
 import { Filiere, FilieresService } from '../../services/filieres.service';
-import { Option, OptionsService } from '../../services/options.service';
+import { OptionsService } from '../../services/options.service';
 import { ExportContentComponent } from '../modals/export-content/export-content.component';
 import { ExportLevelCursusComponent } from '../modals/export-level-cursus/export-level-cursus.component';
 
@@ -30,13 +30,16 @@ export class ListCandidatsContentComponent implements OnInit {
   loading: boolean = false;
   content: Candidate[] = [];
   filieres: any[] = [];
-  options: any[] = [];
+  cursus_list: any[] = [
+    { label: Cursus.SI, value: Cursus.SI },
+    { label: Cursus.IN, value: Cursus.IN }
+  ];
   currentPage: number = 0;
   pages: Candidate[][] = [];
   limit: number = 50;
   candidate_name: string = '';
-  filiere: number = -1;
-  option: number = -1;
+  filiere: string = '';
+  cursus: string = '';
 
   constructor(
     private candidateService: CandidatesService,
@@ -57,10 +60,7 @@ export class ListCandidatsContentComponent implements OnInit {
     this.candidateService.getCandidates().subscribe({
       next: (data: any) => {
         this.filiereService.getFilieres().subscribe((data: Filiere[]) => {
-          this.filieres = data.map(item => ({ label: item.libelle, value: item.id }));
-        });
-        this.optionsService.getOptions().subscribe((data: Option[]) => {
-          this.options = data.map(item => ({ label: item.libelle, value: item.id }));
+          this.filieres = data.map(item => ({ ...item, label: item.libelle, value: item.id }));
         });
         this.content = _.sortBy(data, ['nom', 'prenom']).map((item: any) => ({
           ...item,
@@ -99,53 +99,53 @@ export class ListCandidatsContentComponent implements OnInit {
 
   setContent(content: any[]) {
     this.content = content;
-    this.option = -1;
-    this.filiere = -1;
+    this.cursus = '';
+    this.filiere = '';
     this.candidate_name = '';
     this.getPages(this.content);
   }
 
   filterContent() {
     const name = this.candidate_name.trim().toLowerCase();
-    if (this.option === -1 && name === '' && this.filiere === -1) {
+    if (this.cursus === '' && name === '' && this.filiere === '') {
       this.getPages(this.content);
       return;
     }
-    if (this.option !== -1 && name === '' && this.filiere === -1) {
-      this.getPages(this.content.filter(item => item.option_choisie === this.option));
+    if (this.cursus !== '' && name === '' && this.filiere === '') {
+      this.getPages(this.content.filter(item => item.cursus === this.cursus));
       return;
     }
-    if (this.option === -1 && name !== '' && this.filiere === -1) {
+    if (this.cursus === '' && name !== '' && this.filiere === '') {
       this.getPages(this.content.filter(item => {
         return item.nom?.toLowerCase()
           .includes(name) || item.prenom?.toLowerCase().includes(name);
       }));
       return;
     }
-    if (this.option === -1 && name === '' && this.filiere !== -1) {
-      this.getPages(this.content.filter(item => item.filiere_choisie === this.filiere));
+    if (this.cursus === '' && name === '' && this.filiere !== '') {
+      this.getPages(this.content.filter(item => item.filiere_choisie === parseInt(this.filiere)));
       return;
     }
-    if (this.option !== -1 && name !== '' && this.filiere === -1) {
-      this.getPages(this.content.filter(item => item.option_choisie === this.option &&
+    if (this.cursus !== '' && name !== '' && this.filiere === '') {
+      this.getPages(this.content.filter(item => item.cursus === this.cursus &&
         (item.nom?.toLowerCase().includes(name) ||
           item.prenom?.toLowerCase().includes(name))));
       return;
     }
-    if (this.option === -1 && name !== '' && this.filiere !== -1) {
+    if (this.cursus === '' && name !== '' && this.filiere !== '') {
       this.getPages(this.content.filter(item => (item.nom?.toLowerCase().includes(name) ||
-        item.prenom?.toLowerCase().includes(name)) && item.filiere_choisie === this.filiere));
+        item.prenom?.toLowerCase().includes(name)) && item.filiere_choisie === parseInt(this.filiere)));
       return;
     }
-    if (this.option !== -1 && name === '' && this.filiere !== -1) {
-      this.getPages(this.content.filter(item => item.option_choisie === this.option &&
-        item.filiere_choisie === this.filiere));
+    if (this.cursus !== '' && name === '' && this.filiere !== '') {
+      this.getPages(this.content.filter(item => item.cursus === this.cursus &&
+        item.filiere_choisie === parseInt(this.filiere)));
       return;
     }
-    if (this.option !== -1 && name !== '' && this.filiere !== -1) {
-      this.getPages(this.content.filter(item => item.option_choisie === this.option &&
+    if (this.cursus !== '' && name !== '' && this.filiere !== '') {
+      this.getPages(this.content.filter(item => item.cursus === this.cursus &&
         (item.nom?.toLowerCase().includes(name) || item.prenom?.toLowerCase().includes(name)) &&
-        item.filiere_choisie === this.filiere));
+        item.filiere_choisie === parseInt(this.filiere)));
       return;
     }
   }
@@ -172,22 +172,23 @@ export class ListCandidatsContentComponent implements OnInit {
     }
   }
 
-  getOption(query: number) {
-    return this.options.find(item => item.value === query)?.label || '';
-  }
-
   getFiliere(query: number) {
     return this.filieres.find(item => item.value === query)?.label || '';
   }
 
+  filterFilieres(query: string) {
+    return this.filieres.filter(item => item.cursus === query);
+  }
+
   toggleAdmis(candidate: Candidate, index: number, page: number) {
     this.candidateService.updateCandidate({
-      admis: !candidate.admis
+      admis: !candidate.admis,
+      attente: false
     }, candidate.id).subscribe({
       next: value => {
         console.log(value);
         const p = this.limit * (page - 1) + index;
-        const c = { ...candidate, admis: !candidate.admis };
+        const c = { ...candidate, admis: !candidate.admis, attente: false };
         this.content = [
           ...this.content.slice(0, p),
           c,
@@ -217,7 +218,7 @@ export class ListCandidatsContentComponent implements OnInit {
     }).afterClosed().subscribe(value => {
       if (value) {
         const data: any[] = [];
-        this.content.filter(item => item.admis).forEach(
+        this.content.filter(item => item.admis || item.attente).forEach(
           (item, index) => {
             if (item.nom)
               data.push({
@@ -231,14 +232,41 @@ export class ListCandidatsContentComponent implements OnInit {
           disableClose: true,
           data: {
             ...value,
-            candidates: data,
-            options: this.options,
+            candidates: data.filter(item => item.cursus === value.cursus),
+            options: this.cursus_list,
             filieres: this.filieres
           }
         }).afterClosed().subscribe(value => {
           if (value)
             this.export();
         });
+      }
+    });
+  }
+
+  toggleAttente(candidate: Candidate, index: number, page: number) {
+    this.candidateService.updateCandidate({
+      attente: !candidate.attente,
+      admis: false
+    }, candidate.id).subscribe({
+      next: value => {
+        console.log(value);
+        const p = this.limit * (page - 1) + index;
+        const c = { ...candidate, attente: !candidate.attente, admis: false };
+        this.content = [
+          ...this.content.slice(0, p),
+          c,
+          ...this.content.slice(p + 1)
+        ];
+        this.pages = this.constantService.createSegments(this.content, this.limit);
+        if (this.currentCandidate) this.currentCandidateChange.emit(c);
+      },
+      error: err => {
+        console.log(err);
+        if (err.error)
+          this.sbr.open(err.error.message, undefined, { duration: 3000 });
+        else
+          this.sbr.open('Une erreur est survenu.', undefined, { duration: 3000 });
       }
     });
   }

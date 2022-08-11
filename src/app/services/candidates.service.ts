@@ -33,6 +33,7 @@ export interface Candidate {
   option_choisie: number,
   diplome_entree: number,
   admis: boolean,
+  attente: boolean,
   createdAt?: Date,
   updatedAt?: Date
 }

@@ -17,13 +17,13 @@
       >
     </label>
     <app-input-select
-      [(value)]='filiere'
-      [content]='filieres'
-      label='Filières'></app-input-select>
+      [(value)]='cursus'
+      [content]='cursus_list'
+      label='Cursus'></app-input-select>
     <app-input-select
-      [(value)]='option'
-      [content]='options'
-      label='Options'></app-input-select>
+      [(value)]='filiere'
+      [content]='filterFilieres(cursus)'
+      label='Filières'></app-input-select>
   </div>
   <button
     (click)='filterContent()'
@@ -46,9 +46,10 @@
   <table *ngIf='!loading && content.length > 0' class='table w-full text-xs text-gray-500'>
     <thead class='bg-gray-200 text-gray-600'>
     <td class='p-2'>Nom complet</td>
-    <td class='p-2'>Option</td>
+    <td class='p-2'>Cursus</td>
     <td class='p-2'>Filière</td>
-    <td class='w-5'></td>
+    <td class='w-3'>AD</td>
+    <td class='w-3'>AT</td>
     </thead>
     <tbody>
     <ng-container *ngFor='let item of pages[currentPage - 1]; let i = index'>
@@ -57,12 +58,19 @@
         [class.bg-orange-100]='currentCandidate && currentCandidate.id === item.id'
         class='border-b px-2'>
         <td class='p-2'>{{item.nom}} {{item.prenom}}</td>
-        <td class='p-2'>{{getOption(item.option_choisie)}}</td>
+        <td class='p-2'>{{item.cursus}}</td>
         <td class='p-2'>{{getFiliere(item.filiere_choisie)}}</td>
         <td class='py-2 px-4'>
           <input
             (click)='toggleAdmis(item, i, currentPage)'
             [checked]='item.admis'
+            class='rounded'
+            type='checkbox'>
+        </td>
+        <td class='py-2 px-4'>
+          <input
+            (click)='toggleAttente(item, i, currentPage)'
+            [checked]='item.attente'
             class='rounded'
             type='checkbox'>
         </td>

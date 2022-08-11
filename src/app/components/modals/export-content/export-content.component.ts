@@ -59,22 +59,35 @@ export class ExportContentComponent implements OnInit {
         level: this.level,
         filiere: this.getFiliere(key),
         cursus: this.cursus,
-        list: this.candidates[key].map((item: any, index: number) => ({
-          id: `${index + 1}`,
-          nom: item.nom || '',
-          prenom: item.prenom || '',
-          date_nais: moment(item.date_nais).format('DD/MM/YYYY'),
-          lieu_nais: item.lieu_nais || '',
-          sexe: item.sexe || '',
-          cursus: item.cursus
-        }))
+        attente_list: this.candidates[key]
+          .filter((item: any) => item.attente)
+          .map((item: any, index: number) => ({
+            id: `${index + 1}`,
+            nom: item.nom || '',
+            prenom: item.prenom || '',
+            date_nais: moment(item.date_nais).format('DD/MM/YYYY'),
+            lieu_nais: item.lieu_nais || '',
+            sexe: item.sexe || '',
+            cursus: item.cursus
+          })),
+        admis_list: this.candidates[key]
+          .filter((item: any) => item.admis)
+          .map((item: any, index: number) => ({
+            id: `${index + 1}`,
+            nom: item.nom || '',
+            prenom: item.prenom || '',
+            date_nais: moment(item.date_nais).format('DD/MM/YYYY'),
+            lieu_nais: item.lieu_nais || '',
+            sexe: item.sexe || '',
+            cursus: item.cursus
+          }))
       });
     });
     this.constantsService.savePDF(result, `${this.cursus}_niveau_${this.level}.pdf`);
   }
 
   getFiliere(list: string) {
-    return this.filieres.find(item => item.value == list)?.label || '';
+    return this.filieres.find(item => item.value == list)?.label || 'Tronc commun';
   }
 
   exportCSV() {

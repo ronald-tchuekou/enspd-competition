@@ -220,21 +220,31 @@
       </div>
       <div class='space-y-2'>
         <div>
-          <div class='text-black text-lg font-medium'>
+          <div class='text-black text-base font-medium'>
             {{candidate.nom}} {{candidate.prenom}}
           </div>
           <div class='text-black text-sm text-gray-400'>
             Né(e) le {{getBirthday(candidate.date_nais)}} à {{candidate.lieu_nais}}
           </div>
         </div>
-        <button
-          class='rounded-full px-4 py-1 text-white text-sm shadow-lg {{
+        <div class='flex flex-row space-x-3'>
+          <button
+            class='rounded-full px-4 py-1 text-white text-xs shadow-lg {{
           candidate.admis ? "bg-teal-500 shadow-teal-500/20" : " bg-red-500 shadow-red-400/20 "
           }}'
-          matRipple
-          matRippleColor='rgba(255, 255, 255, 0.15)'>
-          {{candidate.admis ? 'Admis' : 'Non admis'}}
-        </button>
+            matRipple
+            matRippleColor='rgba(255, 255, 255, 0.15)'>
+            {{candidate.admis ? 'Admis' : 'Non admis'}}
+          </button>
+          <button
+            class='rounded-full px-4 py-1 text-white text-xs shadow-lg {{
+          candidate.attente ? "bg-blue-500 shadow-blue-500/20" : " bg-orange-400 shadow-orange-400/20 "
+          }}'
+            matRipple
+            matRippleColor='rgba(255, 255, 255, 0.15)'>
+            {{candidate.attente ? 'En attente' : 'Non attente'}}
+          </button>
+        </div>
       </div>
     </div>
     <div class='grid grid-cols-1 lg:grid-cols-2 gap-3 my-5'>

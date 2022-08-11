@@ -80,11 +80,24 @@ export class ConstantsService {
       };
 
       data.forEach(item => {
-        doc.setFontSize(13);
+        // Pour la liste principale
+        doc.setFontSize(12);
+        doc.text('Liste principale', 12, 20);
         doc.text(
           `Cursus : ${item.cursus}      Filière : ${item.filiere}      Niveau : ${item.level}`,
-          12, 20);
-        doc.table(12, 40, item.list, headers, config);
+          12, 40);
+        doc.table(12, 60, item.admis_list, headers, config);
+
+        // Pour la liste d'attente
+        doc.addPage('A4', 'p');
+        doc.setFontSize(12);
+        doc.text('Liste d\'attente', 12, 20);
+        doc.text(
+          `Cursus : ${item.cursus}      Filière : ${item.filiere}      Niveau : ${item.level}`,
+          12, 40);
+        doc.table(12, 60, item.attente_list, headers, config);
+
+        // Nouvelle page.
         doc.addPage('A4', 'p');
       });
 

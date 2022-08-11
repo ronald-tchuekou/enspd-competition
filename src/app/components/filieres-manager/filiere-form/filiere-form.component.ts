@@ -6,6 +6,7 @@
 
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Cursus } from '../../../services/candidates.service';
 import { Filiere, FilieresService } from '../../../services/filieres.service';
 
 @Component({
@@ -21,6 +22,12 @@ export class FiliereFormComponent implements OnInit {
   libelle: string = '';
   title: string = '';
   loading: boolean = false;
+  cursus: string = '';
+  cursus_list: any[] = [
+    { label: '---', value: '' },
+    { label: Cursus.SI, value: Cursus.SI },
+    { label: Cursus.IN, value: Cursus.IN }
+  ];
 
   constructor(
     private filieresService: FilieresService,
@@ -29,6 +36,7 @@ export class FiliereFormComponent implements OnInit {
   }
 
   initForm() {
+    this.cursus = '';
     this.code = '';
     this.libelle = '';
   }
@@ -49,13 +57,14 @@ export class FiliereFormComponent implements OnInit {
   initValues(filiere: Filiere) {
     if (!filiere)
       return;
+    this.cursus = filiere.cursus;
     this.code = filiere.code;
     this.libelle = filiere.libelle;
   }
 
   validate() {
     return this.code.trim() !== '' &&
-      this.libelle.trim() !== '';
+      this.libelle.trim() !== '' && this.cursus !== '';
   }
 
   submit() {
@@ -65,6 +74,7 @@ export class FiliereFormComponent implements OnInit {
       return;
     }
     const data = {
+      cursus: this.cursus,
       code: this.code.trim(),
       libelle: this.libelle.trim()
     };

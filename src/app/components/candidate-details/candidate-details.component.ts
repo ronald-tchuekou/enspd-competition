@@ -26,6 +26,11 @@ export class CandidateDetailsComponent implements OnInit, OnChanges {
     prenom: 'Prénom',
     date_nais: 'Date de naissance',
     lieu_nais: 'Lieu de naissance',
+    cursus: 'Cursus',
+    niveau: 'Niveau',
+    filiere_choisie: 'Filière choisie',
+    option_choisie: 'Option choisie',
+    diplome_entree: 'Diplôme d\'entrée',
     region_origine: 'Région d\'origine',
     depart_origine: 'Département d\'origine',
     statut_mat: 'Statut matrimonial',
@@ -34,12 +39,7 @@ export class CandidateDetailsComponent implements OnInit, OnChanges {
     nom_pere: 'Nom du père',
     prof_pere: 'Profession du père',
     nom_mere: 'Nom de la mère',
-    prof_mere: 'Profession de la mère',
-    cursus: 'Cursus',
-    niveau: 'Niveau',
-    filiere_choisie: 'Filière choisie',
-    option_choisie: 'Option choisie',
-    diplome_entree: 'Diplôme d\'entrée'
+    prof_mere: 'Profession de la mère'
   };
   keys: string[] = Object.keys(this.labels);
   @Input() filieres: any[] = [];

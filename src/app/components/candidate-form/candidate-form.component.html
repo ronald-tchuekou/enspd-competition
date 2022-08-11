@@ -44,6 +44,31 @@
       type='text'
     ></app-simple-input>
     <app-simple-select
+      [(value)]='cursus'
+      [content]='all_cursus'
+      label='Cursus'
+    ></app-simple-select>
+    <app-simple-select
+      [(value)]='niveau'
+      [content]='niveaux'
+      label='Niveau'
+    ></app-simple-select>
+    <app-simple-select
+      [(value)]='diplome_entree'
+      [content]='diplomes'
+      label="Diplôme d'entrée"
+    ></app-simple-select>
+    <app-simple-select
+      [(value)]='filiere_choisie'
+      [content]='filterFilieres(cursus)'
+      label='Filière choisie'
+    ></app-simple-select>
+    <app-simple-select
+      [(value)]='option_choisie'
+      [content]='options'
+      label='Option choisie'
+    ></app-simple-select>
+    <app-simple-select
       [(value)]='region_origine'
       [content]='regions'
       label="Région d'origine"
@@ -88,31 +113,6 @@
       label='Profession de la mère'
       type='text'
     ></app-simple-input>
-    <app-simple-select
-      [(value)]='cursus'
-      [content]='all_cursus'
-      label='Cursus'
-    ></app-simple-select>
-    <app-simple-select
-      [(value)]='niveau'
-      [content]='niveaux'
-      label='Niveau'
-    ></app-simple-select>
-    <app-simple-select
-      [(value)]='diplome_entree'
-      [content]='diplomes'
-      label="Diplôme d'entrée"
-    ></app-simple-select>
-    <app-simple-select
-      [(value)]='filiere_choisie'
-      [content]='filieres'
-      label='Filière choisie'
-    ></app-simple-select>
-    <app-simple-select
-      [(value)]='option_choisie'
-      [content]='options'
-      label='Option choisie'
-    ></app-simple-select>
   </div>
   <div class='h-6'></div>
   <div class='w-full flex justify-center items-center p-3'>

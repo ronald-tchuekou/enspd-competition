@@ -13,6 +13,7 @@ export interface Filiere {
   id: number,
   code: string,
   libelle: string,
+  cursus: string,
   createdAt?: Date,
   updatedAt?: Date
 }

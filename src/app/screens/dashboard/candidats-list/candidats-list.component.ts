@@ -99,11 +99,13 @@ export class CandidatsListComponent implements OnInit {
       prof_pere: item.prof_pere,
       nom_mere: item.nom_mere,
       prof_mere: item.prof_mere,
-      cursus: 'Ingénieur',
+      cursus: item.cursus || 'Ingénieur',
       niveau: item?.niveau || 1,
-      filiere_choisie: item?.filiere || -1,
-      option_choisie: -1,
-      diplome_entree: item.diplome_requis_par_option_id
+      admis: item.admis || false,
+      attente: item.attente || false,
+      filiere_choisie: item?.filiere || 0,
+      option_choisie: item.option_choisie || 0,
+      diplome_entree: item.diplome_entree || 0
     })), 100);
 
     this.candidateService.deleteAll().subscribe({
@@ -156,24 +158,24 @@ export class CandidatsListComponent implements OnInit {
   getContent() {
     this.filiereService.getFilieres().subscribe((data: Filiere[]) => {
       this.filieres = [{ label: '...', value: '' },
-        ...data.map(item => ({ label: item.libelle, value: item.id }))];
+        ...data.map(item => ({ ...item, label: item.libelle, value: item.id }))];
       // Loading options
       this.optionsService.getOptions().subscribe((data: Option[]) => {
         this.options = [{ label: '...', value: '' },
-          ...data.map(item => ({ label: item.libelle, value: item.id }))];
+          ...data.map(item => ({ ...item, label: item.libelle, value: item.id }))];
         // Loading regions
         this.regionsService.getRegions().subscribe((data: Region[]) => {
           this.regions = [{ label: '...', value: '' },
-            ...data.map(item => ({ label: item.libelle, value: item.id }))];
+            ...data.map(item => ({ ...item, label: item.libelle, value: item.id }))];
           // Loading departments
           this.departementsService.getDepartements().subscribe((data: Region[]) => {
             this.departments = [{ label: '...', value: '' },
-              ...data.map(item => ({ label: item.libelle, value: item.id }))];
+              ...data.map(item => ({ ...item, label: item.libelle, value: item.id }))];
             // Loading diplomas
             this.diplomesService.getDiplomes().subscribe((data: Diplome[]) => {
               this.loading = false;
               this.diplomes = [{ label: '...', value: '' },
-                ...data.map(item => ({ label: item.libelle, value: item.id }))];
+                ...data.map(item => ({ ...item, label: item.libelle, value: item.id }))];
             });
           });
         });
