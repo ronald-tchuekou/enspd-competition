@@ -4,7 +4,7 @@
  * @email ronaldtchuekou@gmail.com
  */
 
-import { Component, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
 import DatalabelsPlugin from 'chartjs-plugin-datalabels';
 import { BaseChartDirective } from 'ng2-charts';
@@ -17,9 +17,9 @@ import { BaseChartDirective } from 'ng2-charts';
   `]
 })
 export class StatPieChartComponent {
+
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 
-  // Pie
   public pieChartOptions: ChartOptions<'pie'> = {
     responsive: true,
     plugins: {
@@ -36,14 +36,13 @@ export class StatPieChartComponent {
       }
     }
   };
-  public pieChartData: ChartData<'pie', number[], string | string[]> = {
-    labels: ['Nord', 'Sud', 'Est', 'Ouest', 'Centre', 'Littoral', 'Nord-Ouest',
-      'Sud-Ouest', 'Adamaoua', 'Extrême-Nord'],
-    datasets: [{
-      data: [300, 500, 100, 200, 300, 500, 100, 200, 300, 500]
-    }]
-  };
-  public pieChartType: 'pie' = 'pie';
-  public pieChartPlugins = [DatalabelsPlugin];
 
+  @Input() pieChartData: ChartData<'pie', number[], string> = {
+    labels: [],
+    datasets: [{ data: [] }]
+  };
+
+  public pieChartType: 'pie' = 'pie';
+
+  public pieChartPlugins = [DatalabelsPlugin];
 }

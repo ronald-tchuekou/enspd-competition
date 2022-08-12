@@ -6,6 +6,7 @@
 
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { FilieresService } from '../../../services/filieres.service';
 import { Option, OptionsService } from '../../../services/options.service';
 
 @Component({
@@ -15,20 +16,24 @@ import { Option, OptionsService } from '../../../services/options.service';
 })
 export class OptionFormComponent implements OnInit {
   @Input() currentOption: Option | null = null;
+  @Input() filieres: any[] = [];
   @Output() onComplete = new EventEmitter();
   @Output() onBackClick = new EventEmitter();
   code: string = '';
+  filiere: string = '';
   libelle: string = '';
   title: string = '';
   loading: boolean = false;
 
   constructor(
+    private filiereService: FilieresService,
     private optionsService: OptionsService,
     private sbr: MatSnackBar
   ) {
   }
 
   initForm() {
+    this.filiere = '';
     this.code = '';
     this.libelle = '';
   }
@@ -49,13 +54,14 @@ export class OptionFormComponent implements OnInit {
   initValues(option: Option) {
     if (!option)
       return;
+    this.filiere = option.filiere_id + '';
     this.code = option.code;
     this.libelle = option.libelle;
   }
 
   validate() {
     return this.code.trim() !== '' &&
-      this.libelle.trim() !== '';
+      this.libelle.trim() !== '' && this.filiere !== '';
   }
 
   submit() {
@@ -65,6 +71,7 @@ export class OptionFormComponent implements OnInit {
       return;
     }
     const data = {
+      filiere_id: this.filiere,
       code: this.code.trim(),
       libelle: this.libelle.trim()
     };
@@ -114,6 +121,23 @@ export class OptionFormComponent implements OnInit {
         this.sbr.open('Une erreur est survenue.',
           undefined,
           { duration: 3000 });
+      }
+    });
+  }
+
+  getFilieres() {
+    this.loading = true;
+    this.filiereService.getFilieres().subscribe({
+      next: value => {
+        this.loading = false;
+        this.filieres = [
+          { label: '...', value: '' },
+          ...value.map(item => ({ ...item, label: item.libelle, value: item.id }))
+        ];
+      },
+      error: err => {
+        this.loading = false;
+        console.log(err);
       }
     });
   }

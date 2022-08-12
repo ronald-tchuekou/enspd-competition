@@ -23,6 +23,10 @@
 <!-- Content -->
 <div class='h-full overflow-y-auto p-5'>
   <div class='w-full grid grid-cols-1 gap-4'>
+    <app-simple-select
+      [(value)]='filiere'
+      [content]='filieres'
+      label='Cursus'></app-simple-select>
     <app-simple-input
       [(value)]='code'
       label='Code'

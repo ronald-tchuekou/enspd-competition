@@ -20,20 +20,32 @@
   </div>
   <div class='grid grid-cols-2 gap-5 w-full'>
     <div class='flex flex-col justify-center items-center space-y-2'>
-      <div class='w-40 h-40'>
-        <app-stat-pie-chart></app-stat-pie-chart>
+      <div class='w-44 h-44 overflow-hidden'>
+        <app-empty-state
+          *ngIf='search.length === 0'
+          text='No Data'></app-empty-state>
+        <app-stat-pie-chart
+          *ngIf='search.length !== 0'
+          [pieChartData]='stats_content.allCandidate'
+        ></app-stat-pie-chart>
       </div>
-      <div class='text-xs text-center' style='color: #2F80ED'>
-        {{search.length}} candidats
+      <div class='text-xs text-center' style='color: #ff4190'>
+        {{search.length}} candidats inscris
       </div>
     </div>
 
     <div class='flex flex-col justify-center items-center space-y-2'>
-      <div class='w-40 h-40'>
-        <app-stat-pie-chart></app-stat-pie-chart>
+      <div class='w-44 h-44 overflow-hidden'>
+        <app-empty-state
+          *ngIf='passCandidates.length === 0'
+          text='No Data'></app-empty-state>
+        <app-stat-pie-chart
+          *ngIf='passCandidates.length !== 0'
+          [pieChartData]='stats_content.passCandidate'
+        ></app-stat-pie-chart>
       </div>
-      <div class='text-xs text-center' style='color: #2F80ED'>
-        {{search.length}} candidats
+      <div class='text-xs text-center' style='color: #3191ff'>
+        {{passCandidates.length}} candidats admis/en attente
       </div>
     </div>
 

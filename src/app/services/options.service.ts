@@ -11,8 +11,10 @@ import { environment } from '../../environments/environment';
 
 export interface Option {
   id: number,
+  filiere_id: number,
   code: string,
   libelle: string,
+  filiere?: string,
   createdAt?: Date,
   updatedAt?: Date
 }

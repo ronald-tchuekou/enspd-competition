@@ -187,4 +187,9 @@ export class CandidateFormComponent implements OnInit, OnChanges {
     return this.filieres.filter(item => item.cursus === query || item.value === '');
   }
 
+  filterOptions(query: string) {
+    const query1 = parseInt(query);
+    return this.options.filter(item => item.filiere_id === query1 || item.value === '');
+  }
+
 }

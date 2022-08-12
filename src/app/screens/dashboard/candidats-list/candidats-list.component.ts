@@ -90,7 +90,7 @@ export class CandidatsListComponent implements OnInit {
       prenom: item.prenom,
       date_nais: item?.date_nais?.split('/').reverse().join('-'),
       lieu_nais: item.lieu_nais,
-      region_origine: item?.centre_origin,
+      region_origine: item?.centre_origin,//Math.floor((Math.random() * 10) + 1),
       depart_origine: item?.dpt_origine,
       statut_mat: item.statut_mat,
       sexe: item.sexe,
