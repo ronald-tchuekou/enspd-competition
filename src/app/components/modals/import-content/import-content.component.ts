@@ -95,10 +95,12 @@ export class ImportContentComponent implements OnInit {
       candidate_count: 0,
       admis_candidate_count: 0,
       attente_candidate_count: 0,
-      level: parseInt(this.level)
+      level: parseInt(this.level),
+      cursus: this.cursus
     };
     this.collectionService.addCollection(collection).subscribe({
       next: (data) => {
+        this.collection = data;
         const pages = this.utils.createSegments(content.map((item: any) => {
           const candidate: Candidate = {
             nom: item.nom,
@@ -149,7 +151,7 @@ export class ImportContentComponent implements OnInit {
       return;
     }
     this.candidateService.addCandidate(list[nextPage]).subscribe({
-      next: (data: any) => {
+      next: () => {
         if (nextPage === (list.length - 1)) {
           this.collectionService.updateCollection({
             candidate_count: this.allCandidate.length,

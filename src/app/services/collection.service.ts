@@ -7,6 +7,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
+import { Cursus } from './candidates.service';
 
 export interface Collection {
   id?: number,
@@ -15,6 +16,7 @@ export interface Collection {
   admis_candidate_count: number,
   attente_candidate_count: number,
   level: number,
+  cursus: Cursus,
   created_at?: Date,
   updated_at?: Date
 }
@@ -25,7 +27,8 @@ export const DEFAULT_COLLECTION: Collection = {
   candidate_count: 0,
   admis_candidate_count: 0,
   attente_candidate_count: 0,
-  level: 1
+  level: 1,
+  cursus: Cursus.SI
 };
 
 @Injectable({
