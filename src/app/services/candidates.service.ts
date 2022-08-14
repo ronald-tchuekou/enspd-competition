@@ -13,7 +13,7 @@ export enum Cursus {SI = 'Science Ingénieur', IN = 'Ingénieur'}
 export enum Sexe {M = 'Masculin', F = 'Feminin'}
 
 export interface Candidate {
-  id: number,
+  id?: number,
   nom: string,
   prenom: string,
   date_nais: Date,
@@ -34,8 +34,12 @@ export interface Candidate {
   diplome_entree: number,
   admis: boolean,
   attente: boolean,
-  createdAt?: Date,
-  updatedAt?: Date
+  collection_id: number,
+  note: number,
+  range: number,
+  anonymous_num: number,
+  created_at?: Date,
+  updated_at?: Date
 }
 
 @Injectable({

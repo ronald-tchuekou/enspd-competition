@@ -1,0 +1,57 @@
+<!--
+  ~ Copyright (c) 14/08/2022 13:32
+  ~ @author Ronald Tchuekou
+  ~ @email ronaldtchuekou@gmail.com
+  -->
+
+<div class='relative'>
+  <input
+    #csv_file_input
+    (change)='onCSVInputChange($event)'
+    accept='application/csv'
+    class='absolute invisible'
+    type='file'>
+  <h1 class='mb-4'>Importation de candidates</h1>
+  <div class='w-72 space-y-4'>
+    <app-simple-select
+      [(value)]='level'
+      [content]='levels'
+      class='w-full block'
+      label='Niveau des candidates'
+    ></app-simple-select>
+    <app-simple-select
+      [(value)]='cursus'
+      [content]='cursus_list'
+      class='w-full block'
+      label='Cursus des candidates'
+    ></app-simple-select>
+    <app-simple-input
+      [(value)]='name'
+      [placeholder]='getDefaultName()'
+      class='w-full block'
+      label='Désignation de la liste'
+      type='text'
+    ></app-simple-input>
+    <div></div>
+    <button
+      (click)='importContent()'
+      [disabled]="level === ''"
+      class='app-button w-full'
+      matRipple
+      matRippleColor='rgba(255, 255, 255, 0.15)'>
+      Valider
+    </button>
+  </div>
+  <div class='absolute -top-3 -right-3'>
+    <button
+      [mat-dialog-close]='null'
+      class='hover:bg-gray-100' mat-icon-button>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div
+    *ngIf='loading'
+    class='bg-black bg-opacity-25 cursor-default absolute top-0 left-0 w-full h-full z-50'>
+    <app-loader-content></app-loader-content>
+  </div>
+</div>

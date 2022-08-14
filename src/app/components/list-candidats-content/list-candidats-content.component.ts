@@ -7,10 +7,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import 'moment/locale/fr';
 import { Candidate, CandidatesService, Cursus } from '../../services/candidates.service';
+import { CollectionsService } from '../../services/collection.service';
 import { ConstantsService } from '../../services/constants.service';
 import { Filiere, FilieresService } from '../../services/filieres.service';
 import { OptionsService } from '../../services/options.service';
@@ -34,6 +36,7 @@ export class ListCandidatsContentComponent implements OnInit {
     { label: Cursus.SI, value: Cursus.SI },
     { label: Cursus.IN, value: Cursus.IN }
   ];
+  collection_id: number = 0;
   currentPage: number = 0;
   pages: Candidate[][] = [];
   limit: number = 50;
@@ -42,22 +45,29 @@ export class ListCandidatsContentComponent implements OnInit {
   cursus: string = '';
 
   constructor(
+    private collectionService: CollectionsService,
     private candidateService: CandidatesService,
     private constantService: ConstantsService,
     private filiereService: FilieresService,
     private optionsService: OptionsService,
     private sbr: MatSnackBar,
+    private activatedRoute: ActivatedRoute,
     private dialog: MatDialog
   ) {
   }
 
   ngOnInit(): void {
-    this.getCandidates();
+    this.activatedRoute.params.subscribe(params => {
+      const collection_id = params['collection_id'];
+      if (collection_id) {
+        this.getCandidates(collection_id);
+      }
+    });
   }
 
-  getCandidates() {
+  getCandidates(collection_id: number) {
     this.loading = true;
-    this.candidateService.getCandidates().subscribe({
+    this.candidateService.getCandidatesBy({ collection_id: collection_id }).subscribe({
       next: (data: any) => {
         this.filiereService.getFilieres().subscribe((data: Filiere[]) => {
           this.filieres = data.map(item => ({ ...item, label: item.libelle, value: item.id }));
@@ -95,14 +105,6 @@ export class ListCandidatsContentComponent implements OnInit {
   nextPage() {
     if (this.currentPage < this.pages.length)
       this.currentPage++;
-  }
-
-  setContent(content: any[]) {
-    this.content = content;
-    this.cursus = '';
-    this.filiere = '';
-    this.candidate_name = '';
-    this.getPages(this.content);
   }
 
   filterContent() {
@@ -154,11 +156,11 @@ export class ListCandidatsContentComponent implements OnInit {
     const response = confirm('Voulez-vous vraiment supprimer cette liste de candidates ?');
     if (response) {
       this.loading = true;
-      this.candidateService.deleteAll().subscribe({
+      this.collectionService.deleteCollection(this.collection_id).subscribe({
         next: () => {
           this.loading = false;
-          this.getCandidates();
           this.sbr.open('Liste supprimer avec succès !', undefined, { duration: 3000 });
+          window.history.back();
         },
         error: (error) => {
           this.loading = false;

@@ -19,7 +19,6 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const data = this.cookie.getValue(environment.user_profile_key);
-    console.log('user data : ', data);
     if (data)
       return true;
     return this.router.navigate(['sign-in']);
@@ -27,7 +26,6 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const data = this.cookie.getValue(environment.user_profile_key);
-    console.log('user data : ', data);
     if (data)
       return true;
     return this.router.navigate(['sign-in']);

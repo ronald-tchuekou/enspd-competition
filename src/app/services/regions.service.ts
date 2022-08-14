@@ -12,8 +12,8 @@ import { environment } from '../../environments/environment';
 export interface Region {
   id: number,
   libelle: string,
-  createdAt?: Date,
-  updatedAt?: Date
+  created_at?: Date,
+  updated_at?: Date
 }
 
 @Injectable({

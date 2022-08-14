@@ -16,6 +16,8 @@ import { SettingsComponent } from './dashboard/settings/settings.component';
 import { PassForgetComponent } from './pass-forget/pass-forget.component';
 import { ResetPassComponent } from './reset-pass/reset-pass.component';
 import { SignInComponent } from './sign-in/sign-in.component';
+import { CandidateListDetailsComponent } from './dashboard/candidate-list-details/candidate-list-details.component';
+import { CandidateListCollectionComponent } from './dashboard/candidate-list-collection/candidate-list-collection.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { SignInComponent } from './sign-in/sign-in.component';
     DashboardComponent,
     HomeComponent,
     CandidatsListComponent,
-    SettingsComponent
+    SettingsComponent,
+    CandidateListDetailsComponent,
+    CandidateListCollectionComponent
   ],
   imports: [CommonModule, MaterialModule, ComponentsModule, RouterModule],
   exports: [
@@ -35,7 +39,9 @@ import { SignInComponent } from './sign-in/sign-in.component';
     DashboardComponent,
     HomeComponent,
     CandidatsListComponent,
-    SettingsComponent
+    SettingsComponent,
+    CandidateListDetailsComponent,
+    CandidateListCollectionComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: []

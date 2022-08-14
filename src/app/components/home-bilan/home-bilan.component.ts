@@ -145,7 +145,5 @@ export class HomeBilanComponent implements OnInit {
         datasets: [{ data: passGroupCount }]
       }
     };
-
-    console.log(this.stats_content);
   }
 }

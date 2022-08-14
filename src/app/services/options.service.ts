@@ -15,8 +15,8 @@ export interface Option {
   code: string,
   libelle: string,
   filiere?: string,
-  createdAt?: Date,
-  updatedAt?: Date
+  created_at?: Date,
+  updated_at?: Date
 }
 
 @Injectable({

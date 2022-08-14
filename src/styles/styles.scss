@@ -26,6 +26,7 @@ body {
 
 .side-menu-item {
   transition: 300ms;
+  cursor: pointer;
   @apply rounded px-4 py-2 hover:bg-gray-100 w-full flex flex-row items-center space-x-2 whitespace-nowrap
 }
 
@@ -36,6 +37,17 @@ body {
 .side-menu-item.active {
   transition: 300ms;
   @apply bg-blue-500/20 text-blue-500 hover:bg-blue-600/20 hover:text-blue-600
+}
+
+.side-submenu-item {
+  transition: 300ms;
+  cursor: pointer;
+  @apply px-4 py-2 hover:bg-gray-100 w-full flex flex-row items-center space-x-2 whitespace-nowrap
+}
+
+.side-submenu-item.active {
+  transition: 300ms;
+  @apply bg-orange-500/20 text-orange-500 hover:bg-orange-600/20 hover:text-orange-600
 }
 
 .app-button {

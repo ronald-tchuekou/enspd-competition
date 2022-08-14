@@ -7,6 +7,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
+import {
+  CandidateListCollectionComponent
+} from './screens/dashboard/candidate-list-collection/candidate-list-collection.component';
+import {
+  CandidateListDetailsComponent
+} from './screens/dashboard/candidate-list-details/candidate-list-details.component';
 import { CandidatsListComponent } from './screens/dashboard/candidats-list/candidats-list.component';
 import { DashboardComponent } from './screens/dashboard/dashboard.component';
 import { HomeComponent } from './screens/dashboard/home/home.component';
@@ -25,7 +31,16 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent },
-      { path: 'candidats-list', component: CandidatsListComponent },
+      {
+        path: 'candidats-list', component: CandidatsListComponent, children: [
+          {
+            path: ':level', component: CandidatsListComponent, children: [
+              { path: '', component: CandidateListCollectionComponent },
+              { path: 'details/:collection_id', component: CandidateListDetailsComponent }
+            ]
+          }
+        ]
+      },
       { path: 'settings', component: SettingsComponent }
     ]
   },

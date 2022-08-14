@@ -12,6 +12,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   styles: []
 })
 export class SimpleInputComponent implements OnInit {
+  @Input() placeholder: string = '';
   @Input() value: any = '';
   @Input() label: any = '';
   @Input() type: any = 'text';

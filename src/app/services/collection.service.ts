@@ -1,40 +1,52 @@
 /*
- * Copyright (c) 30/07/2022 17:13
+ * Copyright (c) 30/07/2022 17:06
  * @author Ronald Tchuekou
  * @email ronaldtchuekou@gmail.com
  */
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
-export interface Departement {
-  id: number,
-  libelle: string,
+export interface Collection {
+  id?: number,
+  name: string,
+  candidate_count: number,
+  admis_candidate_count: number,
+  attente_candidate_count: number,
+  level: number,
   created_at?: Date,
   updated_at?: Date
 }
 
+export const DEFAULT_COLLECTION: Collection = {
+  id: 0,
+  name: '',
+  candidate_count: 0,
+  admis_candidate_count: 0,
+  attente_candidate_count: 0,
+  level: 1
+};
+
 @Injectable({
   providedIn: 'root'
 })
-export class DepartementsService {
+export class CollectionsService {
 
-  server: string = environment.server_path + '/departement';
+  server: string = environment.server_path + '/collection';
 
   constructor(private http: HttpClient) {
   }
 
-  getDepartements(): Observable<Departement[]> {
-    return this.http.get<Departement[]>(this.server, {
+  getCollections() {
+    return this.http.get<Collection[]>(this.server, {
       headers: {
         'Content-Type': 'application/json'
       }
     });
   }
 
-  getDepartementsBy(find: any): Observable<Departement[]> {
+  getCollectionBy(find: any) {
     let query = '';
     Object.keys(find).forEach((item, index) => {
       if (index === 0)
@@ -42,22 +54,22 @@ export class DepartementsService {
       else
         query += '&' + item + '=' + find[item];
     });
-    return this.http.get<Departement[]>(this.server + '/by?' + query, {
+    return this.http.get<Collection[]>(this.server + '/by?' + query, {
       headers: {
         'Content-Type': 'application/json'
       }
     });
   }
 
-  addDepartement(data: any) {
-    return this.http.post(this.server, data, {
+  addCollection(data: any) {
+    return this.http.post<Collection>(this.server, data, {
       headers: {
         'Content-Type': 'application/json'
       }
     });
   }
 
-  deleteDepartement(id: number) {
+  deleteCollection(id: number) {
     return this.http.delete(this.server + '/' + id, {
       headers: {
         'Content-Type': 'application/json'
@@ -65,15 +77,7 @@ export class DepartementsService {
     });
   }
 
-  deleteAll() {
-    return this.http.delete(this.server, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-
-  updateDepartement(data: any, id: number | undefined) {
+  updateCollection(data: any, id: number | undefined) {
     return this.http.put(this.server + '/' + id, data, {
       headers: {
         'Content-Type': 'application/json'

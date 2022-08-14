@@ -53,6 +53,7 @@ import { TableDisplayComponent } from './table-display/table-display.component';
 import { TextInputComponent } from './text-input/text-input.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { StatPieChartComponent } from './stat-pie-chart/stat-pie-chart.component';
+import { ImportContentComponent } from './modals/import-content/import-content.component';
 
 @NgModule({
   declarations: [
@@ -97,7 +98,8 @@ import { StatPieChartComponent } from './stat-pie-chart/stat-pie-chart.component
     ExportLevelCursusComponent,
     ExportContentComponent,
     TableDisplayComponent,
-    StatPieChartComponent
+    StatPieChartComponent,
+    ImportContentComponent
   ],
   imports: [
     CommonModule,
@@ -149,7 +151,8 @@ import { StatPieChartComponent } from './stat-pie-chart/stat-pie-chart.component
     ExportLevelCursusComponent,
     ExportContentComponent,
     TableDisplayComponent,
-    StatPieChartComponent
+    StatPieChartComponent,
+    ImportContentComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: []

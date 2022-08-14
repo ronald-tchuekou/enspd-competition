@@ -1,0 +1,68 @@
+<!--
+  ~ Copyright (c) 14/08/2022 11:12
+  ~ @author Ronald Tchuekou
+  ~ @email ronaldtchuekou@gmail.com
+  -->
+
+<div class='flex flex-col w-full h-full relative'>
+  <div class='flex-none flex flex-row justify-between items-center'>
+    <div class='title flex-none'>Listes de candidates pour le niveau {{level}}</div>
+    <div class='flex flex-row'>
+      <button
+        (click)='importList()'
+        class='button green py-2'
+        matRipple
+        matRippleColor='rgba(255, 255, 255, 0.15)'>
+        <span class='block px-2 py-1'>Importer</span>
+      </button>
+    </div>
+  </div>
+  <div class='container h-full flex flex-col'>
+    <table class='table w-full text-xs text-gray-500'>
+      <thead class='bg-gray-200 text-gray-600'>
+      <td class='p-2'>Désignation</td>
+      <td class='p-2'>Nb Candidat</td>
+      <td class='p-2'>Nb Admis</td>
+      <td class='p-2'>Nb Attente</td>
+      <td class='p-2'>Niveau</td>
+      <td class='p-2'>Importé le</td>
+      <td class='p-2'>Modifié le</td>
+      <td class='w-3'></td>
+      </thead>
+      <tbody>
+      <ng-container *ngFor='let item of collections; let i = index'>
+        <tr class='border-b px-2 hover:bg-gray-100'>
+          <td class='p-2'>{{item.name}}</td>
+          <td class='p-2'>{{item.candidate_count}}</td>
+          <td class='p-2'>{{item.admis_candidate_count}}</td>
+          <td class='p-2'>{{item.attente_candidate_count}}</td>
+          <td class='p-2'>{{item.level}}</td>
+          <td class='p-2'>{{item.created_at | date:"dd-MM-YYYY"}}</td>
+          <td class='p-2'>{{item.updated_at | date: "dd-MM-YYYY"}}</td>
+          <td class='w-3'>
+            <button
+              [matMenuTriggerFor]='menu'
+              mat-icon-button>
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu='matMenu'>
+              <a mat-menu-item routerLink='details/{{item.id}}'>
+                <mat-icon>preview</mat-icon>
+                Consulter
+              </a>
+              <button (click)='deleteCollection(item.id)' mat-menu-item>
+                <mat-icon>delete</mat-icon>
+                Supprimer
+              </button>
+            </mat-menu>
+          </td>
+        </tr>
+      </ng-container>
+      </tbody>
+    </table>
+    <app-empty-state
+      *ngIf='!loading && collections.length === 0'
+      text='Pas de liste candidats chargée'></app-empty-state>
+    <app-loader-content *ngIf='loading'></app-loader-content>
+  </div>
+</div>
