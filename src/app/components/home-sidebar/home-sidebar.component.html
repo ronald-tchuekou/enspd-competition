@@ -1,0 +1,102 @@
+<!--
+  ~ Copyright (c) 15/08/2022 16:15
+  ~ @author Ronald Tchuekou
+  ~ @email ronaldtchuekou@gmail.com
+  -->
+
+<div class='w-full h-full bg-gray-200/80 shadow rounded-lg flex flex-col gap-4 py-3 overflow-hidden'>
+  <!-- Header Nav -->
+  <div class='w-full px-3'>
+    <div class='header-nav-container'>
+      <button
+        (click)='setTabIndex(1)'
+        [class.active]='tab_index === 1'
+        class='header-nav-item'
+        matRipple
+        matRippleColor='rgba(0, 0, 0, 0.05)'>
+        Science In.
+      </button>
+      <button
+        (click)='setTabIndex(2)'
+        [class.active]='tab_index === 2'
+        class='header-nav-item'
+        matRipple
+        matRippleColor='rgba(0, 0, 0, 0.05)'>
+        Ingénieur
+      </button>
+      <button class='header-nav-indicator {{tab_index === 2 ? "next" : ""}}'>
+        Science In.
+      </button>
+    </div>
+  </div>
+
+  <!-- Search -->
+  <div class='w-full px-3'>
+    <div class='home-sidebar-search'>
+      <mat-icon>search</mat-icon>
+      <input
+        (input)='filter($event)'
+        [(ngModel)]='searchQuery'
+        class='home-sidebar-search-input'
+        placeholder='Rechercher...'
+        type='search'>
+    </div>
+  </div>
+
+  <!-- Collection container -->
+  <div class='h-full w-full' style='max-height: calc(100vh - 225px)'>
+    <mat-tab-group [selectedIndex]='tab_index - 1' class='hidden-nav-tab h-full'>
+      <mat-tab>
+        <div
+          *ngIf='tab_index === 1 && search_collections.length > 0 && !loading'
+          class='w-full p-3 flex flex-col gap-3  text-sm text-gray-500'>
+          <button
+            (click)='selectCollection(collection)'
+            *ngFor='let collection of search_collections'
+            [class.activated]='currentCollection.id === collection.id'
+            class='home-collection-item'>
+            <div class='whitespace-nowrap overflow-ellipsis overflow-hidden w-[225px] text-black font-medium'>
+              {{collection.name}}
+            </div>
+            <div class='whitespace-nowrap overflow-ellipsis overflow-hidden w-[225px] text-gray-600'>
+              {{collection.candidate_count}} candidates
+            </div>
+            <div class='whitespace-nowrap overflow-ellipsis overflow-hidden w-[225px] text-pink-500 text-xs'>
+              Niveau {{collection.level}}
+            </div>
+          </button>
+        </div>
+        <app-loader-content *ngIf='tab_index === 1 && loading'></app-loader-content>
+        <app-empty-state
+          *ngIf='tab_index === 1 && search_collections.length === 0 && !loading'
+          text='Pas de contenu !'></app-empty-state>
+      </mat-tab>
+      <mat-tab>
+        <div
+          *ngIf='tab_index === 2 && search_collections.length > 0 && !loading'
+          class='w-full p-3 flex flex-col gap-3  text-sm text-gray-500'>
+          <button
+            (click)='selectCollection(collection)'
+            *ngFor='let collection of search_collections'
+            [class.activated]='currentCollection.id === collection.id'
+            class='home-collection-item'>
+            <div class='whitespace-nowrap overflow-ellipsis overflow-hidden w-[225px] text-black font-medium'>
+              {{collection.name}}
+            </div>
+            <div class='whitespace-nowrap overflow-ellipsis overflow-hidden w-[225px] text-gray-600'>
+              {{collection.candidate_count}} candidates
+            </div>
+            <div class='whitespace-nowrap overflow-ellipsis overflow-hidden w-[225px] text-pink-500 text-xs'>
+              Niveau {{collection.level}}
+            </div>
+          </button>
+        </div>
+        <app-loader-content *ngIf='tab_index === 2 && loading'></app-loader-content>
+        <app-empty-state
+          *ngIf='tab_index === 2 && search_collections.length === 0 && !loading'
+          text='Pas de contenu !'></app-empty-state>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+
+</div>

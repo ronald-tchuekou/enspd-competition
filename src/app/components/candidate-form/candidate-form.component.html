@@ -23,6 +23,13 @@
 <!-- Content -->
 <div class='h-full overflow-y-auto p-5'>
   <div class='w-full grid grid-cols-1 lg:grid-cols-2 gap-4'>
+    <div class='lg:col-span-2'>
+      <app-simple-input
+        [(value)]='anonymous_num'
+        label='Numéro anonyme'
+        type='number'
+      ></app-simple-input>
+    </div>
     <app-simple-input
       [(value)]='nom'
       label='Nom'
@@ -53,6 +60,27 @@
       [content]='niveaux'
       label='Niveau'
     ></app-simple-select>
+    <app-simple-input
+      [(value)]='note1'
+      label='Note 1'
+      type='number'
+    ></app-simple-input>
+    <app-simple-input
+      [(value)]='note2'
+      label='Note 2'
+      type='number'
+    ></app-simple-input>
+    <app-simple-input
+      *ngIf='niveau == "1"'
+      [(value)]='note3'
+      label='Note 3'
+      type='number'
+    ></app-simple-input>
+    <app-simple-input
+      [(value)]='range'
+      label='Rang'
+      type='number'
+    ></app-simple-input>
     <app-simple-select
       [(value)]='diplome_entree'
       [content]='diplomes'
@@ -91,26 +119,6 @@
     <app-simple-input
       [(value)]='nationalite'
       label='Nationalité'
-      type='text'
-    ></app-simple-input>
-    <app-simple-input
-      [(value)]='nom_pere'
-      label='Nom du père'
-      type='text'
-    ></app-simple-input>
-    <app-simple-input
-      [(value)]='prof_pere'
-      label='Profession du père'
-      type='text'
-    ></app-simple-input>
-    <app-simple-input
-      [(value)]='nom_mere'
-      label='Nom de la mère'
-      type='text'
-    ></app-simple-input>
-    <app-simple-input
-      [(value)]='prof_mere'
-      label='Profession de la mère'
       type='text'
     ></app-simple-input>
   </div>

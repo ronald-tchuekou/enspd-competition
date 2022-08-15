@@ -54,6 +54,9 @@ import { TextInputComponent } from './text-input/text-input.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { StatPieChartComponent } from './stat-pie-chart/stat-pie-chart.component';
 import { ImportContentComponent } from './modals/import-content/import-content.component';
+import { HomeSidebarComponent } from './home-sidebar/home-sidebar.component';
+import { HomeStatisticsComponent } from './home-statistics/home-statistics.component';
+import { StatItemComponent } from './home-statistics/stat-item/stat-item.component';
 
 @NgModule({
   declarations: [
@@ -99,7 +102,10 @@ import { ImportContentComponent } from './modals/import-content/import-content.c
     ExportContentComponent,
     TableDisplayComponent,
     StatPieChartComponent,
-    ImportContentComponent
+    ImportContentComponent,
+    HomeSidebarComponent,
+    HomeStatisticsComponent,
+    StatItemComponent
   ],
   imports: [
     CommonModule,
@@ -152,7 +158,10 @@ import { ImportContentComponent } from './modals/import-content/import-content.c
     ExportContentComponent,
     TableDisplayComponent,
     StatPieChartComponent,
-    ImportContentComponent
+    ImportContentComponent,
+    HomeSidebarComponent,
+    HomeStatisticsComponent,
+    StatItemComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: []

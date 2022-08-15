@@ -4,7 +4,7 @@
  * @email ronaldtchuekou@gmail.com
  */
 
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
 import DatalabelsPlugin from 'chartjs-plugin-datalabels';
 import { BaseChartDirective } from 'ng2-charts';
@@ -45,4 +45,6 @@ export class StatPieChartComponent {
   public pieChartType: 'pie' = 'pie';
 
   public pieChartPlugins = [DatalabelsPlugin];
+
+  @Output() chartHover = new EventEmitter();
 }

@@ -6,6 +6,7 @@
 
 <div class='chart'>
   <canvas
+    (chartHover)='chartHover.emit($event)'
     [data]='pieChartData'
     [options]='pieChartOptions'
     [plugins]='pieChartPlugins'

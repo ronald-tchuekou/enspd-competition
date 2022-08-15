@@ -4,7 +4,7 @@
   ~ @email ronaldtchuekou@gmail.com
   -->
 
-<div class='flex-none flex flex-row items-center justify-between px-1 py-1'>
+<div class='flex-none flex w-full flex-row items-center justify-between px-1 py-1'>
   <div class='title'>Liste de tous les comptes ajoutés</div>
   <div class='flex-none'>
     <button
@@ -15,7 +15,7 @@
     </button>
   </div>
 </div>
-<div class='container h-full overflow-y-auto' style='padding: 0'>
+<div class='container h-full w-full overflow-y-auto' style='padding: 0'>
   <mat-tab-group
     [selectedIndex]='currentAccount || newAccount ? 1 : 0'
     class='hidden-nav-tab h-full w-full'>

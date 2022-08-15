@@ -16,6 +16,11 @@ export interface Region {
   updated_at?: Date
 }
 
+export const DEFAULT_REGION: Region = {
+  id: 0,
+  libelle: ''
+};
+
 @Injectable({
   providedIn: 'root'
 })

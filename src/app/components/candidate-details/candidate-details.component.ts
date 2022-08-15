@@ -22,10 +22,11 @@ export class CandidateDetailsComponent implements OnInit, OnChanges {
   @Output() onEditClick = new EventEmitter();
   @Output() onDeleteClick = new EventEmitter();
   labels: any = {
-    nom: 'Nom',
-    prenom: 'Prénom',
-    date_nais: 'Date de naissance',
-    lieu_nais: 'Lieu de naissance',
+    anonymous_num: 'Numéro anonyme',
+    note1: 'Note 1',
+    note2: 'Note 2',
+    note3: 'Note 3',
+    range: 'Rang',
     cursus: 'Cursus',
     niveau: 'Niveau',
     filiere_choisie: 'Filière choisie',
@@ -35,11 +36,7 @@ export class CandidateDetailsComponent implements OnInit, OnChanges {
     depart_origine: 'Département d\'origine',
     statut_mat: 'Statut matrimonial',
     sexe: 'Sexe',
-    nationalite: 'Nationalité',
-    nom_pere: 'Nom du père',
-    prof_pere: 'Profession du père',
-    nom_mere: 'Nom de la mère',
-    prof_mere: 'Profession de la mère'
+    nationalite: 'Nationalité'
   };
   keys: string[] = Object.keys(this.labels);
   @Input() filieres: any[] = [];

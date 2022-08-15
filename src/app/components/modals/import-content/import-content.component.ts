@@ -124,7 +124,9 @@ export class ImportContentComponent implements OnInit {
             option_choisie: item.option_choisie || 0,
             diplome_entree: item.diplome_entree || 0,
             collection_id: data.id || 0,
-            note: item.note || 0,
+            note1: item.note1 || 0,
+            note2: item.note2 || 0,
+            note3: item.note3 || 0,
             range: item.range || 0,
             anonymous_num: item.anonymous_num || 0
           };

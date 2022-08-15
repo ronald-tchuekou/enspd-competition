@@ -22,6 +22,7 @@ export class CandidateFormComponent implements OnInit, OnChanges {
   @Input() currentCandidate: Candidate | null = null;
   @Output() onBackClick = new EventEmitter();
   title: string = '';
+  anonymous_num: string = '';
   nom: string = '';
   prenom: string = '';
   date_nais: string = '';
@@ -31,10 +32,10 @@ export class CandidateFormComponent implements OnInit, OnChanges {
   statut_mat: string = '';
   sexe: string = '';
   nationalite: string = '';
-  nom_pere: string = '';
-  prof_pere: string = '';
-  nom_mere: string = '';
-  prof_mere: string = '';
+  note1: string = '';
+  note2: string = '';
+  note3: string = '';
+  range: string = '';
   cursus: string = '';
   niveau: string = '';
   filiere_choisie: string = '';
@@ -97,6 +98,7 @@ export class CandidateFormComponent implements OnInit, OnChanges {
   }
 
   initData(current: any) {
+    this.anonymous_num = current?.anonymous_num;
     this.nom = current?.nom;
     this.prenom = current?.prenom;
     this.date_nais = current?.date_nais;
@@ -106,10 +108,10 @@ export class CandidateFormComponent implements OnInit, OnChanges {
     this.statut_mat = current?.statut_mat;
     this.sexe = current?.sexe;
     this.nationalite = current?.nationalite;
-    this.nom_pere = current?.nom_pere;
-    this.prof_pere = current?.prof_pere;
-    this.nom_mere = current?.nom_mere;
-    this.prof_mere = current?.prof_mere;
+    this.note1 = current?.note1;
+    this.note2 = current?.note2;
+    this.note3 = current?.note3;
+    this.range = current?.range;
     this.cursus = current?.cursus;
     this.niveau = current?.niveau;
     this.filiere_choisie = current?.filiere_choisie;
@@ -118,7 +120,8 @@ export class CandidateFormComponent implements OnInit, OnChanges {
   }
 
   validate() {
-    return this.nom.trim() !== '' &&
+    return this.anonymous_num !== '' &&
+      this.nom.trim() !== '' &&
       this.prenom.trim() !== '' &&
       this.date_nais !== '' &&
       this.lieu_nais.trim() !== '' &&
@@ -127,10 +130,10 @@ export class CandidateFormComponent implements OnInit, OnChanges {
       this.statut_mat !== '' &&
       this.sexe !== '' &&
       this.nationalite.trim() !== '' &&
-      this.nom_pere.trim() !== '' &&
-      this.prof_pere.trim() !== '' &&
-      this.nom_mere.trim() !== '' &&
-      this.prof_mere.trim() !== '' &&
+      this.note1 !== '' &&
+      this.note2 !== '' &&
+      this.note3 !== '' &&
+      this.range !== '' &&
       this.cursus !== '' &&
       this.niveau !== '' &&
       this.filiere_choisie !== '' &&
@@ -144,6 +147,7 @@ export class CandidateFormComponent implements OnInit, OnChanges {
       return;
     }
     const data = {
+      anonymous_num: this.anonymous_num,
       nom: this.nom.trim(),
       prenom: this.prenom.trim(),
       date_nais: this.date_nais,
@@ -153,10 +157,10 @@ export class CandidateFormComponent implements OnInit, OnChanges {
       statut_mat: this.statut_mat,
       sexe: this.sexe,
       nationalite: this.nationalite.trim(),
-      nom_pere: this.nom_pere.trim(),
-      prof_pere: this.prof_pere.trim(),
-      nom_mere: this.nom_mere.trim(),
-      prof_mere: this.prof_mere.trim(),
+      note1: this.note1,
+      note2: this.note2,
+      note3: this.note3,
+      range: this.range,
       cursus: this.cursus,
       niveau: this.niveau,
       filiere_choisie: this.filiere_choisie,

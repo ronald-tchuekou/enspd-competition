@@ -135,6 +135,7 @@ app-list-candidats-content {
   @apply flex flex-col h-full w-full
 }
 
+app-home-accounts-list,
 app-user-profile,
 app-change-password,
 app-diplomes-manager,
@@ -155,4 +156,57 @@ app-loader-content, app-empty-state {
 
 .table {
   @apply border
+}
+
+.header-nav-container {
+  @apply flex flex-row justify-center items-center p-0 relative flex-none
+}
+
+.header-nav-item {
+  transition: 300ms;
+  @apply z-10 px-5 py-2 hover:bg-gray-300 text-sm text-gray-500 rounded-full w-32
+}
+
+.header-nav-item.active {
+  @apply hover:bg-gray-300/20
+}
+
+.header-nav-indicator {
+  transition: 300ms;
+  @apply z-0 px-5 py-2 bg-white text-sm text-white rounded-full w-32 absolute top-0 left-0
+}
+
+.header-nav-indicator.next {
+  left: calc(100% - 8rem)
+}
+
+.home-sidebar-search {
+  @apply flex-none flex flex-row w-full rounded-full bg-white text-sm text-gray-600 items-center gap-2 pl-3 pr-2 overflow-hidden
+}
+
+.home-sidebar-search-input {
+  @apply w-full border-none focus:outline-none focus:ring-transparent px-0 text-inherit
+}
+
+.home-sidebar-search-input::placeholder {
+  @apply text-gray-400
+}
+
+.home-collection-item {
+  transition: 300ms;
+  @apply w-full p-3 bg-gray-100 rounded-lg border border-transparent text-left
+}
+
+.home-collection-item:hover {
+  transform: scale(1.03);
+  @apply bg-gray-50 shadow-lg
+}
+
+.home-collection-item.activated {
+  transition: 300ms;
+  @apply bg-blue-500/20
+}
+
+.home-collection-item.activated:hover {
+  @apply bg-blue-500/30
 }
