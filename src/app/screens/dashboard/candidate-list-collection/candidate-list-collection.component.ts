@@ -8,10 +8,12 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ExportContentComponent } from '../../../components/modals/export-content/export-content.component';
 import { ImportContentComponent } from '../../../components/modals/import-content/import-content.component';
-import { Cursus } from '../../../services/candidates.service';
+import { CandidatesService, Cursus } from '../../../services/candidates.service';
 import { Collection, CollectionsService } from '../../../services/collection.service';
 import { ConstantsService } from '../../../services/constants.service';
+import { FilieresService } from '../../../services/filieres.service';
 
 @Component({
   selector: 'app-candidate-list-collection',
@@ -21,13 +23,17 @@ import { ConstantsService } from '../../../services/constants.service';
 export class CandidateListCollectionComponent implements OnInit {
   loading: boolean = false;
   collections: Collection[] = [];
+  filieres: any[] = [];
   level: number = 0;
+  position: number = -1;
   cursus: string = '';
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private collectionService: CollectionsService,
+    private candidateService: CandidatesService,
+    private filiereService: FilieresService,
     private constantService: ConstantsService,
     private sbr: MatSnackBar,
     private dialog: MatDialog
@@ -49,14 +55,25 @@ export class CandidateListCollectionComponent implements OnInit {
 
   getCollections(level: number, cursus: string) {
     this.loading = true;
-    this.collectionService.getCollectionBy({ level, cursus }).subscribe({
+    this.filiereService.getFilieresBy({
+      cursus
+    }).subscribe({
       next: (data) => {
-        this.collections = data;
-        this.loading = false;
+        this.filieres = data.map(item => ({ ...item, label: item.libelle, value: item.id }));
+        this.collectionService.getCollectionBy({ level, cursus }).subscribe({
+          next: (data) => {
+            this.collections = data;
+            this.loading = false;
+          },
+          error: (error: any) => {
+            this.loading = false;
+            console.log('Error when get candidates list : ', error);
+          }
+        });
       },
-      error: (error: any) => {
+      error: (error) => {
         this.loading = false;
-        console.log('Error when get candidates list : ', error);
+        console.log(error);
       }
     });
   }
@@ -92,6 +109,39 @@ export class CandidateListCollectionComponent implements OnInit {
     }).afterClosed().subscribe((value) => {
       if (value) {
         this.getCollections(this.level, this.cursus);
+      }
+    });
+  }
+
+  export(collection: Collection, index: number) {
+    this.position = index;
+    this.candidateService.getPassCandidatesBy({
+      collection_id: collection.id,
+      attente: 1,
+      admis: 1
+    }).subscribe({
+      next: (data) => {
+        this.position = -1;
+        this.dialog.open(ExportContentComponent, {
+          disableClose: true,
+          data: {
+            cursus: collection.cursus,
+            level: collection.level,
+            candidates: data,
+            filieres: collection.level === 1 ? '' : this.filieres
+          }
+        }).afterClosed().subscribe((data) => {
+          if (data) {
+            this.sbr.open('Liste exporter avec succès !',
+              undefined, { duration: 3000 });
+          }
+        });
+      },
+      error: (error) => {
+        this.position = -1;
+        console.log(error);
+        this.sbr.open('Une erreur est survenue, veuillez réessayer !',
+          undefined, { duration: 3000 });
       }
     });
   }

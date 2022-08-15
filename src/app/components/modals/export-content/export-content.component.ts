@@ -26,7 +26,6 @@ export class ExportContentComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) private data: any, private constantsService: ConstantsService) {
     this.filieres = data.filieres;
-    this.options = data.options;
     this.level = parseInt(data.level);
     this.cursus = data.cursus;
     console.log('Candidates : ', data);

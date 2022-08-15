@@ -77,6 +77,21 @@ export class CandidatesService {
     });
   }
 
+  getPassCandidatesBy(find: any) {
+    let query = '';
+    Object.keys(find).forEach((item, index) => {
+      if (index === 0)
+        query += item + '=' + find[item];
+      else
+        query += '&' + item + '=' + find[item];
+    });
+    return this.http.get<Candidate[]>(this.server + '/pass/by?' + query, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+  }
+
   addCandidate(data: any) {
     return this.http.post(this.server, data, {
       headers: {

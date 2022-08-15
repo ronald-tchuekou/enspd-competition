@@ -11,13 +11,12 @@ import { ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import 'moment/locale/fr';
-import { Candidate, CandidatesService, Cursus } from '../../services/candidates.service';
-import { CollectionsService } from '../../services/collection.service';
+import { Candidate, CandidatesService } from '../../services/candidates.service';
+import { Collection, CollectionsService, DEFAULT_COLLECTION } from '../../services/collection.service';
 import { ConstantsService } from '../../services/constants.service';
 import { Filiere, FilieresService } from '../../services/filieres.service';
 import { OptionsService } from '../../services/options.service';
 import { ExportContentComponent } from '../modals/export-content/export-content.component';
-import { ExportLevelCursusComponent } from '../modals/export-level-cursus/export-level-cursus.component';
 
 moment.locale('fr');
 
@@ -32,17 +31,12 @@ export class ListCandidatsContentComponent implements OnInit {
   loading: boolean = false;
   content: Candidate[] = [];
   filieres: any[] = [];
-  cursus_list: any[] = [
-    { label: Cursus.SI, value: Cursus.SI },
-    { label: Cursus.IN, value: Cursus.IN }
-  ];
-  collection_id: number = 0;
+  collection: Collection = DEFAULT_COLLECTION;
   currentPage: number = 0;
   pages: Candidate[][] = [];
   limit: number = 50;
   candidate_name: string = '';
   filiere: string = '';
-  cursus: string = '';
 
   constructor(
     private collectionService: CollectionsService,
@@ -61,6 +55,7 @@ export class ListCandidatsContentComponent implements OnInit {
       const collection_id = params['collection_id'];
       if (collection_id) {
         this.getCandidates(collection_id);
+        this.getCollection(collection_id);
       }
     });
   }
@@ -82,6 +77,18 @@ export class ListCandidatsContentComponent implements OnInit {
       },
       error: (error: any) => {
         this.loading = false;
+        console.log('Error when get candidates list : ', error);
+      }
+    });
+  }
+
+  getCollection(collection_id: number) {
+    this.loading = true;
+    this.collectionService.getCollectionBy({ id: collection_id }).subscribe({
+      next: (data) => {
+        this.collection = data[0];
+      },
+      error: (error: any) => {
         console.log('Error when get candidates list : ', error);
       }
     });
@@ -109,45 +116,23 @@ export class ListCandidatsContentComponent implements OnInit {
 
   filterContent() {
     const name = this.candidate_name.trim().toLowerCase();
-    if (this.cursus === '' && name === '' && this.filiere === '') {
+    if (name === '' && this.filiere === '') {
       this.getPages(this.content);
       return;
     }
-    if (this.cursus !== '' && name === '' && this.filiere === '') {
-      this.getPages(this.content.filter(item => item.cursus === this.cursus));
-      return;
-    }
-    if (this.cursus === '' && name !== '' && this.filiere === '') {
+    if (name !== '' && this.filiere === '') {
       this.getPages(this.content.filter(item => {
-        return item.nom?.toLowerCase()
-          .includes(name) || item.prenom?.toLowerCase().includes(name);
+        return item.nom?.toLowerCase().includes(name) || item.prenom?.toLowerCase().includes(name);
       }));
       return;
     }
-    if (this.cursus === '' && name === '' && this.filiere !== '') {
+    if (name === '' && this.filiere !== '') {
       this.getPages(this.content.filter(item => item.filiere_choisie === parseInt(this.filiere)));
       return;
     }
-    if (this.cursus !== '' && name !== '' && this.filiere === '') {
-      this.getPages(this.content.filter(item => item.cursus === this.cursus &&
-        (item.nom?.toLowerCase().includes(name) ||
-          item.prenom?.toLowerCase().includes(name))));
-      return;
-    }
-    if (this.cursus === '' && name !== '' && this.filiere !== '') {
+    if (name !== '' && this.filiere !== '') {
       this.getPages(this.content.filter(item => (item.nom?.toLowerCase().includes(name) ||
         item.prenom?.toLowerCase().includes(name)) && item.filiere_choisie === parseInt(this.filiere)));
-      return;
-    }
-    if (this.cursus !== '' && name === '' && this.filiere !== '') {
-      this.getPages(this.content.filter(item => item.cursus === this.cursus &&
-        item.filiere_choisie === parseInt(this.filiere)));
-      return;
-    }
-    if (this.cursus !== '' && name !== '' && this.filiere !== '') {
-      this.getPages(this.content.filter(item => item.cursus === this.cursus &&
-        (item.nom?.toLowerCase().includes(name) || item.prenom?.toLowerCase().includes(name)) &&
-        item.filiere_choisie === parseInt(this.filiere)));
       return;
     }
   }
@@ -156,7 +141,7 @@ export class ListCandidatsContentComponent implements OnInit {
     const response = confirm('Voulez-vous vraiment supprimer cette liste de candidates ?');
     if (response) {
       this.loading = true;
-      this.collectionService.deleteCollection(this.collection_id).subscribe({
+      this.collectionService.deleteCollection(this.collection.id || 0).subscribe({
         next: () => {
           this.loading = false;
           this.sbr.open('Liste supprimer avec succès !', undefined, { duration: 3000 });
@@ -178,8 +163,8 @@ export class ListCandidatsContentComponent implements OnInit {
     return this.filieres.find(item => item.value === query)?.label || '';
   }
 
-  filterFilieres(query: string) {
-    return this.filieres.filter(item => item.cursus === query);
+  filterFilieres() {
+    return this.filieres.filter(item => item.cursus === this.collection.cursus);
   }
 
   toggleAdmis(candidate: Candidate, index: number, page: number) {
@@ -198,6 +183,13 @@ export class ListCandidatsContentComponent implements OnInit {
         ];
         this.pages = this.constantService.createSegments(this.content, this.limit);
         if (this.currentCandidate) this.currentCandidateChange.emit(c);
+        this.collectionService.updateCollection({
+          admis_candidate_count: this.getAdmisCount()
+        }, this.collection.id).subscribe({
+          error: err => {
+            console.log('Error when update collection update :', err);
+          }
+        });
       },
       error: err => {
         console.log(err);
@@ -215,35 +207,38 @@ export class ListCandidatsContentComponent implements OnInit {
         { duration: 3000 });
       return;
     }
-    this.dialog.open(ExportLevelCursusComponent, {
-      disableClose: true
-    }).afterClosed().subscribe(value => {
-      if (value) {
-        const data: any[] = [];
-        this.content.filter(item => item.admis || item.attente).forEach(
-          (item, index) => {
-            if (item.nom)
-              data.push({
-                ...item,
-                id: `${index + 1}`
-              });
-            else console.log(item);
-          }
-        );
-        this.dialog.open(ExportContentComponent, {
-          disableClose: true,
-          data: {
-            ...value,
-            candidates: data.filter(item => item.cursus === value.cursus),
-            options: this.cursus_list,
-            filieres: this.filieres
-          }
-        }).afterClosed().subscribe(value => {
-          if (value)
-            this.export();
-        });
+
+    const data: any[] = [];
+    this.content.filter(item => item.admis || item.attente).forEach(
+      (item, index) => {
+        if (item.nom)
+          data.push({
+            ...item,
+            id: `${index + 1}`
+          });
+        else console.log(item);
       }
+    );
+    this.dialog.open(ExportContentComponent, {
+      disableClose: true,
+      data: {
+        cursus: this.collection.cursus,
+        level: this.collection.level,
+        candidates: data,
+        filieres: this.filieres
+      }
+    }).afterClosed().subscribe(value => {
+      if (value)
+        this.export();
     });
+  }
+
+  getAdmisCount() {
+    return this.content.filter(item => item.admis).length;
+  }
+
+  getAttenteCount() {
+    return this.content.filter(item => item.attente).length;
   }
 
   toggleAttente(candidate: Candidate, index: number, page: number) {
@@ -262,6 +257,13 @@ export class ListCandidatsContentComponent implements OnInit {
         ];
         this.pages = this.constantService.createSegments(this.content, this.limit);
         if (this.currentCandidate) this.currentCandidateChange.emit(c);
+        this.collectionService.updateCollection({
+          attente_candidate_count: this.getAttenteCount()
+        }, this.collection.id).subscribe({
+          error: err => {
+            console.log('Error when update collection update :', err);
+          }
+        });
       },
       error: err => {
         console.log(err);

@@ -40,7 +40,11 @@
           <td class='p-2'>{{item.created_at | date:"dd-MM-YYYY"}}</td>
           <td class='p-2'>{{item.updated_at | date: "dd-MM-YYYY"}}</td>
           <td class='w-3'>
+            <div *ngIf='position === i' class='w-8 h-8'>
+              <app-loader-content [size]='18'></app-loader-content>
+            </div>
             <button
+              *ngIf='position !== i'
               [matMenuTriggerFor]='menu'
               mat-icon-button>
               <mat-icon>more_vert</mat-icon>
@@ -50,6 +54,10 @@
                 <mat-icon>preview</mat-icon>
                 Consulter
               </a>
+              <button (click)='export(item, i)' mat-menu-item>
+                <mat-icon>ios_share</mat-icon>
+                Export
+              </button>
               <button (click)='deleteCollection(item.id)' mat-menu-item>
                 <mat-icon>delete</mat-icon>
                 Supprimer

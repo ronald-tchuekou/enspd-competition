@@ -117,4 +117,8 @@ export class CandidateListDetailsComponent implements OnInit {
       }
     });
   }
+
+  back() {
+    window.history.back();
+  }
 }

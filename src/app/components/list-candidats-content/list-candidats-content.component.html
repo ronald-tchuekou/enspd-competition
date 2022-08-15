@@ -6,7 +6,7 @@
 
 <!-- filter -->
 <div class='flex-none flex flex-row items-end border-b'>
-  <div class='grid grid-cols-3 gap-3 w-full pt-3 px-3 pb-2'>
+  <div class='grid grid-cols-2 gap-3 w-full pt-3 px-3 pb-2'>
     <label class='block text-xs text-gray-600 w-full'>
       <span class='block pb-1'>Candidat</span>
       <input
@@ -17,12 +17,8 @@
       >
     </label>
     <app-input-select
-      [(value)]='cursus'
-      [content]='cursus_list'
-      label='Cursus'></app-input-select>
-    <app-input-select
       [(value)]='filiere'
-      [content]='filterFilieres(cursus)'
+      [content]='filterFilieres()'
       label='Filières'></app-input-select>
   </div>
   <button
