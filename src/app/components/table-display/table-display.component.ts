@@ -29,7 +29,11 @@ export class TableDisplayComponent implements OnInit {
   }
 
   getFiliere(filiere_choisie: number) {
-    return this.filieres.find(item => item.value == filiere_choisie)?.label || '';
+    try {
+      return this.filieres.find(item => item.value == filiere_choisie)?.label || 'Tronc commun';
+    } catch (e) {
+      return 'Tronc commun';
+    }
   }
 
   formatDate(date_nais: Date) {

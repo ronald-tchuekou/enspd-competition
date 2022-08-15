@@ -86,7 +86,11 @@ export class ExportContentComponent implements OnInit {
   }
 
   getFiliere(list: string) {
-    return this.filieres.find(item => item.value == list)?.label || 'Tronc commun';
+    try {
+      return this.filieres.find(item => item.value == list)?.label || 'Tronc commun';
+    } catch (e) {
+      return 'Tronc commun';
+    }
   }
 
   exportCSV() {
