@@ -86,8 +86,13 @@
             <div class='whitespace-nowrap overflow-ellipsis overflow-hidden w-[225px] text-gray-600'>
               {{collection.candidate_count}} candidates
             </div>
-            <div class='whitespace-nowrap overflow-ellipsis overflow-hidden w-[225px] text-pink-500 text-xs'>
-              Niveau {{collection.level}}
+            <div class='flex flex-row justify-between'>
+              <div class='text-pink-500 text-xs'>
+                Niveau {{collection.level}}
+              </div>
+              <div class='text-gray-400 text-xs'>
+                {{collection.created_at | date}}
+              </div>
             </div>
           </button>
         </div>
