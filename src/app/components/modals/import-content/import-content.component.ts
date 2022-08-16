@@ -61,29 +61,38 @@ export class ImportContentComponent implements OnInit {
   }
 
   onCSVInputChange(event: any) {
-    const fr = new FileReader();
-    this.loading = true;
-    fr.readAsText(event.target.files[0]);
-    fr.onload = () => {
-      this.formatCSV(fr.result);
-    };
-    fr.onerror = () => this.loading = false;
+    const file = event.target.files[0];
+    console.log(file);
+    if (file.type === 'text/csv') {
+      const fr = new FileReader();
+      this.loading = true;
+      fr.readAsText(file);
+      fr.onload = () => {
+        this.formatCSV(fr.result);
+      };
+      fr.onerror = () => this.loading = false;
+    } else {
+      this.sbr.open('Le fichier doit être in fichier de type CSV avec pour séparateur le point virgule (;)',
+        undefined, { duration: 5000 });
+    }
   }
 
   formatCSV(data: any) {
     this.loading = true;
     const lines = data.split('\n');
-    const headers = lines[0].split(';');
+    const headers = lines[0].replace('\r', '').split(';');
     const content: any[] = [];
     for (let i = 1; i < lines.length; i++) {
-      const current = lines[i].split(';');
-      let content_item = {};
-      if (current[0] !== '')
-        headers.forEach((item: any, index: number) => {
-          if (item !== 'id')
-            content_item = { ...content_item, [item]: current[index] };
-        });
-      content.push(content_item);
+      if (lines[i] !== '') {
+        const current = lines[i].replace('\r', '').split(';');
+        let content_item = {};
+        if (current[0] !== '')
+          headers.forEach((item: any, index: number) => {
+            if (item !== 'id')
+              content_item = { ...content_item, [item]: current[index] };
+          });
+        content.push(content_item);
+      }
     }
 
     this.allCandidate = content;
