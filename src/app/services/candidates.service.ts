@@ -39,6 +39,7 @@ export interface Candidate {
   note2: number,
   note3: number,
   range: number,
+  average: number,
   anonymous_num: number,
   created_at?: Date,
   updated_at?: Date

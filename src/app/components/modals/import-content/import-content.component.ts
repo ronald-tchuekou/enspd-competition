@@ -136,6 +136,7 @@ export class ImportContentComponent implements OnInit {
             note1: item.note1 || 0,
             note2: item.note2 || 0,
             note3: item.note3 || 0,
+            average: item.average,
             range: item.range || 0,
             anonymous_num: item.anonymous_num || 0
           };

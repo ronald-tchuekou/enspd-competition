@@ -8,7 +8,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import * as _ from 'lodash';
 import * as moment from 'moment';
 import 'moment/locale/fr';
 import { Candidate, CandidatesService } from '../../services/candidates.service';
@@ -16,6 +15,7 @@ import { Collection, CollectionsService, DEFAULT_COLLECTION } from '../../servic
 import { ConstantsService } from '../../services/constants.service';
 import { Filiere, FilieresService } from '../../services/filieres.service';
 import { OptionsService } from '../../services/options.service';
+import { Region, RegionsService } from '../../services/regions.service';
 import { ExportContentComponent } from '../modals/export-content/export-content.component';
 
 moment.locale('fr');
@@ -31,18 +31,21 @@ export class ListCandidatsContentComponent implements OnInit {
   loading: boolean = false;
   content: Candidate[] = [];
   filieres: any[] = [];
+  regions: any[] = [];
   collection: Collection = DEFAULT_COLLECTION;
   currentPage: number = 0;
   pages: Candidate[][] = [];
   limit: number = 50;
   candidate_name: string = '';
   filiere: string = '';
+  region: string = '';
 
   constructor(
     private collectionService: CollectionsService,
     private candidateService: CandidatesService,
     private constantService: ConstantsService,
     private filiereService: FilieresService,
+    private regionService: RegionsService,
     private optionsService: OptionsService,
     private sbr: MatSnackBar,
     private activatedRoute: ActivatedRoute,
@@ -67,7 +70,10 @@ export class ListCandidatsContentComponent implements OnInit {
         this.filiereService.getFilieres().subscribe((data: Filiere[]) => {
           this.filieres = data.map(item => ({ ...item, label: item.libelle, value: item.id }));
         });
-        this.content = _.sortBy(data, ['nom', 'prenom']).map((item: any) => ({
+        this.regionService.getRegions().subscribe((data: Region[]) => {
+          this.regions = data.map(item => ({ ...item, label: item.libelle, value: item.id }));
+        });
+        this.content = data.map((item: any) => ({
           ...item,
           date_nais: moment(item.date_nais).format('YYYY-MM-DD'),
           cni_date: moment(item.cni_date).format('YYYY-MM-DD')
@@ -116,23 +122,43 @@ export class ListCandidatsContentComponent implements OnInit {
 
   filterContent() {
     const name = this.candidate_name.trim().toLowerCase();
-    if (name === '' && this.filiere === '') {
+    if (name === '' && this.filiere === '' && this.region === '') {
       this.getPages(this.content);
       return;
     }
-    if (name !== '' && this.filiere === '') {
+    if (name !== '' && this.filiere === '' && this.region === '') {
       this.getPages(this.content.filter(item => {
         return item.nom?.toLowerCase().includes(name) || item.prenom?.toLowerCase().includes(name);
       }));
       return;
     }
-    if (name === '' && this.filiere !== '') {
+    if (name === '' && this.filiere !== '' && this.region === '') {
       this.getPages(this.content.filter(item => item.filiere_choisie === parseInt(this.filiere)));
       return;
     }
-    if (name !== '' && this.filiere !== '') {
+    if (name !== '' && this.filiere !== '' && this.region === '') {
       this.getPages(this.content.filter(item => (item.nom?.toLowerCase().includes(name) ||
         item.prenom?.toLowerCase().includes(name)) && item.filiere_choisie === parseInt(this.filiere)));
+      return;
+    }
+    if (name !== '' && this.filiere === '' && this.region !== '') {
+      this.getPages(this.content.filter(item => (item.nom?.toLowerCase().includes(name) ||
+        item.prenom?.toLowerCase().includes(name)) && item.region_origine === parseInt(this.region)));
+      return;
+    }
+    if (name === '' && this.filiere === '' && this.region !== '') {
+      this.getPages(this.content.filter(item => item.region_origine === parseInt(this.region)));
+      return;
+    }
+    if (name === '' && this.filiere !== '' && this.region !== '') {
+      this.getPages(this.content.filter(item => item.region_origine === parseInt(this.region)
+        && item.filiere_choisie === parseInt(this.filiere)));
+      return;
+    }
+    if (name !== '' && this.filiere !== '' && this.region !== '') {
+      this.getPages(this.content.filter(item => (item.nom?.toLowerCase().includes(name) ||
+          item.prenom?.toLowerCase().includes(name)) && item.region_origine === parseInt(this.region)
+        && item.filiere_choisie === parseInt(this.filiere)));
       return;
     }
   }
@@ -157,10 +183,6 @@ export class ListCandidatsContentComponent implements OnInit {
         }
       });
     }
-  }
-
-  getFiliere(query: number) {
-    return this.filieres.find(item => item.value === query)?.label || '';
   }
 
   filterFilieres() {

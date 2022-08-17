@@ -26,6 +26,7 @@ export class CandidateDetailsComponent implements OnInit, OnChanges {
     note1: 'Note 1',
     note2: 'Note 2',
     note3: 'Note 3',
+    average: 'Moyenne',
     range: 'Rang',
     cursus: 'Cursus',
     niveau: 'Niveau',

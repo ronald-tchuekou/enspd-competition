@@ -35,6 +35,7 @@ export class CandidateFormComponent implements OnInit, OnChanges {
   note1: string = '';
   note2: string = '';
   note3: string = '';
+  average: string = '';
   range: string = '';
   cursus: string = '';
   niveau: string = '';
@@ -111,6 +112,7 @@ export class CandidateFormComponent implements OnInit, OnChanges {
     this.note1 = current?.note1;
     this.note2 = current?.note2;
     this.note3 = current?.note3;
+    this.average = current?.average;
     this.range = current?.range;
     this.cursus = current?.cursus;
     this.niveau = current?.niveau;
@@ -132,7 +134,6 @@ export class CandidateFormComponent implements OnInit, OnChanges {
       this.nationalite.trim() !== '' &&
       this.note1 !== '' &&
       this.note2 !== '' &&
-      this.note3 !== '' &&
       this.range !== '' &&
       this.cursus !== '' &&
       this.niveau !== '' &&
@@ -160,6 +161,7 @@ export class CandidateFormComponent implements OnInit, OnChanges {
       note1: this.note1,
       note2: this.note2,
       note3: this.note3,
+      average: this.average,
       range: this.range,
       cursus: this.cursus,
       niveau: this.niveau,
