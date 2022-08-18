@@ -15,7 +15,7 @@ import { ImportContentComponent } from '../../../components/modals/import-conten
 import { Candidate, CandidatesService } from '../../../services/candidates.service';
 import { Collection, CollectionsService, DEFAULT_COLLECTION } from '../../../services/collection.service';
 import { ConstantsService } from '../../../services/constants.service';
-import { DepartementsService } from '../../../services/departements.service';
+import { Departement, DepartementsService } from '../../../services/departements.service';
 import { Diplome, DiplomesService } from '../../../services/diplome.service';
 import { Filiere, FilieresService } from '../../../services/filieres.service';
 import { Option, OptionsService } from '../../../services/options.service';
@@ -90,7 +90,7 @@ export class CandidateListDetailsComponent implements OnInit {
           this.regions = [{ label: '...', value: '' },
             ...data.map(item => ({ ...item, label: item.libelle, value: item.id }))];
           // Loading departments
-          this.departementsService.getDepartements().subscribe((data: Region[]) => {
+          this.departementsService.getDepartements().subscribe((data: Departement[]) => {
             this.departments = [{ label: '...', value: '' },
               ...data.map(item => ({ ...item, label: item.libelle, value: item.id }))];
             // Loading diplomas

@@ -19,13 +19,14 @@ import { ConstantsService } from '../../../services/constants.service';
 export class ExportContentComponent implements OnInit {
 
   candidates: any;
-  filieres: any[] = [];
-  options: any[] = [];
-  level: number = -1;
-  cursus: string = '';
+  filieres: any[];
+  regions: any[];
+  level: number;
+  cursus: string;
 
   constructor(@Inject(MAT_DIALOG_DATA) private data: any, private constantsService: ConstantsService) {
     this.filieres = data.filieres;
+    this.regions = data.regions || [];
     this.level = parseInt(data.level);
     this.cursus = data.cursus;
     console.log('Candidates : ', data);
@@ -99,5 +100,13 @@ export class ExportContentComponent implements OnInit {
 
   exportEXCEL() {
     // TODO
+  }
+
+  principalList(candidates: Candidate[]) {
+    return candidates.filter(item => item.admis);
+  }
+
+  attenteList(candidates: Candidate[]) {
+    return candidates.filter(item => item.attente);
   }
 }

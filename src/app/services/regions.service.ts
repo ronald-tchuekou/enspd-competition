@@ -11,6 +11,7 @@ import { environment } from '../../environments/environment';
 
 export interface Region {
   id: number,
+  abreviation: string,
   libelle: string,
   created_at?: Date,
   updated_at?: Date
@@ -18,6 +19,7 @@ export interface Region {
 
 export const DEFAULT_REGION: Region = {
   id: 0,
+  abreviation: '',
   libelle: ''
 };
 

@@ -16,16 +16,12 @@ import { Candidate } from '../../services/candidates.service';
 export class TableDisplayComponent implements OnInit {
   @Input() candidates: Candidate[] = [];
   @Input() filieres: any[] = [];
-  @Input() options: any[] = [];
+  @Input() regions: any[] = [];
 
   constructor() {
   }
 
   ngOnInit(): void {
-  }
-
-  getOption(option_choisie: number) {
-    return this.options.find(item => item.value == option_choisie)?.label || '';
   }
 
   getFiliere(filiere_choisie: number) {
@@ -38,5 +34,9 @@ export class TableDisplayComponent implements OnInit {
 
   formatDate(date_nais: Date) {
     return moment(date_nais).format('DD/MM/YYYY');
+  }
+
+  getRegion(option_choisie: number) {
+    return this.regions.find(item => item.value == option_choisie)?.label || '';
   }
 }

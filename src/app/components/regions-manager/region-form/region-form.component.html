@@ -24,6 +24,11 @@
 <div class='h-full overflow-y-auto p-5'>
   <div class='w-full grid grid-cols-1 gap-4'>
     <app-simple-input
+      [(value)]='abreviation'
+      label='Abréviation'
+      type='text'
+    ></app-simple-input>
+    <app-simple-input
       [(value)]='libelle'
       label='Libelle'
       type='text'

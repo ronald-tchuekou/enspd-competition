@@ -50,7 +50,7 @@ export class StatItemComponent implements OnInit, OnChanges {
       return 0;
     });
 
-    const labels = this.regions.map(item => item.libelle)
+    const labels = this.regions.map(item => item.abreviation)
       .filter((item, index) => groupCount[index] > 0);
 
     this.stats_content = {
@@ -89,7 +89,7 @@ export class StatItemComponent implements OnInit, OnChanges {
   chartHovered({ active }: { active: any[] }): void {
     if (active[0] && this.stats_content.labels) {
       const c = this.stats_content.labels[active[0].index];
-      const currentRegion = this.regions.find(item => item.libelle === c) || DEFAULT_REGION;
+      const currentRegion = this.regions.find(item => item.abreviation === c) || DEFAULT_REGION;
       if (this.currentRegion.id !== currentRegion.id) {
         this.currentRegion = currentRegion;
       }

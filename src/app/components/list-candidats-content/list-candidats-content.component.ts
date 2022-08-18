@@ -247,7 +247,8 @@ export class ListCandidatsContentComponent implements OnInit {
         cursus: this.collection.cursus,
         level: this.collection.level,
         candidates: data,
-        filieres: this.collection.level === 1 ? '' : this.filieres
+        filieres: this.collection.level === 1 ? '' : this.filieres,
+        regions: this.regions
       }
     }).afterClosed().subscribe(value => {
       if (value)

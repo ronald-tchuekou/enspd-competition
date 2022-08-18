@@ -10,9 +10,9 @@
     <td class='p-2'>Nom complet</td>
     <td class='p-2'>Date de naissance</td>
     <td class='p-2'>Lieu</td>
-    <td class='p-2'>Option</td>
+    <td class='p-2'>Région</td>
     <td class='p-2'>Filière</td>
-    <td class='p-2'>Statut</td>
+    <td class='p-2'>Moyenne</td>
     </thead>
     <tbody>
     <ng-container *ngFor='let item of candidates; let i = index'>
@@ -20,9 +20,9 @@
         <td class='p-2'>{{item.nom}} {{item.prenom}}</td>
         <td class='p-2'>{{formatDate(item.date_nais)}}</td>
         <td class='p-2'>{{item.lieu_nais}}</td>
-        <td class='p-2'>{{getOption(item.option_choisie)}}</td>
+        <td class='p-2'>{{getRegion(item.region_origine)}}</td>
         <td class='p-2'>{{getFiliere(item.filiere_choisie)}}</td>
-        <td class='p-2'>{{item.admis ? 'Admis' : item.attente ? 'En attente' : ''}}</td>
+        <td class='p-2'>{{item.average}}</td>
       </tr>
     </ng-container>
     </tbody>

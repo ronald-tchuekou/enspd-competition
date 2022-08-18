@@ -18,6 +18,7 @@ export class RegionFormComponent implements OnInit {
   @Output() onComplete = new EventEmitter();
   @Output() onBackClick = new EventEmitter();
   libelle: string = '';
+  abreviation: string = '';
   title: string = '';
   loading: boolean = false;
 
@@ -28,6 +29,7 @@ export class RegionFormComponent implements OnInit {
   }
 
   initForm() {
+    this.abreviation = '';
     this.libelle = '';
   }
 
@@ -48,10 +50,11 @@ export class RegionFormComponent implements OnInit {
     if (!region)
       return;
     this.libelle = region.libelle;
+    this.abreviation = region.abreviation;
   }
 
   validate() {
-    return this.libelle.trim() !== '';
+    return this.libelle.trim() !== '' && this.abreviation.trim() !== '';
   }
 
   submit() {
@@ -61,7 +64,8 @@ export class RegionFormComponent implements OnInit {
       return;
     }
     const data = {
-      libelle: this.libelle.trim()
+      libelle: this.libelle.trim(),
+      abreviation: this.abreviation.trim()
     };
 
     if (this.currentRegion)

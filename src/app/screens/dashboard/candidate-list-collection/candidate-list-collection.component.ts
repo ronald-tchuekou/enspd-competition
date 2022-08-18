@@ -14,6 +14,7 @@ import { CandidatesService, Cursus } from '../../../services/candidates.service'
 import { Collection, CollectionsService } from '../../../services/collection.service';
 import { ConstantsService } from '../../../services/constants.service';
 import { FilieresService } from '../../../services/filieres.service';
+import { RegionsService } from '../../../services/regions.service';
 
 @Component({
   selector: 'app-candidate-list-collection',
@@ -24,6 +25,7 @@ export class CandidateListCollectionComponent implements OnInit {
   loading: boolean = false;
   collections: Collection[] = [];
   filieres: any[] = [];
+  regions: any[] = [];
   level: number = 0;
   position: number = -1;
   cursus: string = '';
@@ -35,6 +37,7 @@ export class CandidateListCollectionComponent implements OnInit {
     private candidateService: CandidatesService,
     private filiereService: FilieresService,
     private constantService: ConstantsService,
+    private regionsService: RegionsService,
     private sbr: MatSnackBar,
     private dialog: MatDialog
   ) {
@@ -55,19 +58,28 @@ export class CandidateListCollectionComponent implements OnInit {
 
   getCollections(level: number, cursus: string) {
     this.loading = true;
-    this.filiereService.getFilieresBy({
-      cursus
-    }).subscribe({
-      next: (data) => {
-        this.filieres = data.map(item => ({ ...item, label: item.libelle, value: item.id }));
-        this.collectionService.getCollectionBy({ level, cursus }).subscribe({
+    this.regionsService.getRegions().subscribe({
+      next: (regions) => {
+        this.regions = regions.map(item => ({ ...item, label: item.libelle, value: item.id }));
+        this.filiereService.getFilieresBy({
+          cursus
+        }).subscribe({
           next: (data) => {
-            this.collections = data;
-            this.loading = false;
+            this.filieres = data.map(item => ({ ...item, label: item.libelle, value: item.id }));
+            this.collectionService.getCollectionBy({ level, cursus }).subscribe({
+              next: (data) => {
+                this.collections = data;
+                this.loading = false;
+              },
+              error: (error: any) => {
+                this.loading = false;
+                console.log('Error when get candidates list : ', error);
+              }
+            });
           },
-          error: (error: any) => {
+          error: (error) => {
             this.loading = false;
-            console.log('Error when get candidates list : ', error);
+            console.log(error);
           }
         });
       },
@@ -128,7 +140,8 @@ export class CandidateListCollectionComponent implements OnInit {
             cursus: collection.cursus,
             level: collection.level,
             candidates: data,
-            filieres: collection.level === 1 ? '' : this.filieres
+            filieres: collection.level === 1 ? '' : this.filieres,
+            regions: this.regions
           }
         }).afterClosed().subscribe((data) => {
           if (data) {
