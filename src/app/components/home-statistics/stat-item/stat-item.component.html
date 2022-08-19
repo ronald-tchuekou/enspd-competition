@@ -6,6 +6,57 @@
 
 <div class='w-full bg-gray-50 shadow-lg rounded-lg p-3'>
   <div class='text-sm pb-3'>{{title_label}}</div>
+  <div class='flex flex-col sm:flex-row md:flex-col lg:flex-row gap-4'>
+    <div class='flex-grow flex justify-center items-center'>
+      <div class='max-w-[300px]'>
+        <app-stat-pie-chart
+          *ngIf='(stats_content.labels || []).length > 0'
+          [pieChartData]='stats_content'
+        ></app-stat-pie-chart>
+        <app-empty-state
+          *ngIf='(stats_content.labels || []).length === 0'
+          text="Aucun candidate n'a de région"></app-empty-state>
+        <div class='pt-4 text-xl font-medium text-teal-500 text-center'>{{content.length}}</div>
+      </div>
+    </div>
+    <div class='w-full h-full'>
+      <table class='w-full table w-full text-xs text-gray-500'>
+        <thead class='bg-gray-100 text-gray-600 whitespace-nowrap'>
+        <td class='p-2'>Régions (%)</td>
+        <td class='p-2'>Effectif</td>
+        <td class='p-2'>Masculin (%)</td>
+        <td class='p-2'>Féminin (%)</td>
+        </thead>
+        <tbody>
+        <ng-container *ngFor='let region of labelingRegions'>
+          <tr>
+            <td class='p-2'>
+              {{region.libelle}} ({{
+              constantsService.getPercentage(candidateCount, getCandidateRegion(region.id).length)
+              }}%)
+            </td>
+            <td class='p-2'>{{getCandidateRegion(region.id).length}}</td>
+            <td class='p-2'>
+              {{getSexeM(getCandidateRegion(region.id)).length}} ({{
+              getPercentM(getCandidateRegion(region.id))
+              }}%)
+            </td>
+            <td class='p-2'>
+              {{getSexeF(getCandidateRegion(region.id)).length}} ({{
+              getPercentF(getCandidateRegion(region.id))
+              }}%)
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!--
+<div class='w-full bg-gray-50 shadow-lg rounded-lg p-3'>
+  <div class='text-sm pb-3'>{{title_label}}</div>
   <app-stat-pie-chart
     (chartHover)='chartHovered($event)'
     *ngIf='(stats_content.labels || []).length > 0'
@@ -33,3 +84,4 @@
     <mat-icon class='text-violet-700'>female</mat-icon>
   </div>
 </div>
+-->

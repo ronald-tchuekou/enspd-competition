@@ -37,7 +37,9 @@ export class ConstantsService {
   getPercentage(total: number, count: number) {
     if (total === 0 || count === 0)
       return 0;
-    return Math.floor((count * 100) / total);
+    if (total === count)
+      return 100;
+    return ((count * 100) / total).toFixed(2);
   }
 
   createHeaders(keys: Header[]): CellConfig[] {

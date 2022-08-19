@@ -41,6 +41,7 @@ export interface Candidate {
   range: number,
   average: number,
   anonymous_num: number,
+  anonymous_num2: number,
   created_at?: Date,
   updated_at?: Date
 }

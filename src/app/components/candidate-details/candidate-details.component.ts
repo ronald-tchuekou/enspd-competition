@@ -23,6 +23,7 @@ export class CandidateDetailsComponent implements OnInit, OnChanges {
   @Output() onDeleteClick = new EventEmitter();
   labels: any = {
     anonymous_num: 'Numéro anonyme',
+    anonymous_num2: 'Numéro anonyme 2',
     note1: 'Note 1',
     note2: 'Note 2',
     note3: 'Note 3',

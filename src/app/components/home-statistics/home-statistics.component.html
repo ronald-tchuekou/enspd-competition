@@ -16,9 +16,10 @@
     </div>
   </div>
   <div class='h-full w-full overflow-y-auto'>
-    <div *ngIf='currentCollection.id !== 0 && !loading' class='grid grid-cols-3 w-full gap-5'>
+    <div *ngIf='currentCollection.id !== 0 && !loading' class='grid grid-cols-1 w-full gap-5'>
       <div>
         <app-stat-item
+          [candidateCount]='candidates.length'
           [content]='searchCandidates'
           [regions]='regions'
           title_label='Tous les candidates'
@@ -26,6 +27,7 @@
       </div>
       <div>
         <app-stat-item
+          [candidateCount]='admisCandidates.length'
           [content]='admisCandidates'
           [regions]='regions'
           title_label='Candidates admis'
@@ -33,6 +35,7 @@
       </div>
       <div>
         <app-stat-item
+          [candidateCount]='attenteCandidates.length'
           [content]='attenteCandidates'
           [regions]='regions'
           title_label='Candidates en attente'

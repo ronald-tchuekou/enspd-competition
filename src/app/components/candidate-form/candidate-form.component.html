@@ -23,13 +23,16 @@
 <!-- Content -->
 <div class='h-full overflow-y-auto p-5'>
   <div class='w-full grid grid-cols-1 lg:grid-cols-2 gap-4'>
-    <div class='lg:col-span-2'>
-      <app-simple-input
-        [(value)]='anonymous_num'
-        label='Numéro anonyme'
-        type='number'
-      ></app-simple-input>
-    </div>
+    <app-simple-input
+      [(value)]='anonymous_num'
+      label='Numéro anonyme'
+      type='number'
+    ></app-simple-input>
+    <app-simple-input
+      [(value)]='anonymous_num2'
+      label='Numéro anonyme 2'
+      type='number'
+    ></app-simple-input>
     <app-simple-input
       [(value)]='nom'
       label='Nom'

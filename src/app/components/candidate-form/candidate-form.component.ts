@@ -23,6 +23,7 @@ export class CandidateFormComponent implements OnInit, OnChanges {
   @Output() onBackClick = new EventEmitter();
   title: string = '';
   anonymous_num: string = '';
+  anonymous_num2: string = '';
   nom: string = '';
   prenom: string = '';
   date_nais: string = '';
@@ -100,6 +101,7 @@ export class CandidateFormComponent implements OnInit, OnChanges {
 
   initData(current: any) {
     this.anonymous_num = current?.anonymous_num;
+    this.anonymous_num2 = current?.anonymous_num2;
     this.nom = current?.nom;
     this.prenom = current?.prenom;
     this.date_nais = current?.date_nais;
@@ -122,8 +124,7 @@ export class CandidateFormComponent implements OnInit, OnChanges {
   }
 
   validate() {
-    return this.anonymous_num !== '' &&
-      this.nom.trim() !== '' &&
+    return this.nom.trim() !== '' &&
       this.prenom.trim() !== '' &&
       this.date_nais !== '' &&
       this.lieu_nais.trim() !== '' &&
@@ -149,6 +150,7 @@ export class CandidateFormComponent implements OnInit, OnChanges {
     }
     const data = {
       anonymous_num: this.anonymous_num,
+      anonymous_num2: this.anonymous_num2,
       nom: this.nom.trim(),
       prenom: this.prenom.trim(),
       date_nais: this.date_nais,

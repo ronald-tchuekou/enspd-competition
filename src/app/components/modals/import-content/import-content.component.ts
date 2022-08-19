@@ -129,16 +129,17 @@ export class ImportContentComponent implements OnInit {
             niveau: parseInt(this.level),
             admis: item.admis || false,
             attente: item.attente || false,
-            filiere_choisie: item?.filiere_choisie || 0,
-            option_choisie: item.option_choisie || 0,
-            diplome_entree: item.diplome_entree || 0,
+            filiere_choisie: item?.filiere_choisie,
+            option_choisie: item.option_choisie,
+            diplome_entree: item.diplome_entree,
             collection_id: data.id || 0,
-            note1: item.note1 || 0,
-            note2: item.note2 || 0,
-            note3: item.note3 || 0,
+            note1: item.note1,
+            note2: item.note2,
+            note3: item.note3,
             average: item.average,
-            range: item.range || 0,
-            anonymous_num: item.anonymous_num || 0
+            range: item.range,
+            anonymous_num: item.anonymous_num,
+            anonymous_num2: item.anonymous_num2
           };
           return candidate;
         }), 100);

@@ -8,6 +8,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { ChartData } from 'chart.js';
 import * as _ from 'lodash';
 import { Candidate } from '../../../services/candidates.service';
+import { ConstantsService } from '../../../services/constants.service';
 import { DEFAULT_REGION, Region } from '../../../services/regions.service';
 
 @Component({
@@ -16,9 +17,11 @@ import { DEFAULT_REGION, Region } from '../../../services/regions.service';
   styles: []
 })
 export class StatItemComponent implements OnInit, OnChanges {
+  @Input() candidateCount: number = 0;
   @Input() title_label: string = '';
   @Input() content: Candidate[] = [];
   @Input() regions: Region[] = [];
+  labelingRegions: Region[] = [];
   regionGroups: _.Dictionary<Candidate[]> = {};
   currentRegion: Region = DEFAULT_REGION;
 
@@ -27,7 +30,7 @@ export class StatItemComponent implements OnInit, OnChanges {
     datasets: [{ data: [] }]
   };
 
-  constructor() {
+  constructor(public constantsService: ConstantsService) {
   }
 
   ngOnInit(): void {
@@ -50,14 +53,17 @@ export class StatItemComponent implements OnInit, OnChanges {
       return 0;
     });
 
-    const labels = this.regions.map(item => item.abreviation)
-      .filter((item, index) => groupCount[index] > 0);
+    this.labelingRegions = this.regions.filter((item, index) => groupCount[index] > 0);
 
     this.stats_content = {
-      labels,
+      labels: this.labelingRegions.map(item => item.abreviation),
       datasets: [{ data: groupCount.filter(item => item > 0) }]
     };
 
+  }
+
+  getCandidateRegion(region_id: number) {
+    return this.content.filter(item => item.region_origine === region_id);
   }
 
   getFilterRegion() {
@@ -74,29 +80,14 @@ export class StatItemComponent implements OnInit, OnChanges {
     return candidates.filter(item => item.sexe === 'Feminin');
   }
 
-  getPercentM() {
-    const c = this.getFilterRegion();
+  getPercentM(c: any[]) {
     if (c.length === 0) return 0;
-    return (this.getSexeM(c).length * 100 / c.length).toFixed(2);
+    return this.constantsService.getPercentage(c.length, this.getSexeM(c).length);
   }
 
-  getPercentF() {
-    const c = this.getFilterRegion();
+  getPercentF(c: any[]) {
     if (c.length === 0) return 0;
-    return (this.getSexeF(c).length * 100 / c.length).toFixed(2);
+    return this.constantsService.getPercentage(c.length, this.getSexeF(c).length);
   }
 
-  chartHovered({ active }: { active: any[] }): void {
-    if (active[0] && this.stats_content.labels) {
-      const c = this.stats_content.labels[active[0].index];
-      const currentRegion = this.regions.find(item => item.abreviation === c) || DEFAULT_REGION;
-      if (this.currentRegion.id !== currentRegion.id) {
-        this.currentRegion = currentRegion;
-      }
-    } else {
-      if (this.currentRegion.id !== DEFAULT_REGION.id) {
-        this.currentRegion = DEFAULT_REGION;
-      }
-    }
-  }
 }
