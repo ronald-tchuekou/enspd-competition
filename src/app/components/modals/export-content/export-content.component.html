@@ -22,7 +22,8 @@
       Filière : <span class='text-orange-400'>{{getFiliere(list)}}</span>
     </h2>
     <div>
-      <h3 class='text-base text-gray-500 py-2'>Liste principale</h3>
+      <h3 class='text-base text-gray-500 py-2'>Liste principale {{principalList(candidates[list]).length}}
+        Candidates</h3>
       <div class='w-[700px]'>
         <app-table-display
           [candidates]='principalList(candidates[list])'
@@ -31,7 +32,7 @@
       </div>
     </div>
     <div>
-      <h3 class='text-base text-gray-500 py-2'>Liste d'attente</h3>
+      <h3 class='text-base text-gray-500 py-2'>Liste d'attente {{attenteList(candidates[list]).length}} Candidates</h3>
       <div class='w-[700px]'>
         <app-table-display
           [candidates]='attenteList(candidates[list])'

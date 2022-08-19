@@ -30,6 +30,7 @@ export class ListCandidatsContentComponent implements OnInit {
   @Output() currentCandidateChange = new EventEmitter();
   loading: boolean = false;
   content: Candidate[] = [];
+  searchContent: Candidate[] = [];
   filieres: any[] = [];
   regions: any[] = [];
   collection: Collection = DEFAULT_COLLECTION;
@@ -78,7 +79,8 @@ export class ListCandidatsContentComponent implements OnInit {
           date_nais: moment(item.date_nais).format('YYYY-MM-DD'),
           cni_date: moment(item.cni_date).format('YYYY-MM-DD')
         }));
-        this.getPages(this.content);
+        this.searchContent = this.content;
+        this.getPages(this.searchContent);
         this.loading = false;
       },
       error: (error: any) => {
@@ -102,7 +104,7 @@ export class ListCandidatsContentComponent implements OnInit {
 
   limitChange(value: string) {
     this.limit = parseInt(value);
-    this.getPages(this.content);
+    this.getPages(this.searchContent);
   }
 
   getPages(content: any[]) {
@@ -123,44 +125,30 @@ export class ListCandidatsContentComponent implements OnInit {
   filterContent() {
     const name = this.candidate_name.trim().toLowerCase();
     if (name === '' && this.filiere === '' && this.region === '') {
-      this.getPages(this.content);
-      return;
-    }
-    if (name !== '' && this.filiere === '' && this.region === '') {
-      this.getPages(this.content.filter(item => {
+      this.searchContent = this.content;
+    } else if (name !== '' && this.filiere === '' && this.region === '') {
+      this.searchContent = this.content.filter(item => {
         return item.nom?.toLowerCase().includes(name) || item.prenom?.toLowerCase().includes(name);
-      }));
-      return;
-    }
-    if (name === '' && this.filiere !== '' && this.region === '') {
-      this.getPages(this.content.filter(item => item.filiere_choisie === parseInt(this.filiere)));
-      return;
-    }
-    if (name !== '' && this.filiere !== '' && this.region === '') {
-      this.getPages(this.content.filter(item => (item.nom?.toLowerCase().includes(name) ||
-        item.prenom?.toLowerCase().includes(name)) && item.filiere_choisie === parseInt(this.filiere)));
-      return;
-    }
-    if (name !== '' && this.filiere === '' && this.region !== '') {
-      this.getPages(this.content.filter(item => (item.nom?.toLowerCase().includes(name) ||
-        item.prenom?.toLowerCase().includes(name)) && item.region_origine === parseInt(this.region)));
-      return;
-    }
-    if (name === '' && this.filiere === '' && this.region !== '') {
-      this.getPages(this.content.filter(item => item.region_origine === parseInt(this.region)));
-      return;
-    }
-    if (name === '' && this.filiere !== '' && this.region !== '') {
-      this.getPages(this.content.filter(item => item.region_origine === parseInt(this.region)
-        && item.filiere_choisie === parseInt(this.filiere)));
-      return;
-    }
-    if (name !== '' && this.filiere !== '' && this.region !== '') {
-      this.getPages(this.content.filter(item => (item.nom?.toLowerCase().includes(name) ||
+      });
+    } else if (name === '' && this.filiere !== '' && this.region === '') {
+      this.searchContent = this.content.filter(item => item.filiere_choisie === parseInt(this.filiere));
+    } else if (name !== '' && this.filiere !== '' && this.region === '') {
+      this.searchContent = this.content.filter(item => (item.nom?.toLowerCase().includes(name) ||
+        item.prenom?.toLowerCase().includes(name)) && item.filiere_choisie === parseInt(this.filiere));
+    } else if (name !== '' && this.filiere === '' && this.region !== '') {
+      this.searchContent = this.content.filter(item => (item.nom?.toLowerCase().includes(name) ||
+        item.prenom?.toLowerCase().includes(name)) && item.region_origine === parseInt(this.region));
+    } else if (name === '' && this.filiere === '' && this.region !== '') {
+      this.searchContent = this.content.filter(item => item.region_origine === parseInt(this.region));
+    } else if (name === '' && this.filiere !== '' && this.region !== '') {
+      this.searchContent = this.content.filter(item => item.region_origine === parseInt(this.region)
+        && item.filiere_choisie === parseInt(this.filiere));
+    } else if (name !== '' && this.filiere !== '' && this.region !== '') {
+      this.searchContent = this.content.filter(item => (item.nom?.toLowerCase().includes(name) ||
           item.prenom?.toLowerCase().includes(name)) && item.region_origine === parseInt(this.region)
-        && item.filiere_choisie === parseInt(this.filiere)));
-      return;
+        && item.filiere_choisie === parseInt(this.filiere));
     }
+    this.getPages(this.searchContent);
   }
 
   deleteAll() {
@@ -189,24 +177,18 @@ export class ListCandidatsContentComponent implements OnInit {
     return this.filieres.filter(item => item.cursus === this.collection.cursus);
   }
 
-  toggleAdmis(candidate: Candidate, index: number, page: number) {
+  toggleAdmis(candidate: Candidate) {
     this.candidateService.updateCandidate({
       admis: !candidate.admis,
       attente: false
     }, candidate.id).subscribe({
-      next: value => {
-        console.log(value);
-        const p = this.limit * (page - 1) + index;
+      next: () => {
         const c = { ...candidate, admis: !candidate.admis, attente: false };
-        this.content = [
-          ...this.content.slice(0, p),
-          c,
-          ...this.content.slice(p + 1)
-        ];
-        this.pages = this.constantService.createSegments(this.content, this.limit);
+        this.content = this.content.map(item => item.id === c.id ? c : item);
+        this.filterContent();
         if (this.currentCandidate) this.currentCandidateChange.emit(c);
         this.collectionService.updateCollection({
-          admis_candidate_count: this.getAdmisCount()
+          admis_candidate_count: this.getAdmisCount(this.content)
         }, this.collection.id).subscribe({
           error: err => {
             console.log('Error when update collection update :', err);
@@ -256,32 +238,26 @@ export class ListCandidatsContentComponent implements OnInit {
     });
   }
 
-  getAdmisCount() {
-    return this.content.filter(item => item.admis).length;
+  getAdmisCount(content: Candidate[]) {
+    return content.filter(item => item.admis).length;
   }
 
-  getAttenteCount() {
-    return this.content.filter(item => item.attente).length;
+  getAttenteCount(content: Candidate[]) {
+    return content.filter(item => item.attente).length;
   }
 
-  toggleAttente(candidate: Candidate, index: number, page: number) {
+  toggleAttente(candidate: Candidate) {
     this.candidateService.updateCandidate({
       attente: !candidate.attente,
       admis: false
     }, candidate.id).subscribe({
-      next: value => {
-        console.log(value);
-        const p = this.limit * (page - 1) + index;
+      next: () => {
         const c = { ...candidate, attente: !candidate.attente, admis: false };
-        this.content = [
-          ...this.content.slice(0, p),
-          c,
-          ...this.content.slice(p + 1)
-        ];
-        this.pages = this.constantService.createSegments(this.content, this.limit);
+        this.content = this.content.map(item => item.id === c.id ? c : item);
+        this.filterContent();
         if (this.currentCandidate) this.currentCandidateChange.emit(c);
         this.collectionService.updateCollection({
-          attente_candidate_count: this.getAttenteCount()
+          attente_candidate_count: this.getAttenteCount(this.content)
         }, this.collection.id).subscribe({
           error: err => {
             console.log('Error when update collection update :', err);

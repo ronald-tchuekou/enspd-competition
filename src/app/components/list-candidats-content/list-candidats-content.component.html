@@ -5,31 +5,32 @@
   -->
 
 <!-- filter -->
-<div class='flex-none flex flex-row items-end border-b'>
-  <div class='grid grid-cols-3 gap-3 w-full pt-3 px-3 pb-2'>
-    <label class='block text-xs text-gray-600 w-full'>
-      <span class='block pb-1'>Candidat</span>
-      <input
-        [(ngModel)]='candidate_name'
-        class='border rounded w-full bg-transparent text-xs text-black py-1 px-2 focus:outline-none focus:ring-transparent'
-        placeholder='Nom du candidat...'
-        type='text'
-      >
-    </label>
-    <app-input-select
-      [(value)]='region'
-      [content]='regions'
-      label='Régions'></app-input-select>
-    <app-input-select
-      [(value)]='filiere'
-      [content]='filterFilieres()'
-      label='Filières'></app-input-select>
-  </div>
-  <button
-    (click)='filterContent()'
-    class='flex justify-center items-center bg-blue-600 rounded h-7 w-7 text-white flex-none mr-3 my-2'
-    matRipple
-    matRippleColor='rgba(255, 255, 255, 0.15)'>
+<div class='flex-none border-b'>
+  <div class='flex-none flex flex-row items-end border-b'>
+    <div class='grid grid-cols-3 gap-3 w-full pt-3 px-3 pb-2'>
+      <label class='block text-xs text-gray-600 w-full'>
+        <span class='block pb-1'>Candidat</span>
+        <input
+          [(ngModel)]='candidate_name'
+          class='border rounded w-full bg-transparent text-xs text-black py-1 px-2 focus:outline-none focus:ring-transparent'
+          placeholder='Nom du candidat...'
+          type='text'
+        >
+      </label>
+      <app-input-select
+        [(value)]='region'
+        [content]='regions'
+        label='Régions'></app-input-select>
+      <app-input-select
+        [(value)]='filiere'
+        [content]='filterFilieres()'
+        label='Filières'></app-input-select>
+    </div>
+    <button
+      (click)='filterContent()'
+      class='flex justify-center items-center bg-blue-600 rounded h-7 w-7 text-white flex-none mr-3 my-2'
+      matRipple
+      matRippleColor='rgba(255, 255, 255, 0.15)'>
     <span class='h-full w-full flex justify-center items-center'>
       <svg fill='none' height='24' viewBox='0 0 25 24' width='25' xmlns='http://www.w3.org/2000/svg'>
       <path
@@ -39,7 +40,16 @@
         fill-rule='evenodd' />
     </svg>
     </span>
-  </button>
+    </button>
+  </div>
+  <div class='flex flex-row gap-3 text-base text-gray-500 p-3'>
+    <div>
+      <span class='font-bold text-teal-500'>{{getAdmisCount(searchContent)}}</span> Admis
+    </div>
+    <div>
+      <span class='font-bold text-blue-500'>{{getAttenteCount(searchContent)}}</span> Attente
+    </div>
+  </div>
 </div>
 <!-- List of candidates -->
 <div class='h-full overflow-y-auto'>
@@ -60,20 +70,20 @@
         [class.bg-orange-100]='currentCandidate && currentCandidate.id === item.id'
         class='border-b px-2'>
         <td class='p-2'>{{item.nom}} {{item.prenom}}</td>
-        <td class='p-2'>{{item.note1}}</td>
-        <td class='p-2'>{{item.note2}}</td>
-        <td *ngIf='collection.level === 1' class='p-2'>{{item.note3}}</td>
+        <td class='p-2'>{{item.note1 < 0 ? 'Abs' : item.note1}}</td>
+        <td class='p-2'>{{item.note2 < 0 ? 'Abs' : item.note2}}</td>
+        <td *ngIf='collection.level === 1' class='p-2'>{{item.note3 < 0 ? 'Abs' : item.note3}}</td>
         <td class='p-2'>{{item.average < 0 ? 'Abs' : item.average}}</td>
         <td class='py-2 px-2'>
           <input
-            (click)='toggleAdmis(item, i, currentPage)'
+            (click)='toggleAdmis(item)'
             [checked]='item.admis'
             class='rounded'
             type='checkbox'>
         </td>
         <td class='py-2 px-2'>
           <input
-            (click)='toggleAttente(item, i, currentPage)'
+            (click)='toggleAttente(item)'
             [checked]='item.attente'
             class='rounded'
             type='checkbox'>
