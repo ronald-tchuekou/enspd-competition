@@ -52,7 +52,7 @@ export class ExportContentComponent implements OnInit {
     return Object.keys(object);
   }
 
-  exportPDF() {
+  getExporterContent() {
     const result: any[] = [];
     this.getKeys(this.candidates).forEach(key => {
       result.push({
@@ -83,7 +83,12 @@ export class ExportContentComponent implements OnInit {
           }))
       });
     });
-    this.constantsService.savePDF(result, `${this.cursus}_niveau_${this.level}.pdf`);
+    return result;
+  }
+
+  exportPDF() {
+    this.constantsService.savePDF(this.getExporterContent(),
+      `${this.cursus}_niveau_${this.level}.pdf`);
   }
 
   getFiliere(list: string) {
@@ -95,11 +100,8 @@ export class ExportContentComponent implements OnInit {
   }
 
   exportCSV() {
-    // TODO
-  }
-
-  exportEXCEL() {
-    // TODO
+    this.constantsService.saveCSV(this.getExporterContent(),
+      `${this.cursus}_niveau_${this.level}.csv`);
   }
 
   principalList(candidates: Candidate[]) {
