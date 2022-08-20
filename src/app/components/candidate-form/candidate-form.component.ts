@@ -21,6 +21,7 @@ import { RegionsService } from '../../services/regions.service';
 export class CandidateFormComponent implements OnInit, OnChanges {
   @Input() currentCandidate: Candidate | null = null;
   @Output() onBackClick = new EventEmitter();
+  @Output() onComplete = new EventEmitter();
   title: string = '';
   anonymous_num: string = '';
   anonymous_num2: string = '';
@@ -90,7 +91,6 @@ export class CandidateFormComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     let change = changes['currentCandidate'];
-    console.log(change.currentValue);
     if (change) {
       this.title = change.currentValue ?
         'Modification des informations du candidat' :
@@ -174,8 +174,8 @@ export class CandidateFormComponent implements OnInit, OnChanges {
     this.loading = true;
     this.candidateService.updateCandidate(data, this.currentCandidate?.id)
       .subscribe({
-        next: value => {
-          console.log(value);
+        next: () => {
+          this.onComplete.emit({ ...this.currentCandidate, ...data });
           this.loading = false;
           this.sbr.open('Les information du candidat on été modifié',
             undefined, { duration: 3000 });

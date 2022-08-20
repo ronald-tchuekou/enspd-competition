@@ -274,4 +274,10 @@ export class ListCandidatsContentComponent implements OnInit {
       }
     });
   }
+
+  updateContentList(candidate: Candidate) {
+    this.content = this.content.map(item => item.id === candidate.id ? candidate : item);
+    this.filterContent(false);
+    if (this.currentCandidate) this.currentCandidateChange.emit(candidate);
+  }
 }

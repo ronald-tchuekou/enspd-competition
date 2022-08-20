@@ -63,6 +63,7 @@
         <mat-tab label='Form editor'>
           <app-candidate-form
             (onBackClick)='tab_index = 0'
+            (onComplete)='listCandidatsContentComponent.updateContentList($event)'
             [currentCandidate]='currentCandidate'
             [departments]='this.departments'
             [diplomes]='diplomes'
