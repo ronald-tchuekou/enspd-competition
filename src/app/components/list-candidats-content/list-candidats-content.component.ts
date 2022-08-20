@@ -80,7 +80,7 @@ export class ListCandidatsContentComponent implements OnInit {
           cni_date: moment(item.cni_date).format('YYYY-MM-DD')
         }));
         this.searchContent = this.content;
-        this.getPages(this.searchContent);
+        this.getPages(this.searchContent, true);
         this.loading = false;
       },
       error: (error: any) => {
@@ -104,12 +104,13 @@ export class ListCandidatsContentComponent implements OnInit {
 
   limitChange(value: string) {
     this.limit = parseInt(value);
-    this.getPages(this.searchContent);
+    this.getPages(this.searchContent, true);
   }
 
-  getPages(content: any[]) {
+  getPages(content: any[], resetCurrentPage: boolean = false) {
     this.pages = this.constantService.createSegments(content, this.limit);
-    this.currentPage = this.pages.length > 0 ? 1 : 0;
+    if (resetCurrentPage)
+      this.currentPage = this.pages.length > 0 ? 1 : 0;
   }
 
   previousPage() {
@@ -122,7 +123,7 @@ export class ListCandidatsContentComponent implements OnInit {
       this.currentPage++;
   }
 
-  filterContent() {
+  filterContent(resetCurrentPage: boolean = true) {
     const name = this.candidate_name.trim().toLowerCase();
     if (name === '' && this.filiere === '' && this.region === '') {
       this.searchContent = this.content;
@@ -148,7 +149,7 @@ export class ListCandidatsContentComponent implements OnInit {
           item.prenom?.toLowerCase().includes(name)) && item.region_origine === parseInt(this.region)
         && item.filiere_choisie === parseInt(this.filiere));
     }
-    this.getPages(this.searchContent);
+    this.getPages(this.searchContent, resetCurrentPage);
   }
 
   deleteAll() {
@@ -185,7 +186,7 @@ export class ListCandidatsContentComponent implements OnInit {
       next: () => {
         const c = { ...candidate, admis: !candidate.admis, attente: false };
         this.content = this.content.map(item => item.id === c.id ? c : item);
-        this.filterContent();
+        this.filterContent(false);
         if (this.currentCandidate) this.currentCandidateChange.emit(c);
         this.collectionService.updateCollection({
           admis_candidate_count: this.getAdmisCount(this.content)
@@ -254,7 +255,7 @@ export class ListCandidatsContentComponent implements OnInit {
       next: () => {
         const c = { ...candidate, attente: !candidate.attente, admis: false };
         this.content = this.content.map(item => item.id === c.id ? c : item);
-        this.filterContent();
+        this.filterContent(false);
         if (this.currentCandidate) this.currentCandidateChange.emit(c);
         this.collectionService.updateCollection({
           attente_candidate_count: this.getAttenteCount(this.content)
