@@ -68,8 +68,7 @@ export class ConstantsService {
     try {
       const headers: any[] = this.createHeaders([
         { width: 30, name: 'id', prompt: 'N°' },
-        { width: 130, name: 'nom', prompt: 'Nom' },
-        { width: 130, name: 'prenom', prompt: 'Prénom' },
+        { width: 260, name: 'nom', prompt: 'Nom et Prénom' },
         { width: 55, name: 'date_nais', prompt: 'Date Naissance' },
         { width: 90, name: 'lieu_nais', prompt: 'Lieu Naissance' },
         { width: 35, name: 'sexe', prompt: 'Sexe' },
@@ -122,8 +121,8 @@ export class ConstantsService {
   }
 
   saveCSV(data: any[], fileName: string) {
-    const headerKeys = ['id', 'nom', 'prenom', 'date_nais', 'lieu_nais', 'sexe', 'cursus'];
-    const headerLabels = 'N°;Nom;Prénom;Date Naissance;Lieu Naissance;Sexe;Cursus';
+    const headerKeys = ['id', 'nom', 'date_nais', 'lieu_nais', 'sexe', 'cursus'];
+    const headerLabels = 'N°;Nom et Prénom;Date Naissance;Lieu Naissance;Sexe;Cursus';
 
     let lines: string[] = [];
     data.forEach(dataContent => {
