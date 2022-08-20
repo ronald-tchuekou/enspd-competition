@@ -73,8 +73,7 @@ export class ExportContentComponent implements OnInit {
           .filter((item: any) => item.admis)
           .map((item: any, index: number) => ({
             id: `${index + 1}`,
-            nom: item.nom || '',
-            prenom: item.prenom || '',
+            nom: (item.nom || '') + ' ' + (item.prenom || ''),
             date_nais: moment(item.date_nais).format('DD/MM/YYYY'),
             lieu_nais: item.lieu_nais || '',
             sexe: item.sexe || '',
