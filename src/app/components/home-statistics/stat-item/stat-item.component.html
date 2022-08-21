@@ -22,7 +22,8 @@
     <div class='w-full h-full'>
       <table class='w-full table w-full text-xs text-gray-500'>
         <thead class='bg-gray-100 text-gray-600 whitespace-nowrap'>
-        <td class='p-2'>Régions (%)</td>
+        <td class='p-2'>Régions</td>
+        <td class='p-2'>%</td>
         <td class='p-2'>Effectif</td>
         <td class='p-2'>Masculin (%)</td>
         <td class='p-2'>Féminin (%)</td>
@@ -31,11 +32,13 @@
         <ng-container *ngFor='let region of labelingRegions'>
           <tr>
             <td class='p-2'>
-              {{region.libelle}} ({{
-              constantsService.getPercentage(candidateCount, getCandidateRegion(region.id).length)
-              }}%)
+              {{region.libelle}}
             </td>
             <td class='p-2'>{{getCandidateRegion(region.id).length}}</td>
+            <td>{{
+              constantsService.getPercentage(candidateCount, getCandidateRegion(region.id).length)
+              }}%
+            </td>
             <td class='p-2'>
               {{getSexeM(getCandidateRegion(region.id)).length}} ({{
               getPercentM(getCandidateRegion(region.id))
@@ -49,39 +52,18 @@
           </tr>
         </ng-container>
         </tbody>
+        <tfoot class='bg-gray-100 text-gray-600 whitespace-nowrap font-medium'>
+        <td class='p-2'>Totals</td>
+        <td class='p-2'>{{content.length}}</td>
+        <td class='p-2'>100%</td>
+        <td class='p-2'>
+          {{getSexeM(content).length}} ({{getPercentM(content)}}%)
+        </td>
+        <td class='p-2'>
+          {{getSexeF(content).length}} ({{getPercentF(content)}}%)
+        </td>
+        </tfoot>
       </table>
     </div>
   </div>
 </div>
-
-<!--
-<div class='w-full bg-gray-50 shadow-lg rounded-lg p-3'>
-  <div class='text-sm pb-3'>{{title_label}}</div>
-  <app-stat-pie-chart
-    (chartHover)='chartHovered($event)'
-    *ngIf='(stats_content.labels || []).length > 0'
-    [pieChartData]='stats_content'
-  ></app-stat-pie-chart>
-  <app-empty-state
-    *ngIf='(stats_content.labels || []).length === 0'
-    text="Aucun candidate n'a de région"></app-empty-state>
-  <div class='pt-4 text-xl font-medium text-teal-500 text-center'>{{content.length}}</div>
-</div>
-<div class='h-5'></div>
-<div class='w-full bg-gray-50 shadow-lg rounded-lg p-3 space-y-3 text-sm text-gray-500'>
-  <div class='border-b'>
-    <div *ngIf='currentRegion.id !== 0'>
-      Région : <span class='text-sky-600'>{{currentRegion.libelle}}</span>
-    </div>
-    <div>Nb candidate : <span class='text-emerald-500'>{{getFilterRegion().length}}</span></div>
-  </div>
-  <div class=''>
-    <span class='text-orange-500'>{{getSexeM(getFilterRegion()).length}} ({{getPercentM()}}%)</span> Masculin
-    <mat-icon class='text-orange-500'>male</mat-icon>
-  </div>
-  <div class=''>
-    <span class='text-violet-700'>{{getSexeF(getFilterRegion()).length}} ({{getPercentF()}}%)</span> Féminin
-    <mat-icon class='text-violet-700'>female</mat-icon>
-  </div>
-</div>
--->
