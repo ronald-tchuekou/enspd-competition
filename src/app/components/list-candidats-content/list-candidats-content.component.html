@@ -55,6 +55,7 @@
 <div class='h-full overflow-y-auto'>
   <table *ngIf='!loading && content.length > 0' class='table w-full text-xs text-gray-500'>
     <thead class='bg-gray-200 text-gray-600 whitespace-nowrap'>
+    <td class='p-2'>N°</td>
     <td class='p-2'>Nom complet</td>
     <td class='p-2'>Note 1</td>
     <td class='p-2'>Note 2</td>
@@ -69,6 +70,7 @@
         (click)='currentCandidateChange.emit(item)'
         [class.bg-orange-100]='currentCandidate && currentCandidate.id === item.id'
         class='border-b px-2'>
+        <td class='p-2'>{{item.position}}</td>
         <td class='p-2'>{{item.nom}} {{item.prenom}}</td>
         <td class='p-2'>{{item.note1 < 0 ? 'Abs' : item.note1}}</td>
         <td class='p-2'>{{item.note2 < 0 ? 'Abs' : item.note2}}</td>

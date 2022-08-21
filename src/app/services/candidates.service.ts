@@ -13,6 +13,7 @@ export enum Cursus {SI = 'Science Ingénieur', IN = 'Ingénieur'}
 export enum Sexe {M = 'Masculin', F = 'Feminin'}
 
 export interface Candidate {
+  position?: number;
   id?: number,
   nom: string,
   prenom: string,

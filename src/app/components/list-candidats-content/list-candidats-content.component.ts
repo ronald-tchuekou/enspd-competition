@@ -8,6 +8,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import * as _ from 'lodash';
 import * as moment from 'moment';
 import 'moment/locale/fr';
 import { Candidate, CandidatesService } from '../../services/candidates.service';
@@ -74,8 +75,9 @@ export class ListCandidatsContentComponent implements OnInit {
         this.regionService.getRegions().subscribe((data: Region[]) => {
           this.regions = data.map(item => ({ ...item, label: item.libelle, value: item.id }));
         });
-        this.content = data.map((item: any) => ({
+        this.content = data.map((item: any, index: number) => ({
           ...item,
+          position: index + 1,
           date_nais: moment(item.date_nais).format('YYYY-MM-DD'),
           cni_date: moment(item.cni_date).format('YYYY-MM-DD')
         }));
@@ -276,7 +278,11 @@ export class ListCandidatsContentComponent implements OnInit {
   }
 
   updateContentList(candidate: Candidate) {
-    this.content = this.content.map(item => item.id === candidate.id ? candidate : item);
+    this.content = _.sortBy(this.content
+      .map((item) => item.id === candidate.id
+        ? candidate
+        : item), (n1) => -n1.average)
+      .map((item, i) => ({ ...item, position: i + 1 }));
     this.filterContent(false);
     if (this.currentCandidate) this.currentCandidateChange.emit(candidate);
   }
