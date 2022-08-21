@@ -17,7 +17,8 @@
           </svg>
         </span>
       </button>
-      <div class='title flex-none'>Candidats de la liste <span class='text-teal-500'>{{collection.name}}</span></div>
+      <div class='title flex-none'>Candidats de la liste <span
+        class='text-teal-500 hidden md:inline-block'>{{collection.name}}</span></div>
     </div>
     <div class='flex flex-row'>
       <button
@@ -29,14 +30,63 @@
       </button>
       <button
         (click)='listCandidatsContentComponent.export()'
-        class='button warning py-2'
+        class='button warning py-2 hidden md:block'
         matRipple
         matRippleColor='rgba(255, 255, 255, 0.15)'>
         <span class='block px-2 py-1'>Exporter</span>
       </button>
     </div>
   </div>
-  <div class='container h-full flex flex-row' style='padding: 0; height: calc(100vh - 140px)'>
+
+  <div class='container h-full flex md:hidden' style='padding: 0; height: calc(100vh - 140px)'>
+    <mat-tab-group
+      [selectedIndex]='currentCandidate?.id ? 1 : 0'
+      class='hidden-nav-tab h-full'>
+      <mat-tab class='h-full'>
+        <app-list-candidats-content
+          #listCandidatsContentComponent
+          [(currentCandidate)]='currentCandidate'
+        ></app-list-candidats-content>
+      </mat-tab>
+      <mat-tab class='h-full'>
+        <mat-tab-group
+          *ngIf='!loading'
+          [selectedIndex]='tab_index'
+          class='hidden-nav-tab h-full'>
+          <mat-tab label='Details'>
+            <app-candidate-details
+              (onBack)='currentCandidate = null'
+              (onDeleteClick)='deleteCurrent()'
+              (onEditClick)='tab_index = 1'
+              [currentCandidate]='currentCandidate'
+              [departments]='this.departments'
+              [diplomes]='diplomes'
+              [filieres]='this.filieres'
+              [options]='this.options'
+              [regions]='this.regions'
+              [withBack]='true'
+            ></app-candidate-details>
+          </mat-tab>
+          <mat-tab label='Form editor'>
+            <app-candidate-form
+              (onBackClick)='tab_index = 0'
+              (onComplete)='listCandidatsContentComponent.updateContentList($event)'
+              [currentCandidate]='currentCandidate'
+              [departments]='this.departments'
+              [diplomes]='diplomes'
+              [filieres]='this.filieres'
+              [options]='this.options'
+              [regions]='this.regions'
+            ></app-candidate-form>
+          </mat-tab>
+        </mat-tab-group>
+        <app-loader-content *ngIf='loading'>
+        </app-loader-content>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+
+  <div class='container h-full hidden md:flex flex-row' style='padding: 0; height: calc(100vh - 140px)'>
     <div class='w-full h-full border-r'>
       <app-list-candidats-content
         #listCandidatsContentComponent

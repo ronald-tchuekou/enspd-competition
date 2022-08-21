@@ -6,7 +6,20 @@
 
 <!-- Header -->
 <div class='border-b h-[4.15rem] flex flex-row justify-between items-center p-1 flex-none'>
-  <div class='sub-title'>Détails sur le candidats sélectionné</div>
+  <div class='flex flex-row items-center'>
+    <button
+      (click)='onBack.emit()'
+      *ngIf='withBack' mat-icon-button>
+        <span class='flex justify-center items-center'>
+          <svg fill='none' height='20' viewBox='0 0 22 20' width='22' xmlns='http://www.w3.org/2000/svg'>
+            <path
+              d='M20.3333 8.66666H4.51992L9.35992 2.85333C9.58624 2.58104 9.69512 2.23 9.66261 1.87743C9.63011 1.52486 9.45887 1.19965 9.18659 0.97333C8.9143 0.747012 8.56326 0.638129 8.21069 0.670635C7.85812 0.703142 7.5329 0.874374 7.30658 1.14666L0.639919 9.14666C0.595066 9.21029 0.554958 9.27714 0.519918 9.34666C0.519918 9.41333 0.519919 9.45333 0.426586 9.52C0.36615 9.67288 0.334507 9.83561 0.333252 10C0.334507 10.1644 0.36615 10.3271 0.426586 10.48C0.426586 10.5467 0.426585 10.5867 0.519918 10.6533C0.554958 10.7228 0.595066 10.7897 0.639919 10.8533L7.30658 18.8533C7.43195 19.0038 7.58894 19.1249 7.76638 19.2078C7.94383 19.2908 8.13737 19.3336 8.33325 19.3333C8.64479 19.3339 8.9467 19.2254 9.18659 19.0267C9.3216 18.9147 9.4332 18.7773 9.515 18.6221C9.5968 18.467 9.6472 18.2973 9.6633 18.1226C9.6794 17.948 9.66089 17.7719 9.60883 17.6044C9.55677 17.437 9.47219 17.2814 9.35992 17.1467L4.51992 11.3333H20.3333C20.6869 11.3333 21.026 11.1929 21.2761 10.9428C21.5261 10.6928 21.6666 10.3536 21.6666 10C21.6666 9.64637 21.5261 9.30724 21.2761 9.05719C21.026 8.80714 20.6869 8.66666 20.3333 8.66666Z'
+              fill='#828282'></path>
+          </svg>
+        </span>
+    </button>
+    <div class='sub-title'>Détails sur le candidats sélectionné</div>
+  </div>
   <div class='flex flex-row'>
     <button
       (click)='onEditClick.emit()'
@@ -215,7 +228,7 @@
   <!-- When current candidate isn't null -->
   <div *ngIf='candidate' class='p-5'>
     <div class='flex flex-row space-x-4'>
-      <div class='flex-none w-24 h-24 shadow-lg rounded-full overflow-hidden'>
+      <div class='flex-none w-16 md:w-24 h-16 md:h-24 shadow-lg rounded-full overflow-hidden'>
         <img alt='User profile' class='h-full w-full' src='assets/profiles/default-profile.png'>
       </div>
       <div class='space-y-2'>

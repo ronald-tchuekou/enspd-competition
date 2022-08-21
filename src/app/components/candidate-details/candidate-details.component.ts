@@ -19,8 +19,10 @@ moment.locale('fr');
 export class CandidateDetailsComponent implements OnInit, OnChanges {
   @Input() currentCandidate: any = null;
   @Input() candidate: any = null;
+  @Input() withBack: boolean = false;
   @Output() onEditClick = new EventEmitter();
   @Output() onDeleteClick = new EventEmitter();
+  @Output() onBack = new EventEmitter();
   labels: any = {
     anonymous_num: 'Numéro anonyme',
     anonymous_num2: 'Numéro anonyme 2',
