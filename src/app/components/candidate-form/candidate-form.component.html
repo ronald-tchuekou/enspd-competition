@@ -35,7 +35,7 @@
     ></app-simple-input>
     <app-simple-input
       [(value)]='nom'
-      label='Nom'
+      label='Nom *'
       type='text'
     ></app-simple-input>
     <app-simple-input
@@ -45,23 +45,23 @@
     ></app-simple-input>
     <app-simple-input
       [(value)]='date_nais'
-      label='Date de naissance'
+      label='Date de naissance *'
       type='date'
     ></app-simple-input>
     <app-simple-input
       [(value)]='lieu_nais'
-      label='Lieu de naissance'
+      label='Lieu de naissance *'
       type='text'
     ></app-simple-input>
     <app-simple-select
       [(value)]='cursus'
       [content]='all_cursus'
-      label='Cursus'
+      label='Cursus *'
     ></app-simple-select>
     <app-simple-select
       [(value)]='niveau'
       [content]='niveaux'
-      label='Niveau'
+      label='Niveau *'
     ></app-simple-select>
     <app-simple-input
       [(value)]='note1'
@@ -92,7 +92,7 @@
     <app-simple-select
       [(value)]='diplome_entree'
       [content]='diplomes'
-      label="Diplôme d'entrée"
+      label="Diplôme d'entrée *"
     ></app-simple-select>
     <app-simple-select
       [(value)]='filiere_choisie'
@@ -107,7 +107,7 @@
     <app-simple-select
       [(value)]='region_origine'
       [content]='regions'
-      label="Région d'origine"
+      label="Région d'origine *"
     ></app-simple-select>
     <app-simple-select
       [(value)]='depart_origine'
@@ -122,11 +122,11 @@
     <app-simple-select
       [(value)]='sexe'
       [content]='sex_content'
-      label='Sexe'
+      label='Sexe *'
     ></app-simple-select>
     <app-simple-input
       [(value)]='nationalite'
-      label='Nationalité'
+      label='Nationalité *'
       type='text'
     ></app-simple-input>
   </div>

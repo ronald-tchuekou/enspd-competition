@@ -100,76 +100,70 @@ export class CandidateFormComponent implements OnInit, OnChanges {
   }
 
   initData(current: any) {
-    this.anonymous_num = current?.anonymous_num;
-    this.anonymous_num2 = current?.anonymous_num2;
-    this.nom = current?.nom;
-    this.prenom = current?.prenom;
-    this.date_nais = current?.date_nais;
-    this.lieu_nais = current?.lieu_nais;
-    this.region_origine = current?.region_origine;
-    this.depart_origine = current?.depart_origine;
-    this.statut_mat = current?.statut_mat;
-    this.sexe = current?.sexe;
-    this.nationalite = current?.nationalite;
-    this.note1 = current?.note1;
-    this.note2 = current?.note2;
-    this.note3 = current?.note3;
-    this.average = current?.average;
-    this.range = current?.range;
-    this.cursus = current?.cursus;
-    this.niveau = current?.niveau;
-    this.filiere_choisie = current?.filiere_choisie;
-    this.option_choisie = current?.option_choisie;
-    this.diplome_entree = current?.diplome_entree;
+    this.anonymous_num = current?.anonymous_num || '';
+    this.anonymous_num2 = current?.anonymous_num2 || '';
+    this.nom = current?.nom || '';
+    this.prenom = current?.prenom || '';
+    this.date_nais = current?.date_nais || '';
+    this.lieu_nais = current?.lieu_nais || '';
+    this.region_origine = current?.region_origine || '';
+    this.depart_origine = current?.depart_origine || '';
+    this.statut_mat = current?.statut_mat || '';
+    this.sexe = current?.sexe || '';
+    this.nationalite = current?.nationalite || '';
+    this.note1 = current?.note1 || '';
+    this.note2 = current?.note2 || '';
+    this.note3 = current?.note3 || '';
+    this.average = current?.average || '';
+    this.range = current?.range || '';
+    this.cursus = current?.cursus || '';
+    this.niveau = current?.niveau || '';
+    this.filiere_choisie = current?.filiere_choisie || '';
+    this.option_choisie = current?.option_choisie || '';
+    this.diplome_entree = current?.diplome_entree || '';
   }
 
   validate() {
     return this.nom.trim() !== '' &&
-      this.prenom.trim() !== '' &&
       this.date_nais !== '' &&
       this.lieu_nais.trim() !== '' &&
       this.region_origine !== '' &&
-      this.depart_origine !== '' &&
-      this.statut_mat !== '' &&
       this.sexe !== '' &&
       this.nationalite.trim() !== '' &&
-      this.note1 !== '' &&
-      this.note2 !== '' &&
-      this.range !== '' &&
       this.cursus !== '' &&
       this.niveau !== '' &&
-      this.filiere_choisie !== '' &&
-      this.option_choisie !== '';
+      this.diplome_entree !== '';
   }
 
   submit() {
+    console.log(this.prenom);
     if (!this.validate()) {
-      this.sbr.open('Veuillez renseigner tous les champs du formulaire.',
-        undefined, { duration: 3000 });
+      this.sbr.open('Veuillez renseigner tous les champs obligatoires (*) du formulaire.',
+        undefined, { duration: 5000 });
       return;
     }
     const data = {
-      anonymous_num: this.anonymous_num,
-      anonymous_num2: this.anonymous_num2,
+      anonymous_num: this.anonymous_num === '' ? null : this.anonymous_num,
+      anonymous_num2: this.anonymous_num2 === '' ? null : this.anonymous_num2,
       nom: this.nom.trim(),
       prenom: this.prenom.trim(),
-      date_nais: this.date_nais,
+      date_nais: this.date_nais === '' ? null : this.date_nais,
       lieu_nais: this.lieu_nais.trim(),
-      region_origine: this.region_origine,
-      depart_origine: this.depart_origine,
-      statut_mat: this.statut_mat,
-      sexe: this.sexe,
+      region_origine: this.region_origine === '' ? null : this.region_origine,
+      depart_origine: this.depart_origine === '' ? null : this.depart_origine,
+      statut_mat: this.statut_mat === '' ? null : this.statut_mat,
+      sexe: this.sexe === '' ? null : this.sexe,
       nationalite: this.nationalite.trim(),
-      note1: this.note1,
-      note2: this.note2,
-      note3: this.note3,
-      average: this.average,
-      range: this.range,
-      cursus: this.cursus,
-      niveau: this.niveau,
-      filiere_choisie: this.filiere_choisie,
-      option_choisie: this.option_choisie,
-      diplome_entree: this.diplome_entree
+      note1: this.note1 === '' ? null : this.note1,
+      note2: this.note2 === '' ? null : this.note2,
+      note3: this.note3 === '' ? null : this.note3,
+      average: this.average === '' ? null : this.average,
+      range: this.range === '' ? null : this.range,
+      cursus: this.cursus === '' ? null : this.cursus,
+      niveau: this.niveau === '' ? null : this.niveau,
+      filiere_choisie: this.filiere_choisie === '' ? null : this.filiere_choisie,
+      option_choisie: this.option_choisie === '' ? null : this.option_choisie,
+      diplome_entree: this.diplome_entree === '' ? null : this.diplome_entree
     };
     this.loading = true;
     this.candidateService.updateCandidate(data, this.currentCandidate?.id)
