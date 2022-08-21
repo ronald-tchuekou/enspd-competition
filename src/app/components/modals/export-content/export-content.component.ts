@@ -59,7 +59,7 @@ export class ExportContentComponent implements OnInit {
         level: this.level,
         filiere: this.getFiliere(key),
         cursus: this.cursus,
-        attente_list: this.candidates[key]
+        attente_list: _.orderBy(this.candidates[key]
           .filter((item: any) => item.attente)
           .map((item: any, index: number) => ({
             id: `${index + 1}`,
@@ -68,8 +68,8 @@ export class ExportContentComponent implements OnInit {
             lieu_nais: item.lieu_nais || '',
             sexe: item.sexe || '',
             cursus: item.cursus
-          })),
-        admis_list: this.candidates[key]
+          })), 'nom'),
+        admis_list: _.orderBy(this.candidates[key]
           .filter((item: any) => item.admis)
           .map((item: any, index: number) => ({
             id: `${index + 1}`,
@@ -78,7 +78,7 @@ export class ExportContentComponent implements OnInit {
             lieu_nais: item.lieu_nais || '',
             sexe: item.sexe || '',
             cursus: item.cursus
-          }))
+          })), 'nom')
       });
     });
     return result;
