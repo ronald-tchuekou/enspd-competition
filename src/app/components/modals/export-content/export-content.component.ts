@@ -61,24 +61,22 @@ export class ExportContentComponent implements OnInit {
         cursus: this.cursus,
         attente_list: _.orderBy(this.candidates[key]
           .filter((item: any) => item.attente)
-          .map((item: any, index: number) => ({
-            id: `${index + 1}`,
+          .map((item: any) => ({
             nom: (item.nom || '') + ' ' + (item.prenom || ''),
             date_nais: moment(item.date_nais).format('DD/MM/YYYY'),
             lieu_nais: item.lieu_nais || '',
             sexe: item.sexe || '',
             cursus: item.cursus
-          })), 'nom'),
+          })), 'nom').map((item, index) => ({ ...item, id: `${index + 1}` })),
         admis_list: _.orderBy(this.candidates[key]
           .filter((item: any) => item.admis)
-          .map((item: any, index: number) => ({
-            id: `${index + 1}`,
+          .map((item: any) => ({
             nom: (item.nom || '') + ' ' + (item.prenom || ''),
             date_nais: moment(item.date_nais).format('DD/MM/YYYY'),
             lieu_nais: item.lieu_nais || '',
             sexe: item.sexe || '',
             cursus: item.cursus
-          })), 'nom')
+          })), 'nom').map((item, index) => ({ ...item, id: `${index + 1}` }))
       });
     });
     return result;

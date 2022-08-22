@@ -134,24 +134,43 @@ export class ListCandidatsContentComponent implements OnInit {
         return item.nom?.toLowerCase().includes(name) || item.prenom?.toLowerCase().includes(name);
       });
     } else if (name === '' && this.filiere !== '' && this.region === '') {
-      this.searchContent = this.content.filter(item => item.filiere_choisie === parseInt(this.filiere));
+      this.searchContent = this.resetPositions(
+        this.content.filter(item => item.filiere_choisie === parseInt(this.filiere))
+      );
     } else if (name !== '' && this.filiere !== '' && this.region === '') {
-      this.searchContent = this.content.filter(item => (item.nom?.toLowerCase().includes(name) ||
-        item.prenom?.toLowerCase().includes(name)) && item.filiere_choisie === parseInt(this.filiere));
+      this.searchContent = this.resetPositions(
+        this.content.filter(item => (item.nom?.toLowerCase().includes(name) ||
+          item.prenom?.toLowerCase().includes(name)) && item.filiere_choisie === parseInt(this.filiere))
+      );
     } else if (name !== '' && this.filiere === '' && this.region !== '') {
-      this.searchContent = this.content.filter(item => (item.nom?.toLowerCase().includes(name) ||
-        item.prenom?.toLowerCase().includes(name)) && item.region_origine === parseInt(this.region));
+      this.searchContent = this.resetPositions(
+        this.content.filter(item => (item.nom?.toLowerCase().includes(name) ||
+          item.prenom?.toLowerCase().includes(name)) && item.region_origine === parseInt(this.region))
+      );
     } else if (name === '' && this.filiere === '' && this.region !== '') {
-      this.searchContent = this.content.filter(item => item.region_origine === parseInt(this.region));
+      this.searchContent = this.resetPositions(
+        this.content.filter(item => item.region_origine === parseInt(this.region))
+      );
     } else if (name === '' && this.filiere !== '' && this.region !== '') {
-      this.searchContent = this.content.filter(item => item.region_origine === parseInt(this.region)
-        && item.filiere_choisie === parseInt(this.filiere));
+      this.searchContent = this.resetPositions(
+        this.content.filter(item => item.region_origine === parseInt(this.region)
+          && item.filiere_choisie === parseInt(this.filiere))
+      );
     } else if (name !== '' && this.filiere !== '' && this.region !== '') {
-      this.searchContent = this.content.filter(item => (item.nom?.toLowerCase().includes(name) ||
-          item.prenom?.toLowerCase().includes(name)) && item.region_origine === parseInt(this.region)
-        && item.filiere_choisie === parseInt(this.filiere));
+      this.searchContent = this.resetPositions(
+        this.content.filter(item => (item.nom?.toLowerCase().includes(name) ||
+            item.prenom?.toLowerCase().includes(name)) && item.region_origine === parseInt(this.region)
+          && item.filiere_choisie === parseInt(this.filiere))
+      );
     }
     this.getPages(this.searchContent, resetCurrentPage);
+  }
+
+  resetPositions(candidats: Candidate[]) {
+    return candidats.map((item, index) => ({
+      ...item,
+      position: (index + 1)
+    }));
   }
 
   deleteAll() {

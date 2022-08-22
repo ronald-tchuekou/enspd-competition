@@ -143,27 +143,27 @@ export class CandidateFormComponent implements OnInit, OnChanges {
       return;
     }
     const data = {
-      anonymous_num: this.anonymous_num === '' ? null : this.anonymous_num,
-      anonymous_num2: this.anonymous_num2 === '' ? null : this.anonymous_num2,
+      anonymous_num: this.anonymous_num === '' ? null : parseInt(this.anonymous_num),
+      anonymous_num2: this.anonymous_num2 === '' ? null : parseInt(this.anonymous_num2),
       nom: this.nom.trim(),
       prenom: this.prenom.trim(),
       date_nais: this.date_nais === '' ? null : this.date_nais,
       lieu_nais: this.lieu_nais.trim(),
-      region_origine: this.region_origine === '' ? null : this.region_origine,
-      depart_origine: this.depart_origine === '' ? null : this.depart_origine,
+      region_origine: this.region_origine === '' ? null : parseInt(this.region_origine),
+      depart_origine: this.depart_origine === '' ? null : parseInt(this.depart_origine),
       statut_mat: this.statut_mat === '' ? null : this.statut_mat,
       sexe: this.sexe === '' ? null : this.sexe,
       nationalite: this.nationalite.trim(),
-      note1: this.note1 === '' ? null : this.note1,
-      note2: this.note2 === '' ? null : this.note2,
-      note3: this.note3 === '' ? null : this.note3,
-      average: this.average === '' ? null : this.average,
-      range: this.range === '' ? null : this.range,
+      note1: this.note1 === '' ? null : parseFloat(this.note1),
+      note2: this.note2 === '' ? null : parseFloat(this.note2),
+      note3: this.note3 === '' ? null : parseFloat(this.note3),
+      average: this.calcAverage(),
+      range: this.range === '' ? null : parseInt(this.range),
       cursus: this.cursus === '' ? null : this.cursus,
-      niveau: this.niveau === '' ? null : this.niveau,
-      filiere_choisie: this.filiere_choisie === '' ? null : this.filiere_choisie,
-      option_choisie: this.option_choisie === '' ? null : this.option_choisie,
-      diplome_entree: this.diplome_entree === '' ? null : this.diplome_entree
+      niveau: this.niveau === '' ? null : parseInt(this.niveau),
+      filiere_choisie: this.filiere_choisie === '' ? null : parseInt(this.filiere_choisie),
+      option_choisie: this.option_choisie === '' ? null : parseInt(this.option_choisie),
+      diplome_entree: this.diplome_entree === '' ? null : parseInt(this.diplome_entree)
     };
     this.loading = true;
     this.candidateService.updateCandidate(data, this.currentCandidate?.id)
@@ -194,4 +194,20 @@ export class CandidateFormComponent implements OnInit, OnChanges {
     return this.options.filter(item => item.filiere_id === query1 || item.value === '');
   }
 
+  calcAverage() {
+    const note1 = this.note1 === '' ? 0 : parseFloat(this.note1);
+    const note2 = this.note2 === '' ? 0 : parseFloat(this.note2);
+    const note3 = this.note3 === '' ? 0 : parseFloat(this.note3);
+
+    let average: string;
+
+    if (this.currentCandidate?.niveau === 1) {
+      average = ((note1 * 3 + note2 * 3 + note3) / 7).toFixed(2);
+    } else {
+      average = ((note1 * 3 + note2) / 4).toFixed(2);
+    }
+
+    this.average = average;
+    return parseFloat(average);
+  }
 }
