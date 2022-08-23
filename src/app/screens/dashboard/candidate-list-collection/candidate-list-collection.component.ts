@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ExportAllContentComponent } from '../../../components/modals/export-all-content/export-all-content.component';
 import { ExportContentComponent } from '../../../components/modals/export-content/export-content.component';
 import { ImportContentComponent } from '../../../components/modals/import-content/import-content.component';
 import { CandidatesService, Cursus } from '../../../services/candidates.service';
@@ -135,6 +136,38 @@ export class CandidateListCollectionComponent implements OnInit {
       next: (data) => {
         this.position = -1;
         this.dialog.open(ExportContentComponent, {
+          disableClose: true,
+          data: {
+            cursus: collection.cursus,
+            level: collection.level,
+            candidates: data,
+            filieres: collection.level === 1 ? '' : this.filieres,
+            regions: this.regions
+          }
+        }).afterClosed().subscribe((data) => {
+          if (data) {
+            this.sbr.open('Liste exporter avec succès !',
+              undefined, { duration: 3000 });
+          }
+        });
+      },
+      error: (error) => {
+        this.position = -1;
+        console.log(error);
+        this.sbr.open('Une erreur est survenue, veuillez réessayer !',
+          undefined, { duration: 3000 });
+      }
+    });
+  }
+
+  exportAll(collection: Collection, index: number) {
+    this.position = index;
+    this.candidateService.getCandidatesBy({
+      collection_id: collection.id
+    }).subscribe({
+      next: (data) => {
+        this.position = -1;
+        this.dialog.open(ExportAllContentComponent, {
           disableClose: true,
           data: {
             cursus: collection.cursus,

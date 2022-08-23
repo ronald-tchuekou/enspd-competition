@@ -23,10 +23,12 @@
       <table class='w-full table w-full text-xs text-gray-500'>
         <thead class='bg-gray-100 text-gray-600 whitespace-nowrap'>
         <td class='p-2'>Régions</td>
-        <td class='p-2'>%</td>
         <td class='p-2'>Effectif</td>
-        <td class='p-2'>Masculin (%)</td>
-        <td class='p-2'>Féminin (%)</td>
+        <td class='p-2'>%</td>
+        <td class='p-2'>Masculin</td>
+        <td class='p-2'>%</td>
+        <td class='p-2'>Féminin</td>
+        <td class='p-2'>%</td>
         </thead>
         <tbody>
         <ng-container *ngFor='let region of labelingRegions'>
@@ -40,14 +42,16 @@
               }}%
             </td>
             <td class='p-2'>
-              {{getSexeM(getCandidateRegion(region.id)).length}} ({{
-              getPercentM(getCandidateRegion(region.id))
-              }}%)
+              {{getSexeM(getCandidateRegion(region.id)).length}}
             </td>
             <td class='p-2'>
-              {{getSexeF(getCandidateRegion(region.id)).length}} ({{
-              getPercentF(getCandidateRegion(region.id))
-              }}%)
+              {{getPercentM(getCandidateRegion(region.id))}}%
+            </td>
+            <td class='p-2'>
+              {{getSexeF(getCandidateRegion(region.id)).length}}
+            </td>
+            <td class='p-2'>
+              {{getPercentF(getCandidateRegion(region.id))}}%
             </td>
           </tr>
         </ng-container>
@@ -57,10 +61,16 @@
         <td class='p-2'>{{content.length}}</td>
         <td class='p-2'>100%</td>
         <td class='p-2'>
-          {{getSexeM(content).length}} ({{getPercentM(content)}}%)
+          {{getSexeM(content).length}}
         </td>
         <td class='p-2'>
-          {{getSexeF(content).length}} ({{getPercentF(content)}}%)
+          {{getPercentM(content)}}%
+        </td>
+        <td class='p-2'>
+          {{getSexeF(content).length}}
+        </td>
+        <td class='p-2'>
+          {{getPercentF(content)}}%
         </td>
         </tfoot>
       </table>

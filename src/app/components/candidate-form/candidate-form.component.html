@@ -71,13 +71,13 @@
     ></app-simple-input>
     <app-simple-input
       (input)='calcAverage()'
+      *ngIf='niveau == "1"'
       [(value)]='note2'
       label='Note 2'
       type='number'
     ></app-simple-input>
     <app-simple-input
       (input)='calcAverage()'
-      *ngIf='niveau == "1"'
       [(value)]='note3'
       label='Note 3'
       type='number'

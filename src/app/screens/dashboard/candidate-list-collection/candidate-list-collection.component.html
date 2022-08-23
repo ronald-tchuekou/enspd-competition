@@ -56,7 +56,11 @@
               </a>
               <button (click)='export(item, i)' mat-menu-item>
                 <mat-icon>ios_share</mat-icon>
-                Exporter
+                Exporter admis
+              </button>
+              <button (click)='exportAll(item, i)' mat-menu-item>
+                <mat-icon>ios_share</mat-icon>
+                Exporter tous
               </button>
               <button (click)='deleteCollection(item.id)' mat-menu-item>
                 <mat-icon>delete</mat-icon>

@@ -204,7 +204,7 @@ export class CandidateFormComponent implements OnInit, OnChanges {
     if (this.currentCandidate?.niveau === 1) {
       average = ((note1 * 3 + note2 * 3 + note3) / 7).toFixed(2);
     } else {
-      average = ((note1 * 3 + note2) / 4).toFixed(2);
+      average = ((note1 * 3 + note3) / 4).toFixed(2);
     }
 
     this.average = average;

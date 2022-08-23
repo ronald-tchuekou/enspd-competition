@@ -57,6 +57,7 @@ import { ImportContentComponent } from './modals/import-content/import-content.c
 import { HomeSidebarComponent } from './home-sidebar/home-sidebar.component';
 import { HomeStatisticsComponent } from './home-statistics/home-statistics.component';
 import { StatItemComponent } from './home-statistics/stat-item/stat-item.component';
+import { ExportAllContentComponent } from './modals/export-all-content/export-all-content.component';
 
 @NgModule({
   declarations: [
@@ -105,7 +106,8 @@ import { StatItemComponent } from './home-statistics/stat-item/stat-item.compone
     ImportContentComponent,
     HomeSidebarComponent,
     HomeStatisticsComponent,
-    StatItemComponent
+    StatItemComponent,
+    ExportAllContentComponent
   ],
   imports: [
     CommonModule,
@@ -161,7 +163,8 @@ import { StatItemComponent } from './home-statistics/stat-item/stat-item.compone
     ImportContentComponent,
     HomeSidebarComponent,
     HomeStatisticsComponent,
-    StatItemComponent
+    StatItemComponent,
+    ExportAllContentComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: []

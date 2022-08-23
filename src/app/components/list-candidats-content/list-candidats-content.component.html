@@ -73,8 +73,8 @@
         <td class='p-2'>{{item.position}}</td>
         <td class='p-2'>{{item.nom}} {{item.prenom}}</td>
         <td class='p-2'>{{item.note1 < 0 ? 'Abs' : item.note1}}</td>
-        <td class='p-2'>{{item.note2 < 0 ? 'Abs' : item.note2}}</td>
-        <td *ngIf='collection.level === 1' class='p-2'>{{item.note3 < 0 ? 'Abs' : item.note3}}</td>
+        <td *ngIf='collection.level === 1' class='p-2'>{{item.note2 < 0 ? 'Abs' : item.note2}}</td>
+        <td class='p-2'>{{item.note3 < 0 ? 'Abs' : item.note3}}</td>
         <td class='p-2'>{{item.average < 0 ? 'Abs' : item.average}}</td>
         <td class='py-2 px-2'>
           <input
