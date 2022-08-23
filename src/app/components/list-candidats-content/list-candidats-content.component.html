@@ -57,6 +57,7 @@
     <thead class='bg-gray-200 text-gray-600 whitespace-nowrap'>
     <td class='p-2'>N°</td>
     <td class='p-2'>Nom complet</td>
+    <td class='p-2'>Région</td>
     <td class='p-2'>Note 1</td>
     <td *ngIf='collection.level === 1' class='p-2'>Note 2</td>
     <td class='p-2'>Note 3</td>
@@ -72,6 +73,7 @@
         class='border-b px-2'>
         <td class='p-2'>{{item.position}}</td>
         <td class='p-2'>{{item.nom}} {{item.prenom}}</td>
+        <td class='p-2'>{{getCandidateRegion(item.region_origine)}}</td>
         <td class='p-2'>{{item.note1 < 0 ? 'Abs' : item.note1}}</td>
         <td *ngIf='collection.level === 1' class='p-2'>{{item.note2 < 0 ? 'Abs' : item.note2}}</td>
         <td class='p-2'>{{item.note3 < 0 ? 'Abs' : item.note3}}</td>

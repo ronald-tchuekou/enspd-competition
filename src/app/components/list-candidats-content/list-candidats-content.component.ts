@@ -305,4 +305,8 @@ export class ListCandidatsContentComponent implements OnInit {
     this.filterContent(false);
     if (this.currentCandidate) this.currentCandidateChange.emit(candidate);
   }
+
+  getCandidateRegion(region_origine: number) {
+    return this.regions.find(item => item.id === region_origine).label || '';
+  }
 }
