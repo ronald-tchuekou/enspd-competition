@@ -4,8 +4,15 @@
   ~ @email ronaldtchuekou@gmail.com
   -->
 
-<div class='relative border-b flex flex-row items-center'>
+<div class='relative border-b py-4 flex gap-5 flex-row items-center'>
   <h1 class='text-xl'>Exportation de tous les candidats</h1>
+  <div class='w-56'>
+    <app-input-select
+      (valueChange)='onGroupByChange($event)'
+      [(value)]='group_by'
+      [content]='groupByContent'
+      label=''></app-input-select>
+  </div>
   <div class='absolute -top-3 -right-3'>
     <button
       [mat-dialog-close]='null'
@@ -17,8 +24,18 @@
 <mat-dialog-content>
   <div *ngFor='let key of getKeys(candidates)' class='w-full'>
     <h2 class='text-lg text-gray-600 my-2'>
-      Niveau : <span class='text-orange-400'>{{level}}</span>
-      Cursus : <span class='text-orange-400'>{{cursus}}</span>
+      <span>
+        Niveau : <span class='text-orange-400'>{{level}}</span>
+      </span>&nbsp;&nbsp;
+      <span *ngIf='group_by === "filieres"'>
+        Filière : <span class='text-orange-400'>{{getFiliere(key)}}</span>
+      </span>&nbsp;&nbsp;
+      <span *ngIf='group_by === "regions"'>
+        Région : <span class='text-orange-400'>{{getRegion(key)}}</span>
+      </span>&nbsp;&nbsp;
+      <span>
+        Effectif : <span class='text-orange-400'>{{candidates[key].length}}</span>
+      </span>
     </h2>
     <div class='w-[800px]'>
       <app-table-display

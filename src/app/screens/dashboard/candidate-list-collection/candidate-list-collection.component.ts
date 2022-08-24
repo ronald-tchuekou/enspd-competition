@@ -14,6 +14,7 @@ import { ImportContentComponent } from '../../../components/modals/import-conten
 import { CandidatesService, Cursus } from '../../../services/candidates.service';
 import { Collection, CollectionsService } from '../../../services/collection.service';
 import { ConstantsService } from '../../../services/constants.service';
+import { DiplomesService } from '../../../services/diplome.service';
 import { FilieresService } from '../../../services/filieres.service';
 import { RegionsService } from '../../../services/regions.service';
 
@@ -27,6 +28,7 @@ export class CandidateListCollectionComponent implements OnInit {
   collections: Collection[] = [];
   filieres: any[] = [];
   regions: any[] = [];
+  diplomes: any[] = [];
   level: number = 0;
   position: number = -1;
   cursus: string = '';
@@ -39,6 +41,7 @@ export class CandidateListCollectionComponent implements OnInit {
     private filiereService: FilieresService,
     private constantService: ConstantsService,
     private regionsService: RegionsService,
+    private diplomesService: DiplomesService,
     private sbr: MatSnackBar,
     private dialog: MatDialog
   ) {
@@ -59,22 +62,31 @@ export class CandidateListCollectionComponent implements OnInit {
 
   getCollections(level: number, cursus: string) {
     this.loading = true;
-    this.regionsService.getRegions().subscribe({
-      next: (regions) => {
-        this.regions = regions.map(item => ({ ...item, label: item.libelle, value: item.id }));
-        this.filiereService.getFilieresBy({
-          cursus
-        }).subscribe({
-          next: (data) => {
-            this.filieres = data.map(item => ({ ...item, label: item.libelle, value: item.id }));
-            this.collectionService.getCollectionBy({ level, cursus }).subscribe({
+    this.diplomesService.getDiplomes().subscribe({
+      next: (data1) => {
+        this.diplomes = data1.map(item => ({ ...item, label: item.libelle, value: item.id }));
+        this.regionsService.getRegions().subscribe({
+          next: (regions) => {
+            this.regions = regions.map(item => ({ ...item, label: item.libelle, value: item.id }));
+            this.filiereService.getFilieresBy({
+              cursus
+            }).subscribe({
               next: (data) => {
-                this.collections = data;
-                this.loading = false;
+                this.filieres = data.map(item => ({ ...item, label: item.libelle, value: item.id }));
+                this.collectionService.getCollectionBy({ level, cursus }).subscribe({
+                  next: (data) => {
+                    this.collections = data;
+                    this.loading = false;
+                  },
+                  error: (error: any) => {
+                    this.loading = false;
+                    console.log('Error when get candidates list : ', error);
+                  }
+                });
               },
-              error: (error: any) => {
+              error: (error) => {
                 this.loading = false;
-                console.log('Error when get candidates list : ', error);
+                console.log(error);
               }
             });
           },
@@ -174,7 +186,8 @@ export class CandidateListCollectionComponent implements OnInit {
             level: collection.level,
             candidates: data,
             filieres: collection.level === 1 ? '' : this.filieres,
-            regions: this.regions
+            regions: this.regions,
+            diplomes: this.diplomes
           }
         }).afterClosed().subscribe((data) => {
           if (data) {
