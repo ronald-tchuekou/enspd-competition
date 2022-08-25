@@ -53,6 +53,7 @@
           <app-candidate-details
             (onDeleteClick)='deleteCurrent()'
             (onEditClick)='tab_index = 1'
+            (removeCandidate)='listCandidatsContentComponent.removeCandidate($event)'
             [currentCandidate]='currentCandidate'
             [departments]='this.departments'
             [diplomes]='diplomes'

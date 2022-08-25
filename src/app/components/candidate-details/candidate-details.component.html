@@ -268,5 +268,14 @@
         ></app-label-value>
       </ng-container>
     </div>
+    <div class='h-10'></div>
+    <app-change-collection
+      (onComplete)='onCollectionChange()'
+      [candidate_id]='currentCandidate ? currentCandidate.id ?
+       currentCandidate.id : 0 :  0'
+      [collection]='currentCandidate ? currentCandidate.collection_id ?
+       currentCandidate.collection_id : 0 :  0'
+      class='w-full block'
+    ></app-change-collection>
   </div>
 </div>

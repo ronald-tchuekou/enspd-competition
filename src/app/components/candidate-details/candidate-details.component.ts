@@ -23,6 +23,7 @@ export class CandidateDetailsComponent implements OnInit, OnChanges {
   @Output() onEditClick = new EventEmitter();
   @Output() onDeleteClick = new EventEmitter();
   @Output() onBack = new EventEmitter();
+  @Output() removeCandidate = new EventEmitter();
   labels: any = {
     anonymous_num: 'Numéro anonyme',
     anonymous_num2: 'Numéro anonyme 2',
@@ -64,6 +65,8 @@ export class CandidateDetailsComponent implements OnInit, OnChanges {
           option_choisie: this.getOption(c?.option_choisie),
           diplome_entree: this.getDiplome(c?.diplome_entree)
         };
+      else
+        this.candidate = null;
     }
   }
 
@@ -92,5 +95,9 @@ export class CandidateDetailsComponent implements OnInit, OnChanges {
 
   getDiplome(query: number) {
     return this.diplomes.find(item => item.value === query)?.label || '';
+  }
+
+  onCollectionChange() {
+    this.removeCandidate.emit(this.currentCandidate);
   }
 }

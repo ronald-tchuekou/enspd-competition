@@ -307,6 +307,15 @@ export class ListCandidatsContentComponent implements OnInit {
   }
 
   getCandidateRegion(region_origine: number) {
-    return this.regions.find(item => item.id === region_origine).label || '';
+    return this.regions.find(item => item.id === region_origine)?.label || '';
+  }
+
+  removeCandidate(candidate: Candidate) {
+    this.content = _.sortBy(this.content
+        .filter((item) => item.id !== candidate.id),
+      (n1) => -n1.average)
+      .map((item, i) => ({ ...item, position: i + 1 }));
+    this.filterContent(false);
+    if (this.currentCandidate) this.currentCandidateChange.emit(null);
   }
 }

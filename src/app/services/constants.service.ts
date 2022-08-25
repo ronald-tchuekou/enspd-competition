@@ -122,12 +122,12 @@ export class ConstantsService {
 
   saveCSV(data: any[], fileName: string) {
     const headerKeys = ['id', 'nom', 'date_nais', 'lieu_nais', 'sexe', 'cursus'];
-    const headerLabels = 'N°;Nom et Prénom;Date Naissance;Lieu Naissance;Sexe;Cursus';
+    const headerLabels = 'N°;Nom et Prenom;Date Naissance;Lieu Naissance;Sexe;Cursus';
 
     let lines: string[] = [];
     data.forEach(dataContent => {
       lines.push(`Liste principale : ${dataContent.admis_list.length} candidates`);
-      lines.push(`Cursus : ${dataContent.cursus}     Filière : ${dataContent.filiere}     Niveau : ${dataContent.level}`);
+      lines.push(`Cursus : ${dataContent.cursus}     Filiere : ${dataContent.filiere}     Niveau : ${dataContent.level}`);
 
       lines.push(headerLabels);
       dataContent.admis_list.forEach((item: any) => {
@@ -239,13 +239,13 @@ export class ConstantsService {
       'cursus',
       'filiere_choisie'
     ];
-    const headerLabels = 'N°;Nom et Prénom;Date Naissance;Lieu Naissance;Sexe;Région;Statut matrimonial;Nationalité;Diplôme;Niveau;Cursus;Filière';
+    const headerLabels = 'N°;Nom et Prenom;Date Naissance;Lieu Naissance;Sexe;Region;Statut matrimonial;Nationalite;Diplome;Niveau;Cursus;Filiere';
 
     let lines: string[] = [];
     data.forEach(dataContent => {
       lines.push(`Liste de candidates`);
       lines.push(`Cursus : ${dataContent.cursus}      ${
-        dataContent.group_filiere ? 'Filière : ' + dataContent.filiere : 'Région : ' + dataContent.region
+        dataContent.group_filiere ? 'Filiere : ' + dataContent.filiere : 'Region : ' + dataContent.region
       }      Niveau : ${dataContent.level}     Effectif : ${dataContent.list.length}`);
 
       lines.push(headerLabels);
