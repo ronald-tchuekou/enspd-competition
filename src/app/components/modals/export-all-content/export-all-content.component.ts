@@ -38,7 +38,7 @@ export class ExportAllContentComponent implements OnInit {
     this.diplomes = data.diplomes || [];
     this.level = parseInt(data.level);
     this.cursus = data.cursus;
-    this.content = _.sortBy(data.candidates, ['nom', 'prenom']);
+    this.content = _.sortBy(data.candidates, (n1) => -n1.average);
     this.candidates = this.getGroups(this.content, this.group_by);
   }
 
@@ -47,6 +47,10 @@ export class ExportAllContentComponent implements OnInit {
 
   getGroups(candidates: Candidate[], group_by: string) {
     return _.groupBy(candidates, group_by === 'filieres' ? 'filiere_choisie' : 'region_origine');
+  }
+
+  sort(data: any[]) {
+    return _.sortBy(data, (n1) => -n1.average);
   }
 
   getKeys(object: any) {
@@ -62,12 +66,18 @@ export class ExportAllContentComponent implements OnInit {
         region: this.getRegion(key),
         cursus: this.cursus,
         group_filiere: this.group_by === 'filieres',
-        list: this.candidates[key].map((item: any, index: number) => ({
+        list: _.sortBy(this.candidates[key].map((item: any, index: number) => ({
           id: `${index + 1}`,
           nom: (item.nom || '') + ' ' + (item.prenom || ''),
           date_nais: moment(item.date_nais).format('DD/MM/YYYY'),
           lieu_nais: item.lieu_nais || '---',
           sexe: item.sexe || '',
+          anonymous_num: this.getNumberValue(item.anonymous_num),
+          anonymous_num2: this.getNumberValue(item.anonymous_num2),
+          note1: this.getNumberValue(item.note1),
+          note2: this.getNumberValue(item.note2),
+          note3: this.getNumberValue(item.note3),
+          average: this.getNumberValue(item.average),
           cursus: item.cursus,
           region_origine: this.getRegion(item.region_origine),
           statut_mat: item.statut_mat || '---',
@@ -75,10 +85,16 @@ export class ExportAllContentComponent implements OnInit {
           niveau: item.niveau + '',
           filiere_choisie: this.getFiliere(item.filiere_choisie),
           diplome_entree: this.getDiplome(item.diplome_entree)
-        }))
+        })), (n1) => -n1.average)
       });
     });
     return result;
+  }
+
+  getNumberValue(value: any) {
+    if (value)
+      return value < 0 ? 'Abs' : value + '';
+    return '';
   }
 
   exportPDF() {

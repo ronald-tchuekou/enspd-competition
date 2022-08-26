@@ -171,21 +171,6 @@ export class ConstantsService {
 
   saveAllPDF(data: any[], fileName: string) {
     try {
-      const headers: any[] = this.createHeaders([
-        { width: 30, name: 'id', prompt: 'N°' },
-        { width: 200, name: 'nom', prompt: 'Nom et Prénom' },
-        { width: 55, name: 'date_nais', prompt: 'Date Naissance' },
-        { width: 90, name: 'lieu_nais', prompt: 'Lieu Naissance' },
-        { width: 35, name: 'sexe', prompt: 'Sexe' },
-        { width: 40, name: 'region_origine', prompt: 'Région' },
-        { width: 55, name: 'statut_mat', prompt: 'Statut matrimonial' },
-        { width: 40, name: 'nationalite', prompt: 'Nationalité' },
-        { width: 60, name: 'diplome_entree', prompt: 'Diplôme' },
-        { width: 30, name: 'niveau', prompt: 'Niveau' },
-        { width: 50, name: 'cursus', prompt: 'Cursus' },
-        { width: 120, name: 'filiere_choisie', prompt: 'Filière' }
-      ]);
-
       const doc = new jsPDF({
         orientation: 'l',
         unit: 'px',
@@ -206,6 +191,41 @@ export class ConstantsService {
       doc.text('Liste de candidates : ', 11, 20);
 
       data.forEach(item => {
+
+        const keys = [
+          { width: 30, name: 'id', prompt: 'N°' },
+          { width: 170, name: 'nom', prompt: 'Nom et Prénom' },
+          { width: 35, name: 'sexe', prompt: 'Sexe' },
+          { width: 40, name: 'region_origine', prompt: 'Région' },
+          { width: 55, name: 'statut_mat', prompt: 'Statut matrimonial' },
+          { width: 40, name: 'nationalite', prompt: 'Nationalité' },
+          { width: 60, name: 'diplome_entree', prompt: 'Diplôme' },
+          { width: 30, name: 'niveau', prompt: 'Niveau' },
+          { width: 50, name: 'cursus', prompt: 'Cursus' },
+          { width: 120, name: 'filiere_choisie', prompt: 'Filière' }
+        ];
+
+        if (item.level === 3) {
+          keys.push(
+            { width: 35, name: 'anonymous_num', prompt: 'N° Anonyme1' },
+            { width: 35, name: 'note1', prompt: 'Note' },
+            { width: 35, name: 'anonymous_num2', prompt: 'N° Anonyme2' },
+            { width: 35, name: 'note3', prompt: 'Note etude' },
+            { width: 35, name: 'average', prompt: 'Moy' }
+          );
+        } else {
+          keys.push(
+            { width: 30, name: 'anonymous_num', prompt: 'Ano Maths' },
+            { width: 30, name: 'note1', prompt: 'Note Math' },
+            { width: 30, name: 'anonymous_num2', prompt: 'Ano Phys' },
+            { width: 30, name: 'note2', prompt: 'Note Phys' },
+            { width: 30, name: 'note3', prompt: 'Note etude' },
+            { width: 30, name: 'average', prompt: 'Moy' }
+          );
+        }
+
+        const headers: any[] = this.createHeaders(keys);
+
         // Pour la liste principale
         doc.setFontSize(12);
         doc.text(
@@ -225,28 +245,39 @@ export class ConstantsService {
   }
 
   saveAllCSV(data: any[], fileName: string) {
-    const headerKeys = [
-      'id',
-      'nom',
-      'date_nais',
-      'lieu_nais',
-      'sexe',
-      'region_origine',
-      'statut_mat',
-      'nationalite',
-      'diplome_entree',
-      'niveau',
-      'cursus',
-      'filiere_choisie'
-    ];
-    const headerLabels = 'N°;Nom et Prenom;Date Naissance;Lieu Naissance;Sexe;Region;Statut matrimonial;Nationalite;Diplome;Niveau;Cursus;Filiere';
-
     let lines: string[] = [];
     data.forEach(dataContent => {
       lines.push(`Liste de candidates`);
       lines.push(`Cursus : ${dataContent.cursus}      ${
         dataContent.group_filiere ? 'Filiere : ' + dataContent.filiere : 'Region : ' + dataContent.region
       }      Niveau : ${dataContent.level}     Effectif : ${dataContent.list.length}`);
+
+      const headerKeys = [
+        'id',
+        'nom',
+        'date_nais',
+        'lieu_nais',
+        'sexe',
+        'region_origine',
+        'statut_mat',
+        'nationalite',
+        'diplome_entree',
+        'niveau',
+        'cursus',
+        'filiere_choisie'
+      ];
+
+      if (dataContent.level === 3) {
+        headerKeys.push('anonymous_num', 'note1', 'anonymous_num2', 'note3', 'average');
+      } else {
+        headerKeys.push('anonymous_num', 'note1', 'anonymous_num2', 'note2', 'note3', 'average');
+      }
+
+      const headerLabels = "N°;Nom et Prenom;Date Naissance;Lieu Naissance;Sexe;Region" +
+        ";Statut matrimonial;Nationalite;Diplome;Niveau;Cursus;Filiere" +
+        (dataContent.level === 3 ?
+          ";N° Anonyme1;Note;N° Anonyme2;Note etude;Moy" :
+          ";Ano Maths;Note Math;Ano Phys;Note Phys;Note etude;Moy");
 
       lines.push(headerLabels);
       dataContent.list.forEach((item: any) => {

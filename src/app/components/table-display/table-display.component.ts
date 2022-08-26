@@ -17,6 +17,7 @@ export class TableDisplayComponent implements OnInit {
   @Input() candidates: Candidate[] = [];
   @Input() filieres: any[] = [];
   @Input() regions: any[] = [];
+  @Input() isAll: boolean = false;
 
   constructor() {
   }

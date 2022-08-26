@@ -13,6 +13,9 @@
     <td class='p-2'>Lieu</td>
     <td class='p-2'>Région</td>
     <td class='p-2'>Filière</td>
+    <td *ngIf='isAll' class='p-2'>Note 1</td>
+    <td *ngIf='isAll' class='p-2'>Note 2</td>
+    <td *ngIf='isAll' class='p-2'>Note 3</td>
     <td class='p-2'>Moyenne</td>
     </thead>
     <tbody>
@@ -24,7 +27,10 @@
         <td class='p-2'>{{item.lieu_nais}}</td>
         <td class='p-2'>{{getRegion(item.region_origine)}}</td>
         <td class='p-2'>{{getFiliere(item.filiere_choisie)}}</td>
-        <td class='p-2'>{{item.average}}</td>
+        <td *ngIf='isAll' class='p-2'>{{item.note1 < 0 ? 'Abs' : item.note1}}</td>
+        <td *ngIf='isAll' class='p-2'>{{item.note2 < 0 ? 'Abs' : item.note2}}</td>
+        <td *ngIf='isAll' class='p-2'>{{item.note3 < 0 ? 'Abs' : item.note3}}</td>
+        <td class='p-2'>{{item.average < 0 ? 'Abs' : item.average}}</td>
       </tr>
     </ng-container>
     </tbody>
