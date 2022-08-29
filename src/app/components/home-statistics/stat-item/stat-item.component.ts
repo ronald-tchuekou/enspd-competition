@@ -38,7 +38,9 @@ export class StatItemComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     const change = changes['content'];
     if (change) {
-      this.content = change.currentValue;
+      this.content = change.currentValue.filter((item: any) =>
+        this.regions.find(region => region.id === item.region_origine) !== undefined
+      );
       this.getGroupContent();
     }
   }
@@ -67,9 +69,9 @@ export class StatItemComponent implements OnInit, OnChanges {
   }
 
   getTotal() {
-    let result = 0
-    this.stats_content.datasets[0].data.forEach(item => result += item)
-    return result
+    let result = 0;
+    this.stats_content.datasets[0].data.forEach(item => result += item);
+    return result;
   }
 
   getFilterRegion() {
