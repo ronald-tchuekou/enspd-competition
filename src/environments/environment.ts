@@ -7,5 +7,6 @@
 export const environment = {
   production: false,
   user_profile_key: '___user_profile_key___enspd___',
-  server_path: 'https://enspd-api.herokuapp.com'
+  //server_path: 'https://enspd-api.herokuapp.com'
+  server_path: 'http://localhost:3000'
 };

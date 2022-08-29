@@ -24,7 +24,7 @@ export class StatPieChartComponent {
     responsive: true,
     plugins: {
       legend: {
-        display: false,
+        display: true,
         position: 'top'
       },
       datalabels: {

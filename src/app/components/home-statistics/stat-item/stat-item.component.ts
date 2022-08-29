@@ -54,10 +54,12 @@ export class StatItemComponent implements OnInit, OnChanges {
     });
 
     this.labelingRegions = this.regions.filter((item, index) => groupCount[index] > 0);
-
+    const datasets = [{ data: groupCount.filter(item => item > 0) }];
     this.stats_content = {
-      labels: this.labelingRegions.map(item => item.abreviation),
-      datasets: [{ data: groupCount.filter(item => item > 0) }]
+      labels: this.labelingRegions.map((item, i) => item.abreviation + ' ' + this.constantsService.getPercentage(
+        this.candidateCount, datasets[0].data[i]
+      ) + '%'),
+      datasets
     };
 
   }

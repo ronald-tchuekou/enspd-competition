@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 import { ChartData } from 'chart.js';
 import * as _ from 'lodash';
 import { Candidate, CandidatesService, Cursus, Sexe } from '../../services/candidates.service';
+import { ConstantsService } from '../../services/constants.service';
 import { Filiere, FilieresService } from '../../services/filieres.service';
 import { Region, RegionsService } from '../../services/regions.service';
 
@@ -50,7 +51,8 @@ export class HomeBilanComponent implements OnInit {
   constructor(
     private candidateService: CandidatesService,
     private filiereService: FilieresService,
-    private regionsService: RegionsService
+    private regionsService: RegionsService,
+    private utils: ConstantsService
   ) {
   }
 
@@ -133,15 +135,17 @@ export class HomeBilanComponent implements OnInit {
     const allGroupCount: number[] = this.regions.map(item => cc[item.id] || 0);
     const passGroupCount: number[] = this.regions.map(item => pc[item.id] || 0);
 
-    const labels = this.regions.map(item => item.libelle);
-
     this.stats_content = {
       allCandidate: {
-        labels,
+        labels: this.regions.map(item => item.libelle + ' ' + this.utils.getPercentage(
+          this.candidates.length, cc[item.id]
+        )),
         datasets: [{ data: allGroupCount }]
       },
       passCandidate: {
-        labels,
+        labels: this.regions.map(item => item.libelle + ' ' + this.utils.getPercentage(
+          this.passCandidates.length, pc[item.id]
+        )),
         datasets: [{ data: passGroupCount }]
       }
     };
