@@ -10,11 +10,11 @@
     <div class='flex-grow flex justify-center items-center'>
       <div class='w-full max-w-[500px]'>
         <app-stat-pie-chart
-          *ngIf='(stats_content.labels || []).length > 0'
+          *ngIf='content.length > 0'
           [pieChartData]='stats_content'
         ></app-stat-pie-chart>
         <app-empty-state
-          *ngIf='(stats_content.labels || []).length === 0'
+          *ngIf='content.length === 0'
           text="Aucun candidate n'a de région"></app-empty-state>
       </div>
     </div>
@@ -30,7 +30,7 @@
         <td class='p-2'>%</td>
         </thead>
         <tbody>
-        <ng-container *ngFor='let region of labelingRegions'>
+        <ng-container *ngFor='let region of regions'>
           <tr>
             <td class='p-2'>
               {{region.libelle}}
@@ -57,8 +57,8 @@
         </tbody>
         <tfoot class='bg-gray-100 text-gray-600 whitespace-nowrap font-medium'>
         <td class='p-2'>Total</td>
-        <td class='p-2'>{{content.length}}</td>
-        <td class='p-2'>100%</td>
+        <td class='p-2'>{{getTotal()}}</td>
+        <td class='p-2'>{{constantsService.getPercentage(content.length, getTotal())}}%</td>
         <td class='p-2'>
           {{getSexeM(content).length}}
         </td>

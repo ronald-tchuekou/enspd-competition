@@ -21,7 +21,6 @@ export class StatItemComponent implements OnInit, OnChanges {
   @Input() title_label: string = '';
   @Input() content: Candidate[] = [];
   @Input() regions: Region[] = [];
-  labelingRegions: Region[] = [];
   regionGroups: _.Dictionary<Candidate[]> = {};
   currentRegion: Region = DEFAULT_REGION;
 
@@ -53,10 +52,9 @@ export class StatItemComponent implements OnInit, OnChanges {
       return 0;
     });
 
-    this.labelingRegions = this.regions.filter((item, index) => groupCount[index] > 0);
-    const datasets = [{ data: groupCount.filter(item => item > 0) }];
+    const datasets = [{ data: groupCount }];
     this.stats_content = {
-      labels: this.labelingRegions.map((item, i) => item.abreviation + ' ' + this.constantsService.getPercentage(
+      labels: this.regions.map((item, i) => item.abreviation + ' ' + this.constantsService.getPercentage(
         this.candidateCount, datasets[0].data[i]
       ) + '%'),
       datasets
@@ -66,6 +64,12 @@ export class StatItemComponent implements OnInit, OnChanges {
 
   getCandidateRegion(region_id: number) {
     return this.content.filter(item => item.region_origine === region_id);
+  }
+
+  getTotal() {
+    let result = 0
+    this.stats_content.datasets[0].data.forEach(item => result += item)
+    return result
   }
 
   getFilterRegion() {
