@@ -5,6 +5,7 @@
  */
 
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import * as _ from 'lodash';
 import { Candidate, CandidatesService } from '../../services/candidates.service';
 import { Collection, DEFAULT_COLLECTION } from '../../services/collection.service';
 import { FilieresService } from '../../services/filieres.service';
@@ -47,10 +48,11 @@ export class HomeStatisticsComponent implements OnInit, OnChanges {
     this.loading = true;
     this.filiereService.getFilieresBy({ cursus: this.currentCollection.cursus }).subscribe({
       next: (data_d) => {
-        this.filieres = data_d.map(item => ({ ...item, label: item.libelle, value: item.id }));
+        this.filieres = _.sortBy(data_d.map(item => ({ ...item, label: item.libelle, value: item.id })),
+          'libelle');
         this.regionService.getRegions().subscribe({
           next: (data: any) => {
-            this.regions = data;
+            this.regions = _.sortBy(data, 'libelle');
             this.candidateService.getCandidatesBy({ collection_id: this.currentCollection.id })
               .subscribe({
                 next: (data: any) => {

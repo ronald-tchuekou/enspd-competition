@@ -6,9 +6,9 @@
 
 <div class='w-full bg-gray-50 shadow-lg rounded-lg p-3'>
   <div class='text-sm pb-3'>{{title_label}}</div>
-  <div class='flex flex-col sm:flex-row md:flex-col lg:flex-row gap-4'>
+  <div class='flex flex-col gap-4'>
     <div class='flex-grow flex justify-center items-center'>
-      <div class='max-w-[300px]'>
+      <div class='w-full max-w-[500px]'>
         <app-stat-pie-chart
           *ngIf='(stats_content.labels || []).length > 0'
           [pieChartData]='stats_content'
@@ -16,7 +16,6 @@
         <app-empty-state
           *ngIf='(stats_content.labels || []).length === 0'
           text="Aucun candidate n'a de région"></app-empty-state>
-        <div class='pt-4 text-xl font-medium text-teal-500 text-center'>{{content.length}}</div>
       </div>
     </div>
     <div class='w-full h-full'>
