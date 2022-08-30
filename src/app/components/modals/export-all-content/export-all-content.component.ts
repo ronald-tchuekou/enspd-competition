@@ -81,7 +81,7 @@ export class ExportAllContentComponent implements OnInit {
           cursus: item.cursus,
           region_origine: this.getRegion(item.region_origine),
           statut_mat: item.statut_mat || '---',
-          nationalite: item.nationalite || '',
+          nationalite: item.nationalite || '---',
           niveau: item.niveau + '',
           filiere_choisie: this.getFiliere(item.filiere_choisie),
           diplome_entree: this.getDiplome(item.diplome_entree)
@@ -92,9 +92,10 @@ export class ExportAllContentComponent implements OnInit {
   }
 
   getNumberValue(value: any) {
+    if (value == 0) return '0';
     if (value)
-      return value < 0 ? 'Abs' : value + '';
-    return '';
+      return value <= -1 ? 'Abs' : `${value}`;
+    return '---';
   }
 
   exportPDF() {

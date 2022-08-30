@@ -89,12 +89,10 @@ export class StatItemComponent implements OnInit, OnChanges {
   }
 
   getPercentM(c: any[]) {
-    if (c.length === 0) return 0;
     return this.constantsService.getPercentage(c.length, this.getSexeM(c).length);
   }
 
   getPercentF(c: any[]) {
-    if (c.length === 0) return 0;
     return this.constantsService.getPercentage(c.length, this.getSexeF(c).length);
   }
 

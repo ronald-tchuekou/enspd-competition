@@ -22,7 +22,7 @@
           [candidateCount]='candidates.length'
           [content]='searchCandidates'
           [regions]='regions'
-          title_label='Tous les candidates'
+          title_label='Tous les candidats'
         ></app-stat-item>
       </div>
       <div>
@@ -30,7 +30,7 @@
           [candidateCount]='admisCandidates.length'
           [content]='admisCandidates'
           [regions]='regions'
-          title_label='Candidates admis'
+          title_label='Candidats admis'
         ></app-stat-item>
       </div>
       <div>
@@ -38,14 +38,14 @@
           [candidateCount]='attenteCandidates.length'
           [content]='attenteCandidates'
           [regions]='regions'
-          title_label='Candidates en attente'
+          title_label='Candidats en attente'
         ></app-stat-item>
       </div>
     </div>
     <app-loader-content *ngIf='loading'></app-loader-content>
     <app-empty-state
       *ngIf='!loading && currentCollection.id === 0'
-      text='Aucun contenu, veuillez sélectionner une liste de candidates pour consulter les statistiques !'
+      text='Aucun contenu, veuillez sélectionner une liste de candidats pour consulter les statistiques !'
     ></app-empty-state>
   </div>
 </div>

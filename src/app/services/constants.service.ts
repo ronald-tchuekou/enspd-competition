@@ -170,6 +170,7 @@ export class ConstantsService {
   }
 
   saveAllPDF(data: any[], fileName: string) {
+    console.log('Export all data : ', data);
     try {
       const doc = new jsPDF({
         orientation: 'l',
@@ -273,11 +274,11 @@ export class ConstantsService {
         headerKeys.push('anonymous_num', 'note1', 'anonymous_num2', 'note2', 'note3', 'average');
       }
 
-      const headerLabels = "N°;Nom et Prenom;Date Naissance;Lieu Naissance;Sexe;Region" +
-        ";Statut matrimonial;Nationalite;Diplome;Niveau;Cursus;Filiere" +
+      const headerLabels = 'N°;Nom et Prenom;Date Naissance;Lieu Naissance;Sexe;Region' +
+        ';Statut matrimonial;Nationalite;Diplome;Niveau;Cursus;Filiere' +
         (dataContent.level === 3 ?
-          ";N° Anonyme1;Note;N° Anonyme2;Note etude;Moy" :
-          ";Ano Maths;Note Math;Ano Phys;Note Phys;Note etude;Moy");
+          ';N° Anonyme1;Note;N° Anonyme2;Note etude;Moy' :
+          ';Ano Maths;Note Math;Ano Phys;Note Phys;Note etude;Moy');
 
       lines.push(headerLabels);
       dataContent.list.forEach((item: any) => {
